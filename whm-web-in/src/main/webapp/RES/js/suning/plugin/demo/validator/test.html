@@ -1,0 +1,48 @@
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Validator控件示例</title>
+
+<script src="../../../jquery/jquery.js"></script>
+<script src="../../suning.validator.js"></script>
+
+<script type="text/javascript">
+jQuery(function($) {
+	$('#btnemail').bind('click',function(){alert(Validator.checkEmail($('#email').val())  )});
+	$('#btnidcard').bind('click',function(){alert(Validator.checkIdcard($('#idcard').val())  )});
+	$('#btnmobile').bind('click',function(){alert(Validator.checkMobile($('#mobile').val())  )});
+	$('#btnpost').bind('click',function(){alert(Validator.checkPostCord($('#post').val())  )});
+	$('#btndateValid').bind('click',function(){alert(Validator.checkDate($('#date').val())  )});
+});
+	
+</script>
+
+
+</head>
+<body>
+
+<p>使用说明:
+<ol>
+<li>    使用时引入:suning.WdatePicker.js即可  
+<li>	Validator.checkEmail($('#email').val()) 	功能: Email校验, 参数: EMAIL内容, 返回: true/false; 
+<li>	Validator.checkIdcard($('#idcard').val()) 	功能: 身份证号码校验, 参数: 身份证号码, 返回: true/false; 
+<li>	Validator.checkMobile($('#mobile').val()) 	功能: 手机号码校验, 参数: 手机号码, 返回: true/false; 
+<li>	Validator.checkPostCord($('#post').val()) 	功能: 邮政编码校验, 参数: 邮政编码内容, 返回: true/false; 
+<li>	Validator.checkDate($('#date').val()) 		功能: 日期格式校验, 参数: 日期, 返回: true/false; 
+<li>    示例如下:
+</ol>
+isIdCardNo:<input type="text" value="513001198510030230" id='idcard'><input type="button" value="验证" id="btnidcard"><br/>
+mobile: <input type="text" value="13308178990" id='mobile'><input type="button" value="验证" id="btnmobile"><br/>
+Email: <input type="text" value="ad@sdf.com" id='email'><input type="button" value="验证" id="btnemail"><br/>
+Post: <input type="text" value="321111" id='post'><input type="button" value="验证" id="btnpost"><br/>
+Date: <input type="text" value="2011-09-09" id='date'><input type="button" value="验证" id="btndateValid"><br/>
+</body>
+
+</html>

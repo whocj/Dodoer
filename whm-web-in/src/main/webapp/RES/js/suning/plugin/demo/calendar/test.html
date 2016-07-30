@@ -1,0 +1,36 @@
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>时间控件示例</title>
+<script src="../../jquery/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="../../My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript">
+
+function clickTest(dp) {
+	alert('日期框原来的值为: '+dp.cal.getDateStr()+', 新选择的值:' + dp.cal.getNewDateStr() + '!');
+	}
+</script>
+
+
+</head>
+<body>
+
+<p>使用说明:
+<ol>
+<li>    使用时引入:WdatePicker.js即可  
+<li>	详细使用请参考<a href='http://www.my97.net/dp/demo/index.htm'>http://www.my97.net/dp/demo/index.htm</a> 
+<li>    示例如下:
+</ol>
+<div onClick="WdatePicker({onpicking:clickTest,lang:'zh-cn',isShowClear:false,skin:'default',minDate:'2012-02-28',maxDate:'2012-03-06',disabledDates:['2012-02-27']})">2012-03-03</div>
+
+</body>
+
+</html>

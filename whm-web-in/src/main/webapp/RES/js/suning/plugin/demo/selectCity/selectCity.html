@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>城市选择</title>
+<script src="../../../jquery/jquery.js"></script>
+<script src="../../suning.cityBox.js"></script>
+<style>
+.city_box .citys{position:absolute;width:300px;height:150px;background:#f00;color:#fff;}
+</style>
+</head>
+
+<body>
+
+使用说明:
+<p>
+<li>1. 选择省份后城市数据来自AJAX。请修改J_cityBox.js文件中的URL：</br>“var url = 'cityjson.txt';”</br>
+同时更改：$.get(url, function(data) ，以设置参数。省份变量为nowprovince。如$.get(url,{province=nowprovince}, function(data)
+<li>2. 请自定义城市选择函数。如:</br>
+function f(cityName,cityCode){</br>
+		  alert(a+"-"+b);</br>
+		}</br>
+		然后将函数传入init方法中，如：
+		J_cityBox("#citybox_btn","#citybox").init(f); 
+</p>
+<a href="#" id="citybox_btn" class="citybox_btn"><span class="ctext">南京市</span><b>切换城市</b><i class="mainBg"></i></a>
+
+<div class="city_box" id="citybox" style="display:none;">
+    <table class="province">
+        <tr>
+          <td class="td02"><a href="#" title="北京">北京</a></td>
+          <td class="td02"><a href="#" title="天津">天津</a></td>
+          <td class="td02"><a href="#" title="河北">河北</a></td>
+          <td class="td02"><a href="#" title="山东">山东</a></td>
+        </tr>
+        <tr>
+          <td class="td02"><a href="#" title="山西">山西</a></td>
+          <td class="td02"><a href="#" title="河南">河南</a></td>
+          <td class="td02"><a href="#" title="湖北">湖北</a></td>
+          <td class="td02"><a href="#" title="辽宁">辽宁</a></td>
+        </tr>
+        <tr>
+          <td class="td02"><a href="#" title="吉林">吉林</a></td>
+          <td class="td02"><a href="#" title="黑龙江">黑龙江</a></td>
+          <td class="td02"><a href="#" title="内蒙古">内蒙古</a></td>
+          <td class="td02"><a href="#" title="上海">上海</a></td>
+        </tr>
+        <tr>
+          <td class="td02"><a href="#" title="江苏">江苏</a></td>
+          <td class="td02"><a href="#" title="浙江">浙江</a></td>
+          <td class="td02"><a href="#" title="安徽">安徽</a></td>
+          <td class="td02"><a href="#" title="广东">广东</a></td>
+        </tr>
+  </table>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>倒记时控件</title>
+<script src="../../../jquery/jquery.js"></script>
+<script src="../../sunign.spiketTime.js"></script>
+
+<script type="text/javascript">
+	$(function(){
+		J_spiketTime('Sn_spike_time',(0*60*60+25*60+0)*1000,(1*60*60+25*60+0)*1000);	//距离开始时间的毫秒数，距离结束时间的毫秒数
+	})
+</script>
+</head>
+
+<body>
+
+<h2>使用说明:</h2>
+<ol>
+<li>    使用时引入sunign.spiketTime.js 
+<li>	初始化： J_spiketTime(id, startTime, endTime);	 参数说明：id: 时间DIV id; startTime: 距离开始时间的毫秒数，endTime:距离结束时间的毫秒数<br/>
+如：J_spiketTime('Sn_spike_time',(0*60*60+25*60+0)*1000,(1*60*60+25*60+0)*1000); 距离开始时间0小时25分0钞，结束时间1小时25分0钞。
+</ol>
+Note: 如已进入倒记时，则 startTime 可设置为0，或负数均可。
+<br/>
+<h2>示例如下:</h2>
+<div class="SpikeTime" id="Sn_spike_time">
+	<span>距离开始时间：</span>
+	<em>
+		<span class="nan">56</span>
+		<b>：</b>
+		<span class="nan">56</span>
+		<b>：</b>
+		<span class="nan">56</span>
+        <b>：</b>
+        <span class="nan">56</span>
+	</em>
+</div>
+
+
+
+
+</body>
+</html>

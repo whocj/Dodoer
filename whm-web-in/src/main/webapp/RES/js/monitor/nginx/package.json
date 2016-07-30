@@ -1,0 +1,17 @@
+{
+  "name": "demo",
+  "description": "demo",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xuexb/demo.git"
+  },
+  "JSON_DIR": "/Users/baidu/Downloads/",
+  "VAR_PATH": "/Users/baidu/Downloads/var.json",
+  "LOG_PATH": "/Users/baidu/Downloads/last.log",
+  "author": "xiaowu",
+  "devDependencies": {
+    "nginxparser": "*",
+    "ua-parser-js": "*"
+  }
+}
