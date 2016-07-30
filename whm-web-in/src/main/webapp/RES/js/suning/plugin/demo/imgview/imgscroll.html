@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>图片浏览</title>
+<style>
+*{margin:0;padding:0;}
+ul,li{list-style:none;}
+.main{position:relative;width:425px;height:80px;margin:0 auto;border:1px solid #f00;overflow:hidden;}
+#images{width:423px;height:298px;line-height:298px;text-align:center;margin:0 auto;background:#F9C;border:1px solid #f60;overflow:hidden;}
+#images img{width:423px;height:298px;}
+#prev{position:absolute;left:0;top:0;width:40px;height:80px;background:#FC3;z-index:2;cursor:pointer;}
+#next{position:absolute;right:0;top:0;width:40px;height:80px;background:#FC3;z-index:2;cursor:pointer;}
+#scrollId{position:absolute;left:45px;top:0;width:340px;height:80px;z-index:1;}
+#scrollId ul{width:8000px;}
+#scrollId li{float:left;width:76px;height:76px;margin-right:5px;background:#666;border:2px solid #d8d8d8;}
+#scrollId li.on{background:#f00;border:2px solid #f00;}
+</style>
+<script src="../../../jquery/jquery.js"></script>
+<script src="../../suning.img.js"></script>
+<script>
+$(function(){
+	J_imgscroll("#next","#prev","#scrollId",80,4);		
+	J_picDetail("#scrollId li","#images",298,"on");
+})
+</script>
+</head>
+
+<body>
+<h2>使用说明:</h2>
+<ol>
+	<li>1 引入JS文件: suning.img.js
+	<li>2 CSS内容参照head--style
+	<li>3 Copy 以下内容
+<li><textarea style="width:60%;height:120px">
+
+<div id="images">
+	<img src="img1.jpg" />
+</div>
+<div class="main">
+	<div id="prev"></div>
+    <div id="next"></div>
+    <div id="scrollId">
+        <ul>
+            <li class="on"><a href="img1.jpg"><img width="76" height="76" src="img1.jpg" /></a></li>
+            <li><a href="img2.jpg"><img width="76" height="76" src="img2.jpg" /></a></li>
+            <li><a href="img3.jpg"><img width="76" height="76" src="img3.jpg" /></a></li>
+            <li><a href="img4.jpg"><img width="76" height="76" src="img4.jpg" /></a></li>
+            <li><a href="img5.jpg"><img width="76" height="76" src="img5.jpg" /></a></li>
+            <li><a href="img6.jpg"><img width="76" height="76" src="img6.jpg" /></a></li>
+        </ul>
+    </div>
+</div>
+
+</textarea>
+<li>4 初始化图片控件
+<li><textarea style="width:60%;height:80px">
+$(function(){
+	J_imgscroll("#next","#prev","#scrollId",80,4);		
+	J_picDetail("#scrollId li","#images",298,"on");
+})
+</textarea>
+</ol>
+<div id="images">
+	<img src="img1.jpg" />
+</div>
+<div class="main">
+	<div id="prev"></div>
+    <div id="next"></div>
+    <div id="scrollId">
+        <ul>
+            <li class="on"><a href="img1.jpg"><img width="76" height="76" src="img1.jpg" /></a></li>
+            <li><a href="img2.jpg"><img width="76" height="76" src="img2.jpg" /></a></li>
+            <li><a href="img3.jpg"><img width="76" height="76" src="img3.jpg" /></a></li>
+            <li><a href="img4.jpg"><img width="76" height="76" src="img4.jpg" /></a></li>
+            <li><a href="img5.jpg"><img width="76" height="76" src="img5.jpg" /></a></li>
+            <li><a href="img6.jpg"><img width="76" height="76" src="img6.jpg" /></a></li>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+em {font-style:normal;}
+ul{ margin:0; padding:0;}
+body {background:#fff;}
+
+.logo_help {float:left;width:172px;padding-top:0;overflow:hidden}
+.header_help {width:960px;margin:0 auto;height:84px;background:#fff;overflow:hidden}
+.contact_infor_help {float:right;margin-top:13px}
+/*帮助中心 左侧*/
+.help_left{ width:182px; float:left;}
+.left_title{ width:182px; height:43px; background:url(images/help/left_title.jpg) no-repeat; float:left} 
+.left_menu{ border-left:#d5dfe5 1px solid; border-right:#d5dfe5 1px solid; border-bottom:#d5dfe5 1px solid; width:180px; float:left; padding-bottom:40px;}
+.left_menu dl{ width:180px; float:left; padding-bottom:1px;}
+.left_menu dt{ background:url(images/help/bg01.jpg) repeat-x; width:180px; height:28px; border-bottom:#d5dfe5 1px solid; border-top:#d5dfe5 1px solid;}
+.left_menu dt span a{float:left;background:url(images/help/slogo01.jpg) no-repeat 13px 9px;width:180px;display:block;text-indent:35px;font-size:13px;line-height:28px;color:#000;}
+.left_menu dt span a.sel {background:url(images/help/slogo02.jpg) no-repeat 13px 9px;}
+.left_menu dt span a:hover.sel {background:url(images/help/slogo02.jpg) no-repeat 13px 9px;color:#0064da}
+.left_menu dt span a:hover {background:url(images/help/slogo01.jpg) no-repeat 13px 9px;color:#0064da}
+.left_menu dd{ padding:10px 35px; float:left; width:110px;}
+.left_menu dd a,.left_menu dd a:visited{ color:#5e5e5e;font-size:12px;line-height:22px;}
+.left_menu dd a.select {color:#ff6500;}
+.left_menu dd a:hover.select {color:#ff6500;}
+.left_menu dd a:hover{color:#0064da;}
+
+
+/*帮助中心 右侧*/
+.help_right{width:768px; float:right; border:#d5dfe5 1px solid;margin-top:9px;padding-bottom:15px;margin-bottom:20px;}
+
+/*帮助中心 首页 右侧*/
+.help_home_lc{ width:500px; float:left; padding-top:10px; padding-left:30px;}
+.help_home_ksyd{ width:220px; border:#bee5fc 1px solid; background:#f5fafd; float:left;padding-bottom:20px; margin-top:30px;}
+.help_home_ksyd li{ width:210px; height:22px; float:left; text-indent:20px;overflow:hidden; color:#00409f;}
+.help_home_ksyd li a,.help_home_ksyd li a:visited{ line-height:22px; color:#00409f;}
+.help_home_ksyd li a:hover{ text-decoration:underline}
+.help_home_ksyd_title{ font-size:14px; font-weight:bold; line-height:35px; background:url(images/help/slogo03.jpg) no-repeat 11px 13px; padding-top:5px; text-indent:24px;}
+.help_home_class{ width:768px; border-top:#d7d7d7 1px solid;border-bottom:#d7d7d7 1px solid;height:24px; float:left; background:url(images/help/bg02.jpg) repeat-x;}
+.help_home_class li{ width:110px;float:left; text-align:center}
+.help_home_class li a{ font-size:12px; line-height:24px;color:#000;}
+.help_home_class li a:hover{ color:#0064da;}
+.help_home_class li.on{width:110px;height:24px;float:left; text-align:center; background:url(images/help/bg03.jpg) repeat-x}
+.help_home_class li.on a{font-size:14px; line-height:24px; color:#FFF;}
+.help_home_class01{ width:748px;border-bottom:#d7d7d7 1px solid;float:left; background:url(images/help/bg04.jpg) repeat-x; font-size:12px; color:#8db3c7; line-height:20px; padding:10px; }
+.help_home_class01 a,.help_home_class01 a:visited{ font-size:13px; text-decoration:underline; color:#0064da; padding-left:12px; padding-right:12px;}
+.help_home_class01 a:hover{ color:#ff6600}
+.help_home_question{ width:766px; float:left; padding-bottom:40px;}
+
+.help_home_question li{ overflow:hidden;
+	width:290px; margin-left:40px;_margin-left:20px;_margin-right:20px; padding-top:4px; height:20px;
+	float:left;
+	background:url(images/help/slogo04.jpg) no-repeat 5px 8px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #858585; text-indent:15px;
+}
+.help_home_question li a,.help_home_question li a:visited{ font-size:14px; line-height:20px; color:#002f86}
+.help_home_question li a:hover{color:#f16c00}
+.help_home_question_title{ font-size:14px; font-weight:bold; line-height:42px; text-indent:22px; padding-top:5px;}
+
+/*帮助中心 内页 右侧*/
+.help_title{background:url(images/help/bg01.jpg) repeat-x; width:768px;border-bottom:#d5dfe5 1px solid; font-size:14px; font-weight:bold; color:#00409f; line-height:28px; text-indent:21px;}
+.help_hot{ width:744px; border:#bee5fc 1px solid; background:#f5fafd; float:left; margin-top:5px; margin-left:11px; padding:10px 0px;}
+.help_hot li{ width:700px; height:18px; float:left;text-indent:31px;overflow:hidden; color:#00409f;}
+.help_hot li a{ line-height:18px; color:#00409f;}
+.help_hot li a:hover{ text-decoration:underline}
+.help_hot_title{ font-size:14px; line-height:28px; background:url(images/help/slogo03.jpg) no-repeat 11px 6px;text-indent:24px;}
+.help_centent{ padding:20px; float:left; width:726px; min-height:200px;}
+.help_centent h2{float:left; width:726px; font-size:14px; color:#00409f; line-height:18px; padding:5px 0px;}
+.help_centent img{ padding:3px 0px 3px 11px;}
+.help_centent h3{ color:#333333; font-size:12px; font-weight:normal; line-height:18px; padding-left:23px; width:703px; float:left}
+.help_centent_question{ width:755px; float:left; padding-left:6px;}
+.help_centent_question .title{ background:url(images/help/bg05.jpg) repeat-x; border:#066ed7 1px solid; float:left; width:754px; height:24px; color:#FFF; font-size:14px; line-height:24px;}
+.help_centent_question span{ padding-left:16px; float:left; padding-top:4px; width:19px;}
+.help_centent_question .list{float:left; width:725px; padding:15px;}
+.help_centent_question .list li{ float:left; padding-bottom:10px;}
+.help_centent_question .list .ask{ background:url(images/help/slogo06.jpg) no-repeat 0px 6px; font-size:14px; color:#0167cd; padding-left:22px; width:680px; float:left; line-height:20px;}
+.help_centent_question .list .answer{ background:url(images/help/slogo07.jpg) no-repeat 0px 6px; font-size:12px; color:#333333; padding-left:22px; width:680px; float:left; line-height:18px;}
+
+.hide {display:none;}
+
+#gotop {position:absolute;width:39px;height:34px;text-indent:-9999px;z-index:10000;}
+#gotop a {display:block;width:39px;height:34px;background:url(images/help/top.gif) no-repeat;}

@@ -1,0 +1,9 @@
+js组件目录表：
+
+imgview		图片浏览(四级页面)
+validator	正则验证(身份证号码等)
+calendar	日期控件
+spiketTime	倒计时控件
+maskdiv		层遮盖效果控件
+imgzoom		放大镜控件
+selectCity	省市选择控件

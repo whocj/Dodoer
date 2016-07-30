@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../../../jquery/jquery.js"></script>
+<script src="../../suning.imgZoom.js"	type="text/javascript"></script>
+
+<script type="text/javascript">
+jQuery(function($) {		
+	 J_snimgzoom("#preview","#preview img",".zoomple"); 
+});
+</script>
+
+
+</head>
+<body>
+注意:大小图比例为1:2;
+<div class="product_b_image" style="width:308px;height:242px;border:1px solid #f00;">
+	<a href="s.jpg" class="zoomple" style="display:block;position:relative;width:306px;height:240px;">
+		<img src="s.jpg" />   	
+		<div class="zoomplePopup" style="position:absolute;left:0;top:0;width:153px;height:120px;overflow:hidden;background:#f00;display:none;"> </div>
+	</a>
+	<div id="preview" style='display:none;position:absolute;left:400px;top:0;width:306px;height:240px;overflow:hidden;border:1px solid #000;'>
+	    <img src="b.jpg" style="position:absolute;left:0;top:0;width:712px;height:480px;"  />   
+	</div>
+</div>
+
+</body>
+
+</html>
