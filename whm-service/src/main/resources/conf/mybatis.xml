@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <typeAliases>
+    <!-- 给实体Bean一个别名 -->
+    <typeAlias alias="MapContainer" type="com.summer.whm.common.model.MapContainer" />
+    <typeAlias alias="PageModel" type="com.summer.whm.common.model.PageModel" />
+    
+    <typeAlias alias="User" type="com.summer.whm.entiry.user.User" />
+	<typeAlias alias="Category" type="com.summer.whm.entiry.category.Category" />
+	<typeAlias alias="CategoryUser" type="com.summer.whm.entiry.category.CategoryUser" />
+	<typeAlias alias="Forum" type="com.summer.whm.entiry.forum.Forum" />
+	<typeAlias alias="ForumGroupOpt" type="com.summer.whm.entiry.forum.ForumGroupOpt" />
+	<typeAlias alias="ForumUser" type="com.summer.whm.entiry.forum.ForumUser" />
+	
+	<typeAlias alias="Authentication" type="com.summer.whm.entiry.sys.Authentication" />
+	<typeAlias alias="FriendLink" type="com.summer.whm.entiry.sys.FriendLink" />
+	<typeAlias alias="FriendShip" type="com.summer.whm.entiry.user.FriendShip" />
+	<typeAlias alias="Limit" type="com.summer.whm.entiry.sys.Limit" />
+	<typeAlias alias="LoginLog" type="com.summer.whm.entiry.sys.LoginLog" />
+	<typeAlias alias="Sensitivity" type="com.summer.whm.entiry.sys.Sensitivity" />
+	<typeAlias alias="UserGroup" type="com.summer.whm.entiry.user.UserGroup" />
+	<typeAlias alias="UserOnLine" type="com.summer.whm.entiry.sys.UserOnLine" />
+	<typeAlias alias="UserOnLineTotal" type="com.summer.whm.entiry.sys.UserOnLineTotal" />
+	<typeAlias alias="Site" type="com.summer.whm.entiry.sys.Site" />
+	
+	<typeAlias alias="Post" type="com.summer.whm.entiry.post.Post" />
+	<typeAlias alias="PostText" type="com.summer.whm.entiry.post.PostText" />
+	<typeAlias alias="Topic" type="com.summer.whm.entiry.post.Topic" />
+	
+	<typeAlias alias="CrawInfo" type="com.summer.whm.entiry.spider.CrawInfo" />
+	<typeAlias alias="DetailTemplate" type="com.summer.whm.entiry.spider.DetailTemplate" />
+	<typeAlias alias="ListTemplate" type="com.summer.whm.entiry.spider.ListTemplate" />
+	<typeAlias alias="CrawTemplate" type="com.summer.whm.entiry.spider.CrawTemplate" />
+	<typeAlias alias="CrawLog" type="com.summer.whm.entiry.spider.CrawLog" />
+	
+	<typeAlias alias="Tag" type="com.summer.whm.entiry.sys.Tag" />
+	<typeAlias alias="Question" type="com.summer.whm.entiry.ask.Question" />
+	<typeAlias alias="QuestionText" type="com.summer.whm.entiry.ask.QuestionText" />
+	<typeAlias alias="Answer" type="com.summer.whm.entiry.ask.Answer" />
+	<typeAlias alias="AnswerText" type="com.summer.whm.entiry.ask.AnswerText" />
+	
+	<typeAlias alias="SearchPost" type="com.summer.whm.entiry.search.SearchPost" />
+	
+	<typeAlias alias="BlogComment" type="com.summer.whm.entiry.blog.BlogComment" />
+	<typeAlias alias="BlogOptions" type="com.summer.whm.entiry.blog.BlogOptions" />
+	<typeAlias alias="BlogPost" type="com.summer.whm.entiry.blog.BlogPost" />
+	
+	<typeAlias alias="ChatsFriend" type="com.summer.whm.entiry.chats.ChatsFriend" />
+	<typeAlias alias="ChatsFriendMessage" type="com.summer.whm.entiry.chats.ChatsFriendMessage" />
+	<typeAlias alias="ChatsGroup" type="com.summer.whm.entiry.chats.ChatsGroup" />
+	<typeAlias alias="ChatsGroupMessage" type="com.summer.whm.entiry.chats.ChatsGroupMessage" />
+	<typeAlias alias="ChatsTopic" type="com.summer.whm.entiry.chats.ChatsTopic" />
+	<typeAlias alias="ChatsTopicMessage" type="com.summer.whm.entiry.chats.ChatsTopicMessage" />
+	<typeAlias alias="ChatsUserReta" type="com.summer.whm.entiry.chats.ChatsUserReta" />
+	<typeAlias alias="ChatsKeys" type="com.summer.whm.entiry.chats.ChatsKeys" />
+	
+	<typeAlias alias="Notice" type="com.summer.whm.entiry.sys.Notice" />
+	<typeAlias alias="StoryDetail" type="com.summer.whm.entiry.story.StoryDetail" />
+	<typeAlias alias="StoryInfo" type="com.summer.whm.entiry.story.StoryInfo" />
+	<typeAlias alias="StoryPart" type="com.summer.whm.entiry.story.StoryPart" />
+	<typeAlias alias="StoryUserBookshelf" type="com.summer.whm.entiry.story.StoryUserBookshelf" />
+	<typeAlias alias="StoryUserRead" type="com.summer.whm.entiry.story.StoryUserRead" />
+  </typeAliases>
+
+  <mappers>
+    <mapper resource="conf/mybatis/UserMapper.xml" />
+    <mapper resource="conf/mybatis/CategoryMapper.xml" />
+    <mapper resource="conf/mybatis/CategoryUserMapper.xml" />
+    <mapper resource="conf/mybatis/ForumMapper.xml" />
+    <mapper resource="conf/mybatis/ForumGroupOptMapper.xml" />
+    <mapper resource="conf/mybatis/ForumUserMapper.xml" />
+    
+    <mapper resource="conf/mybatis/AuthenticationMapper.xml" />
+    <mapper resource="conf/mybatis/FriendLinkMapper.xml" />
+    <mapper resource="conf/mybatis/FriendShipMapper.xml" />
+    <mapper resource="conf/mybatis/LimitMapper.xml" />
+    <mapper resource="conf/mybatis/LoginLogMapper.xml" />
+    <mapper resource="conf/mybatis/SensitivityMapper.xml" />
+    <mapper resource="conf/mybatis/UserGroupMapper.xml" />
+    <mapper resource="conf/mybatis/UserOnLineMapper.xml" />
+    <mapper resource="conf/mybatis/UserOnLineTotalMapper.xml" />
+    
+    <mapper resource="conf/mybatis/PostMapper.xml" />
+    <mapper resource="conf/mybatis/PostTextMapper.xml" />
+    <mapper resource="conf/mybatis/TopicMapper.xml" />
+    
+    <mapper resource="conf/mybatis/CrawInfoMapper.xml" />
+    <mapper resource="conf/mybatis/DetailTemplateMapper.xml" />
+    <mapper resource="conf/mybatis/ListTemplateMapper.xml" />
+    <mapper resource="conf/mybatis/CrawTemplateMapper.xml" />
+    <mapper resource="conf/mybatis/CrawLogMapper.xml" />
+    
+    <mapper resource="conf/mybatis/SiteMapper.xml" />
+    <mapper resource="conf/mybatis/TagMapper.xml" />
+    <mapper resource="conf/mybatis/QuestionMapper.xml" />
+    <mapper resource="conf/mybatis/QuestionTextMapper.xml" />
+    <mapper resource="conf/mybatis/AnswerMapper.xml" />
+    <mapper resource="conf/mybatis/AnswerTextMapper.xml" />
+    
+    <mapper resource="conf/mybatis/SearchPostMapper.xml" />
+    
+    <mapper resource="conf/mybatis/BlogCommentMapper.xml" />
+    <mapper resource="conf/mybatis/BlogOptionsMapper.xml" />
+    <mapper resource="conf/mybatis/BlogPostMapper.xml" />
+
+    <mapper resource="conf/mybatis/ChatsFriendMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsFriendMessageMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsGroupMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsGroupMessageMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsTopicMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsTopicMessageMapper.xml" />
+    <mapper resource="conf/mybatis/ChatsUserRetaMapper.xml" />
+	<mapper resource="conf/mybatis/ChatsKeysMapper.xml" />
+	
+	<mapper resource="conf/mybatis/NoticeMapper.xml" />
+	<mapper resource="conf/mybatis/StoryDetailMapper.xml" />
+	<mapper resource="conf/mybatis/StoryInfoMapper.xml" />
+	<mapper resource="conf/mybatis/StoryPartMapper.xml" />
+	<mapper resource="conf/mybatis/StoryUserBookshelfMapper.xml" />
+	<mapper resource="conf/mybatis/StoryUserReadMapper.xml" />
+
+  </mappers>
+</configuration>

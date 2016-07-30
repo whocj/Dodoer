@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<!-- 控制台输出日志 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</pattern>
+		</layout>
+	</appender>
+	<!-- 文件输出日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="FILE"
+		class="com.suning.framework.log.appender.rolling.SnfRollingFileAppender">
+		<File>/log/sample.log</File>
+		<!-- 日志文件rolling策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>sample.log.%i.bak</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>12</MaxIndex>
+		</rollingPolicy>
+		<!-- 日志文件rolling触发策略 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+		<!-- 日志内容format策略,此处为snf订制,完成对日志信息的json化操作,若无此策略,SnfRollingFileAppender表现 
+			与 logback自带RollingFileAppender行为一致 -->
+		<formattingPolicy
+			class="com.suning.framework.log.policy.JsonFormattingPolicy" />
+		<!-- 日志输出格式 -->
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- 文件输出异常日志 (文件大小策略进行文件输出，超过指定大小对文件备份) -->
+	<appender name="EXCEPTION_LOG_FILE"
+		class="com.suning.framework.log.appender.rolling.SnfRollingFileAppender">
+		<File>/log/exception.log</File>
+		<!-- 日志文件rolling策略 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>sample.log.%i.bak</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>12</MaxIndex>
+		</rollingPolicy>
+		<!-- 日志文件rolling触发策略 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+		<!-- 日志内容format策略,此处为snf订制,完成对日志信息的json化操作,若无此策略,SnfRollingFileAppender表现 
+			与 logback自带RollingFileAppender行为一致 -->
+		<formattingPolicy
+			class="com.suning.framework.log.policy.JsonFormattingPolicy" />
+		<!-- 日志输出格式 -->
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<!-- 数据库记录日志 (可设置连接池、是否记录方法调度性能信息、是否记录审计日志,为snf订制开发) -->
+<!-- 	<appender name="DB" -->
+<!-- 		class="com.suning.framework.log.appender.db.SnfDbAppender"> -->
+<!-- 		是否记录方法调度性能信息入数据库,默认为false -->
+<!-- 		<performanceFlag>true</performanceFlag> -->
+<!-- 		是否记录方法调度审计信息入数据库,默认为false -->
+<!-- 		<auditFlag>true</auditFlag> -->
+<!-- 		日志入数据库数据源配置,可设置JNDI、DriverManager、连接池类数据源(snf订制) -->
+<!-- 		<connectionSource -->
+<!-- 			class="com.suning.framework.log.appender.db.datasource.DBCPConnectionSource"> -->
+<!-- 			<driverClassName>com.mysql.jdbc.Driver</driverClassName> -->
+<!-- 			<url>jdbc:mysql://localhost:3306/snf-db1</url> -->
+<!-- 			<username>snf-test1</username> -->
+<!-- 			<password>snf</password> -->
+<!-- 			<maxActive>20</maxActive> -->
+<!-- 			<maxWait>10000</maxWait> -->
+<!-- 		</connectionSource> -->
+<!-- 	</appender> -->
+    <logger name="com.suning.sample" level="DEBUG" /> 
+    <logger name="com.suning.framework.dal.dao" level="DEBUG" />
+    <logger name="com.suning.exception.log">
+        <level value="ERROR"/>
+        <appender-ref ref="EXCEPTION_LOG_FILE"/>      
+     </logger>
+
+	<root level="INFO">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" /> 
+	   <!--  <appender-ref ref="DB" /> -->
+	</root>
+</configuration>
