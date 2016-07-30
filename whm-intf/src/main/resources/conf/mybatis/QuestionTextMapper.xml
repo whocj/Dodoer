@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.ask.QuestionTextMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="QuestionText">
+		select
+		ID,
+		questionId,
+		questionTitle,
+		questionContent,
+		questionContentText
+		from
+		ask_question_text where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="QuestionText">
+		select
+		ID,
+		questionId,
+		questionTitle,
+		questionContent,
+		questionContentText
+		from ask_question_text
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		ask_question_text
+	</select>
+
+	<insert id="insert" parameterType="QuestionText">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into ask_question_text(
+		questionId,
+		questionTitle,
+		questionContent,
+		questionContentText
+		)
+		values(#{questionId},#{questionTitle},#{questionContent},#{questionContentText})
+	</insert>
+
+	<update id="update" parameterType="QuestionText">
+		update ask_question_text set
+		id=#{id}
+		<if test="questionId!=null and questionId!=''">
+			,questionId=#{questionId}
+		</if>
+		<if test="questionTitle!=null and questionTitle!=''">
+			,questionTitle=#{questionTitle}
+		</if>
+		<if test="questionContent!=null and questionContent!=''">
+			,questionContent=#{questionContent}
+		</if>
+		<if test="questionContentText!=null and questionContentText!=''">
+			,questionContentText=#{questionContentText}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from ask_question_text where id = #{id}
+	</delete>
+	
+	<select id="queryTitle" parameterType="PageModel" resultType="String">
+		select
+		questionTitle
+		from ask_question_text
+	</select>
+
+</mapper>

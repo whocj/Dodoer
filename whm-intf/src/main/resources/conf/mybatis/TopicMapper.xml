@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.post.TopicMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Topic">
+		select
+		t.ID as id,
+		t.FORUM_ID as forumId,
+		t.LAST_POST_ID as lastPostId,
+		t.FIRST_POST_ID as firstPostId,
+		t.SITE_ID as siteId,
+		t.CREATER_ID as createrId,
+		t.REPLYER_ID as replyerId,
+		t.TITLE as title ,
+		t.CREATE_TIME as createTime,
+		t.LAST_TIME as lastTime,
+		t.SORT_TIME as sortTime,
+		t.VIEW_COUNT as viewCount ,
+		t.REPLY_COUNT as replyCount,
+		t.TOP_LEVEL as topLevel,
+		t.PRIME_LEVEL as primeLevel,
+		t.STATUS as status,
+		t.OUTER_URL as outerUrl,
+		t.STYLE_BOLD as styleBold,
+		t.STYLE_ITALIC as styleItalic,
+		t.STYLE_COLOR as styleColor,
+		t.STYLE_TIME as styleTime,
+		t.IS_AFFIX as isAffix,
+		t.TYPE_ID as typeId,
+		t.ALLAY_REPLY as allayReply,
+		t.HAS_SOFAED as hasSofaed,
+		t.CATEGORY as category,
+		t.TOTAL_COUNT as totalCount,
+		u.username
+		from bbs_topic t
+		left join sys_user u on t.CREATER_ID = u.ID
+		 where t.id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Topic">
+		select
+		t.ID as id,
+		t.FORUM_ID as forumId,
+		t.LAST_POST_ID as lastPostId,
+		t.FIRST_POST_ID as firstPostId,
+		t.SITE_ID as siteId,
+		t.CREATER_ID as createrId,
+		t.REPLYER_ID as replyerId,
+		t.TITLE as title ,
+		t.CREATE_TIME as createTime,
+		t.LAST_TIME as lastTime,
+		t.SORT_TIME as sortTime,
+		t.VIEW_COUNT as viewCount ,
+		t.REPLY_COUNT as replyCount,
+		t.TOP_LEVEL as topLevel,
+		t.PRIME_LEVEL as primeLevel,
+		t.STATUS as status,
+		t.OUTER_URL as outerUrl,
+		t.STYLE_BOLD as styleBold,
+		t.STYLE_ITALIC as styleItalic,
+		t.STYLE_COLOR as styleColor,
+		t.STYLE_TIME as styleTime,
+		t.IS_AFFIX as isAffix,
+		t.TYPE_ID as typeId,
+		t.ALLAY_REPLY as allayReply,
+		t.HAS_SOFAED as hasSofaed,
+		t.CATEGORY as category,
+		t.TOTAL_COUNT as totalCount,
+		u.username
+		from bbs_topic t
+		left join sys_user u on t.CREATER_ID = u.ID
+		where t.FORUM_ID = #{query.forumId}
+		and t.PRIME_LEVEL >= #{query.primeLevel}
+		order by t.id desc
+	</select>
+
+	<select id="listAll" parameterType="PageModel" resultType="Topic">
+		select
+		t.ID as id,
+		t.FORUM_ID as forumId,
+		t.LAST_POST_ID as lastPostId,
+		t.FIRST_POST_ID as firstPostId,
+		t.SITE_ID as siteId,
+		t.CREATER_ID as createrId,
+		t.REPLYER_ID as replyerId,
+		t.TITLE as title ,
+		t.CREATE_TIME as createTime,
+		t.LAST_TIME as lastTime,
+		t.SORT_TIME as sortTime,
+		t.VIEW_COUNT as viewCount ,
+		t.REPLY_COUNT as replyCount,
+		t.TOP_LEVEL as topLevel,
+		t.PRIME_LEVEL as primeLevel,
+		t.STATUS as status,
+		t.OUTER_URL as outerUrl,
+		t.STYLE_BOLD as styleBold,
+		t.STYLE_ITALIC as styleItalic,
+		t.STYLE_COLOR as styleColor,
+		t.STYLE_TIME as styleTime,
+		t.IS_AFFIX as isAffix,
+		t.TYPE_ID as typeId,
+		t.ALLAY_REPLY as allayReply,
+		t.HAS_SOFAED as hasSofaed,
+		t.CATEGORY as category,
+		t.TOTAL_COUNT as totalCount,
+		pt.POST_CONTENT as content
+		from bbs_topic t
+		left join bbs_post_text pt on t.FIRST_POST_ID = pt.POST_ID
+		order by id desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from bbs_topic
+	</select>
+
+	<insert id="insert" parameterType="Topic">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+
+		insert into bbs_topic(
+		FORUM_ID,
+		LAST_POST_ID,
+		FIRST_POST_ID,
+		SITE_ID,
+		CREATER_ID,
+		REPLYER_ID,
+		TITLE,
+		CREATE_TIME,
+		LAST_TIME,
+		SORT_TIME,
+		VIEW_COUNT,
+		REPLY_COUNT,
+		TOP_LEVEL,
+		PRIME_LEVEL,
+		STATUS,
+		OUTER_URL,
+		STYLE_BOLD,
+		STYLE_ITALIC,
+		STYLE_COLOR,
+		STYLE_TIME,
+		IS_AFFIX,
+		TYPE_ID,
+		ALLAY_REPLY,
+		HAS_SOFAED,
+		CATEGORY,
+		TOTAL_COUNT,
+		keywords,
+		description
+		)
+		values(#{forumId},#{lastPostId},#{firstPostId},#{siteId},#{createrId},#{replyerId},
+		#{title},#{createTime},#{lastTime},#{sortTime},#{viewCount},#{replyCount},#{topLevel},
+		#{primeLevel},#{status},#{outerUrl},#{styleBold},#{styleItalic},#{styleColor},#{styleTime},#{isAffix},
+		#{typeId},#{allayReply},#{hasSofaed},#{category},#{totalCount},#{keywords},#{description}
+		)
+	</insert>
+
+	<update id="update" parameterType="Topic">
+		update bbs_topic set
+		VIEW_COUNT= VIEW_COUNT + 1
+		<if test="lastPostId!=null and lastPostId!=''">
+			,LAST_POST_ID=#{lastPostId}
+		</if>
+		<if test="firstPostId!=null and firstPostId!=''">
+			,FIRST_POST_ID=#{firstPostId}
+		</if>
+		<if test="replyerId!=null and replyerId!=''">
+			,REPLYER_ID=#{replyerId}
+		</if>
+		<if test="title!=null and title!=''">
+			,TITLE=#{title}
+		</if>
+		<if test="topLevel!=null and topLevel!=''">
+			,TOP_LEVEL=#{topLevel}
+		</if>
+		<if test="replyCount!=null and replyCount!=''">
+			,REPLY_COUNT=REPLY_COUNT + 1
+		</if>
+		<if test="primeLevel!=null and primeLevel!=''">
+			,PRIME_LEVEL=#{primeLevel}
+		</if>
+		<if test="status!=null and status!=''">
+			,STATUS=#{status}
+		</if>
+		<if test="styleBold!=null and styleBold!=''">
+			,STYLE_BOLD=#{styleBold}
+		</if>
+		<if test="styleItalic!=null and styleItalic!=''">
+			,STYLE_ITALIC=#{styleItalic}
+		</if>
+		<if test="styleColor!=null and styleColor!=''">
+			,STYLE_COLOR=#{styleColor}
+		</if>
+		<if test="styleTime!=null and styleTime!=''">
+			,STYLE_TIME=#{styleTime}
+		</if>
+		<if test="allayReply!=null and allayReply!=''">
+			,ALLAY_REPLY=#{allayReply}
+		</if>
+		<if test="hasSofaed!=null and hasSofaed!=''">
+			,HAS_SOFAED=#{hasSofaed}
+		</if>
+		<if test="totalCount!=null and totalCount!=''">
+			,TOTAL_COUNT=#{totalCount}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_topic where id = #{id}
+	</delete>
+
+
+	<select id="queryTopTopic" resultType="Topic">
+		select t.id, u.username,
+		t.title,
+		t. VIEW_COUNT as viewCount, t.REPLY_COUNT as replyCount,pt.POST_CONTENT as content,
+		t.CREATE_TIME as createTime from bbs_topic t
+		left join sys_user u on t.CREATER_ID = u.ID
+	  left join bbs_post p on p.ID = t.FIRST_POST_ID
+		left join bbs_post_text pt on p.id = pt.POST_ID
+		order by t.last_post_id desc LIMIT  #{num}
+	</select>
+
+	<select id="queryTopReply" resultType="Topic">
+		select t.id, u.username,
+		t.title,
+		t. VIEW_COUNT as viewCount, t.REPLY_COUNT as replyCount,
+		t.CREATE_TIME as createTime from bbs_topic t
+		left join sys_user u on t.CREATER_ID =
+		u.ID
+		order by t.last_post_id desc LIMIT #{num}
+	</select>
+
+	<select id="queryTopHotTopic" resultType="Topic">
+		select t.id,
+		u.username, t.title,
+		t. VIEW_COUNT as viewCount, t.REPLY_COUNT as replyCount,
+		t.CREATE_TIME as createTime from bbs_topic t
+		left join sys_user u on t.CREATER_ID =
+		u.ID
+		order by t.VIEW_COUNT desc LIMIT #{num}
+	</select>
+	
+	<select id="queryTitle" parameterType="PageModel" resultType="String">
+		select title from bbs_topic
+	</select>
+	
+	<select id="queryIdByCount"  resultType="Integer">
+		select id from bbs_topic  order by id desc LIMIT #{count}
+	</select>
+</mapper>

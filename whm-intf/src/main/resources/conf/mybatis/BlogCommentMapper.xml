@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.blog.BlogCommentMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="BlogComment">
+		select
+		ID,
+		postid ,
+		parent,
+		creatorId ,
+		creator,
+		email,
+		url,
+		agent ,
+		ip,
+		content,
+		status,
+		createTime
+		from blog_comment where id =
+		#{id}
+	</select>
+
+	<select id="queryBlogCommentByPostId" resultType="BlogComment">
+		select
+		c.id,
+		c.postid ,
+		c.parent,
+		c.creatorId ,
+		c.creator,
+		c.email,
+		c.url,
+		c.agent ,
+		c.ip,
+		c.content,
+		c.status,
+		c.createTime,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from blog_comment c
+		left join sys_user u on c.creator = u.username 
+		where postid = #{postId}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="BlogComment">
+		select
+		ID,
+		postid ,
+		parent,
+		creatorId ,
+		creator,
+		email,
+		url,
+		agent ,
+		ip,
+		content,
+		status,
+		createTime
+		from blog_comment
+		where postid = #{postId}
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		blog_comment
+	</select>
+
+	<insert id="insert" parameterType="BlogComment">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into blog_comment(
+			postid ,
+		parent,
+		creatorId ,
+		creator,
+		email,
+		url,
+		agent ,
+		ip,
+		content,
+		status,
+		createTime
+		)
+		values(#{postId},#{parent},#{creatorId},#{creator},#{email},#{url},#{agent},#{ip},#{content},#{status},#{createTime})
+	</insert>
+
+	<update id="update" parameterType="BlogComment">
+		update blog_comment set
+		postId=#{postId}
+		<if test="parent!=null and parent!=''">
+			,parent=#{parent}
+		</if>
+		<if test="email!=null and email!=''">
+			,email=#{email}
+		</if>
+		<if test="url!=null and url!=''">
+			,url=#{url}
+		</if>
+		<if test="agent!=null and agent!=''">
+			,agent=#{agent}
+		</if>
+		<if test="ip!=null and ip!=''">
+			,ip=#{ip}
+		</if>
+		<if test="content!=null and content!=''">
+			,content=#{content}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from blog_comment where id = #{id}
+	</delete>
+
+</mapper>

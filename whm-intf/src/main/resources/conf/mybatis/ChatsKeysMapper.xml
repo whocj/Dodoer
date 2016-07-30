@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.chats.ChatsKeysMapper">
+
+	<select id="queryByChatkey" resultType="ChatsKeys">
+		select
+		id,
+		chatkey,
+		type,
+		objId,
+		creator,
+		createTime,
+		lastUpdate
+		from chats_kyes  
+		where chatkey = #{chatkey}
+	</select>
+
+	<select id="queryByObjIdAndType" resultType="ChatsKeys">
+		select
+		id,
+		chatkey,
+		type,
+		objId,
+		creator,
+		createTime,
+		lastUpdate
+		from chats_kyes  
+		where type = #{type} and objId = #{objId}
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		chats_kyes
+	</select>
+
+	<insert id="insert" parameterType="ChatsKeys">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into chats_kyes(
+			chatkey,
+			type,
+			objId,creator,createTime,lastUpdate
+		)
+		values(#{chatkey},#{type},#{objId},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<delete id="deleteById">
+		delete from chats_kyes where id = #{id}
+	</delete>
+
+	<delete id="deleteByChatkey">
+		delete from chats_kyes where chatkey = #{chatkey}
+	</delete>
+	
+	<delete id="deleteByObjIdAndType">
+		delete from chats_kyes where type = #{type} and objId = #{objId}
+	</delete>
+
+</mapper>

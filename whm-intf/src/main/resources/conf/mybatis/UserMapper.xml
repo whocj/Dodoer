@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.user.UserMapper">
+   
+   <select id="loadById" parameterType="java.lang.String" resultType="User">  
+      select id, username, nickName, realName, password, email, role, status, 
+      createTime, creator, lastUpdate,thirdAuthType,thirdAuthKey,
+      thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description from sys_user where id = #{id}
+   </select>
+   
+   <select id="loadByNameAndPass" resultType="User">  
+      select id, username, nickName, realName, password, email, role, status, 
+      createTime, creator, lastUpdate,thirdAuthType,thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description
+         from sys_user where username = #{username} and password=#{password}
+   </select>
+   
+   <select id="loadByName" resultType="User">  
+      select id, username, nickName, realName, password, email, role, status, 
+      createTime, creator, lastUpdate,thirdAuthType,thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description
+         from sys_user where username = #{username}
+   </select>
+   
+   <select id="loadByAuthTypeAndKey" resultType="User">  
+      select id, username, nickName, realName, password, email, role, status, createTime, 
+      creator, lastUpdate,thirdAuthType,thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description
+         from sys_user where thirdAuthType = #{thirdAuthType} and thirdAuthKey=#{thirdAuthKey}
+   </select>
+   
+   <select id="loadByAuthTypeAndToken" resultType="User">  
+      select id, username, nickName, realName, password, email, role, status, createTime,
+       creator, lastUpdate,thirdAuthType,thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description
+         from sys_user where thirdAuthType = #{thirdAuthType} and thirdAuthToken=#{thirdAuthToken}
+   </select>
+   
+   <select id="list" parameterType="PageModel" resultType="User">  
+      select id, username, nickName, realName, role, email, createTime,thirdAuthType,
+      thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100,description from sys_user
+   </select>
+   
+   <select id="count" resultType="long">
+     select count(*) from user
+   </select>
+   
+   <insert id="insert" parameterType="User">
+   	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+      insert into sys_user(username, nickName,realName,password,email,role,status,description,
+      createTime,creator,lastUpdate,thirdAuthType,thirdAuthKey,thirdAuthTime,thirdAuthToken,userLogo,userLogo50,userLogo100) 
+         values(#{username},#{nickname},#{realname},#{password},#{email},#{role},
+         #{status},#{description},#{createTime},#{creator},#{lastUpdate},#{thirdAuthType},
+         #{thirdAuthKey},#{thirdAuthTime},#{thirdAuthToken},#{userLogo},#{userLogo50},#{userLogo100})
+   </insert>
+   
+   <update id="update" parameterType="User">
+     update sys_user set id=#{id}
+     <if test="username!=null and username!=''">
+        ,username=#{username}
+     </if>
+     <if test="nickname!=null and nickname!=''">
+        ,nickname=#{nickname}
+     </if>
+     <if test="realname!=null and realname!=''">
+        ,realname=#{realname}
+     </if>
+     <if test="email!=null and email!=''">
+        ,email=#{email}
+     </if>
+     <if test="description!=null and description!=''">
+        ,description=#{description}
+     </if>
+     <if test="role!=null and role!=''">
+        ,role=#{role}
+     </if>
+     <if test="password!=null and password!=''">
+       ,password=#{password}
+     </if>
+     <if test="status!=null and status!=''">
+       ,status=#{status}
+     </if>
+     <if test="thirdAuthType!=null and thirdAuthType!=''">
+       ,thirdAuthType=#{thirdAuthType}
+     </if>
+     <if test="thirdAuthKey!=null and thirdAuthKey!=''">
+       ,thirdAuthKey=#{thirdAuthKey}
+     </if>
+     <if test="thirdAuthTime!=null and thirdAuthTime!=''">
+       ,thirdAuthTime=#{thirdAuthTime}
+     </if>
+     <if test="thirdAuthToken!=null and thirdAuthToken!=''">
+       ,thirdAuthToken=#{thirdAuthToken}
+     </if>
+     <if test="userLogo!=null and userLogo!=''">
+       ,userLogo=#{userLogo}
+     </if>
+     <if test="userLogo50!=null and userLogo50!=''">
+       ,userLogo50=#{userLogo50}
+     </if>
+     <if test="userLogo100!=null and userLogo100!=''">
+       ,userLogo100=#{userLogo100}
+     </if>
+     
+     where id=#{id}
+   </update>
+
+   <delete id="deleteById">
+	 delete from sys_user where id = #{id}
+  </delete>
+	
+</mapper>

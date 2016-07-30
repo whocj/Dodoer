@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.AuthenticationMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Authentication">
+		select
+		ID,
+		userid,
+		username,
+		email,
+		login_time as loginTime,
+		login_ip as loginIp,
+		update_time as updateTime
+		
+		from sys_authentication where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Authentication">
+		select
+			ID,
+		userid,
+		username,
+		email,
+		login_time as loginTime,
+		login_ip as loginIp,
+		update_time as updateTime
+		 from sys_authentication
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_authentication
+	</select>
+
+	<insert id="insert" parameterType="Authentication">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_authentication(
+		userid,
+		username,
+		email,
+		login_time,
+		login_ip,
+		update_time
+		)
+		values(#{userId},#{username},#{email},#{loginTime},#{loginIp},#{updateTime})
+	</insert>
+
+	<update id="update" parameterType="Authentication">
+		update sys_authentication set
+		userid=#{userId}
+		<if test="username!=null and username!=''">
+			,username=#{username}
+		</if>
+		<if test="email!=null and email!=''">
+			,email=#{email}
+		</if>
+		<if test="loginTime!=null and loginTime!=''">
+			,login_time=#{loginTime}
+		</if>
+		<if test="loginIp!=null and loginIp!=''">
+			,login_ip=#{loginIp}
+		</if>
+		<if test="updateTime!=null and updateTime!=''">
+			,update_time=#{updateTime}
+		</if>
+	
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from sys_authentication where id = #{id}
+	</delete>
+
+</mapper>

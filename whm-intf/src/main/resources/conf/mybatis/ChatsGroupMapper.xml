@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.chats.ChatsGroupMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="ChatsGroup">
+		select
+		id,
+		title,
+		content,
+		username,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		chats_group where id = #{id}
+	</select>
+
+	<select id="queryByUsername" resultType="ChatsGroup">
+		select
+		id,
+		title,
+		content,
+		username,
+		creator,
+		createTime,
+		lastUpdate
+		from chats_group
+		where username = #{username}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="ChatsGroup">
+		select
+		id,
+		title,
+		content,
+		username,
+		creator,
+		createTime,
+		lastUpdate
+		from chats_group
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		chats_group
+	</select>
+
+	<insert id="insert" parameterType="ChatsGroup">
+	
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	
+		insert into chats_group(
+		title,
+		content,
+		username,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{title},#{content},#{username},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="ChatsGroup">
+		update chats_group set
+		id=#{id}
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="content!=null and content!=''">
+			,content=#{content}
+		</if>
+		<if test="username!=null and username!=''">
+			,username=#{username}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from chats_group where id = #{id}
+	</delete>
+
+
+</mapper>

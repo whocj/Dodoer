@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.forum.ForumUserMapper">
+
+	<insert id="insert" parameterType="ForumUser">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into
+		bbs_forum_user(forum_id, user_id,
+		username,CREATOR,CREATETIME,LASTUPDATE)
+		values(#{forumId},#{userId},#{username},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<delete id="cleanByForumId">
+		delete from
+		bbs_forum_user where forum_id =
+		#{forumId}
+	</delete>
+
+	<select id="queryByForumId" parameterType="PageModel"
+		resultType="ForumUser">
+		select id, forum_id as forumId, user_id as userId, username from
+		bbs_forum_user where forum_id =
+		#{forumId}
+	</select>
+
+	<delete id="deleteById">
+		delete from bbs_forum_user where id = #{id}
+	</delete>
+</mapper>

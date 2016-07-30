@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.UserOnLineTotalMapper">
+
+	<select id="list" parameterType="PageModel" resultType="UserOnLineTotal">
+		select
+		ID,
+		user_id as userId,
+		username ,
+		online_latest as onLineLatest,
+		online_day as onLineDay,
+		online_week as onLineWeek,
+		online_month as
+		onLineMonth,
+		online_year as onLineYear,
+		online_total as onLineTotal,
+		creator,
+		createTime,
+		lastUpdate
+		from sys_user_online_total
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_user_online_total
+	</select>
+
+	<insert id="insert" parameterType="UserOnLineTotal">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_user_online_total(
+		user_id,
+		username,
+		online_latest,
+		online_day,
+		online_week,
+		online_month,
+		online_year,
+		online_total,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{userId},#{username},#{onLineLatest},#{onLineDay},#{onLineWeek},#{onLineMonth},#{onLineYear},#{onLineTotal},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<delete id="deleteById">
+		delete from sys_user_online_total where id = #{id}
+	</delete>
+
+</mapper>

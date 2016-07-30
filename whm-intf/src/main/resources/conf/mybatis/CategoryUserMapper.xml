@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.category.CategoryUserMapper">
+
+	<insert id="insert" parameterType="CategoryUser">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	
+		insert into
+		bbs_category_user(category_id,user_id, creator, createTime,
+		lastUpdate)
+		values(#{categoryId}, #{userId}, #{creator}, #{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<delete id="cleanByCategoryId">
+		delete from
+		bbs_category_user where category_id =
+		#{categoryId}
+	</delete>
+
+	<select id="queryByCategoryId" parameterType="PageModel"
+		resultType="CategoryUser">
+		select bcu.id,bcu.user_id as userId, su.username from bbs_category_user bcu
+		LEFT JOIN sys_user su on su.ID= bcu.user_id where category_id =
+		#{categoryId}
+	</select>
+
+	<delete id="deleteById">
+		delete from bbs_category_user where id = #{id}
+	</delete>
+</mapper>

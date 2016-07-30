@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.post.PostMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Post">
+		select
+		p.ID,
+		p.TOPIC_ID as topicId,
+		p.SITE_ID as siteId,
+		p.CONFIG_ID as configId,
+		p.EDITER_ID as editerId ,
+		p.CREATER_ID as createrId ,
+		p.CREATE_TIME as createTime,
+		p.POSTER_IP as posterIp,
+		p.EDIT_TIME as editTime,
+		p.EDITER_IP as editerIp,
+		p.EDIT_COUNT as editCount,
+		p.INDEX_COUNT as indexCount,
+		p.STATUS as status,
+		p.IS_AFFIX as isAffix,
+		p.IS_HIDDEN as isHidden,
+		p.TYPE_ID as typeId,
+		p.ANONYMOUS as anonymous,
+	  	pt.POST_TITLE as title, 
+		pt.POST_CONTENT as content,
+		u.username,
+		u.nickname
+		from bbs_post p 
+		left join bbs_post_text pt on p.id = pt.POST_ID
+		left join sys_user u on u.id = p.CREATER_ID
+		where p.id =  #{id} 
+	</select>
+
+	<select id="queryByTopicId" parameterType="PageModel" resultType="Post">
+		select
+		p.ID,
+		p.TOPIC_ID as topicId,
+		p.SITE_ID as siteId,
+		p.CONFIG_ID as configId,
+		p.EDITER_ID as editerId ,
+		p.CREATER_ID as createrId ,
+		p.CREATE_TIME as createTime,
+		p.POSTER_IP as posterIp,
+		p.EDIT_TIME as editTime,
+		p.EDITER_IP as editerIp,
+		p.EDIT_COUNT as editCount,
+		p.INDEX_COUNT as indexCount,
+		p.STATUS as status,
+		p.IS_AFFIX as isAffix,
+		p.IS_HIDDEN as isHidden,
+		p.TYPE_ID as typeId,
+		p.ANONYMOUS as anonymous,
+	  	pt.POST_TITLE as title, 
+		pt.POST_CONTENT as content,
+		u.username,
+		u.nickname,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from bbs_post p 
+		left join bbs_post_text pt on p.id = pt.POST_ID
+		left join sys_user u on u.id = p.CREATER_ID
+		where p.TOPIC_ID =  #{query.topicId} 
+		ORDER BY p.id 
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Post">
+		select
+		p.ID,
+		p.TOPIC_ID as topicId,
+		p.SITE_ID as siteId,
+		p.CONFIG_ID as configId,
+		p.EDITER_ID as editerId ,
+		p.CREATER_ID as createrId ,
+		p.CREATE_TIME as createTime,
+		p.POSTER_IP as posterIp,
+		p.EDIT_TIME as editTime,
+		p.EDITER_IP as editerIp,
+		p.EDIT_COUNT as editCount,
+		p.INDEX_COUNT as indexCount,
+		p.STATUS as status,
+		p.IS_AFFIX as isAffix,
+		p.IS_HIDDEN as isHidden,
+		p.TYPE_ID as typeId,
+		p.ANONYMOUS as anonymous,
+	  	pt.POST_TITLE, 
+		pt.POST_CONTENT
+		from bbs_post p 
+		left join bbs_post_text pt on p.id = pt.POST_ID
+		ORDER BY p.id 
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from bbs_post
+	</select>
+
+	<insert id="insert" parameterType="Post">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into bbs_post(
+		TOPIC_ID,
+		SITE_ID,
+		CONFIG_ID,
+		EDITER_ID,
+		CREATER_ID,
+		CREATE_TIME,
+		POSTER_IP,
+		EDIT_TIME,
+		EDITER_IP,
+		EDIT_COUNT,
+		INDEX_COUNT,
+		STATUS,
+		IS_AFFIX,
+		IS_HIDDEN,
+		TYPE_ID,
+		ANONYMOUS)
+		values(
+		#{topicId},#{siteId},#{configId},#{editerId},#{createrId},#{createTime},#{posterIp},
+		#{editTime},#{editerIp},#{editCount},#{indexCount},#{status},#{isAffix},#{isHidden},#{typeId},#{anonymous}
+		)
+	</insert>
+
+	<update id="update" parameterType="Post">
+		update bbs_post set
+		SITE_ID=0
+		<if test="topicId!=null and topicId!=''">
+			,TOPIC_ID=#{topicId}
+		</if>
+		<if test="configId!=null and configId!=''">
+			,CONFIG_ID=#{configId}
+		</if>
+		<if test="editerId!=null and editerId!=''">
+			,EDITER_ID=#{editerId}
+		</if>
+		<if test="editTime!=null and editTime!=''">
+			,EDIT_TIME=#{editTime}
+		</if>
+		<if test="editerIp!=null and editerIp!=''">
+			,EDITER_IP=#{editerIp}
+		</if>
+		<if test="editCount!=null and editCount!=''">
+			,EDIT_COUNT=#{editCount}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		<if test="isAffix!=null and isAffix!=''">
+			,IS_AFFIX=#{isAffix}
+		</if>
+		<if test="isHidden!=null and isHidden!=''">
+			,IS_HIDDEN=#{isHidden}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_post where id = #{id}
+	</delete>
+
+</mapper>

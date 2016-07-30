@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.ask.AnswerMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Answer">
+		select
+		a.ID,
+		a.questionId,
+		a.categoryId,
+		a.userId,
+		a.username,
+		a.askName,
+		a.askEmail,
+		a.askWebSite,
+		a.goodCount,
+		a.outerUrl,
+		a.editTime,
+		a.editerIp,
+		a.anonymous,
+		a.isGood,
+		a.creator,
+		a.createTime,
+		a.lastUpdate,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_answer a
+		left join sys_user u on a.username = u.username 
+		where id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Answer">
+		select
+		ID,
+		questionId,
+		categoryId,
+		userId,
+		username,
+		askName,
+		askEmail,
+		askWebSite,
+		goodCount,
+		outerUrl,
+		editTime,
+		editerIp,
+		anonymous,
+		isGood,
+		creator,
+		createTime,
+		lastUpdate
+		from ask_answer
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		ask_answer
+	</select>
+
+	<insert id="insert" parameterType="Answer">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into ask_answer(
+		questionId,
+		categoryId,
+		userId,
+		username,
+		askName,
+		askEmail,
+		askWebSite,
+		goodCount,
+		outerUrl,
+		editTime,
+		editerIp,
+		anonymous,
+		isGood,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{questionId},#{categoryId},#{userId},#{username},#{askName},#{askEmail},#{askWebSite},#{goodCount},#{outerUrl},
+		#{editTime},#{editerIp},#{anonymous},#{isGood},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="Answer">
+		update ask_answer set
+		id=#{id}
+		<if test="askName!=null and askName!=''">
+			,askName=#{askName}
+		</if>
+		<if test="askEmail!=null and askEmail!=''">
+			,askEmail=#{askEmail}
+		</if>
+		<if test="askWebSite!=null and askWebSite!=''">
+			,askWebSite=#{askWebSite}
+		</if>
+		<if test="goodCount!=null and goodCount!=''">
+			,goodCount=#{goodCount}
+		</if>
+		<if test="outerUrl!=null and outerUrl!=''">
+			,outerUrl=#{outerUrl}
+		</if>
+		<if test="editTime!=null and editTime!=''">
+			,editTime=#{editTime}
+		</if>
+		<if test="editerIp!=null and editerIp!=''">
+			,editerIp=#{editerIp}
+		</if>
+		<if test="isGood!=null and isGood!=''">
+			,isGood=#{isGood}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from ask_answer where id = #{id}
+	</delete>
+
+	<select id="queryTopNum" parameterType="java.lang.Integer" resultType="Answer">
+		select
+		a.ID,
+		a.questionId,
+		a.categoryId,
+		a.userId,
+		a.username,
+		a.askName,
+		a.askEmail,
+		a.askWebSite,
+		a.goodCount,
+		a.outerUrl,
+		a.editTime,
+		a.editerIp,
+		a.anonymous,
+		a.isGood,
+		a.creator,
+		a.createTime,
+		a.lastUpdate,
+		at.answerTitle,
+		at.answerContent
+		from ask_answer a left join ask_answer_text at on at.answerId = a.id
+		order by id desc
+		LIMIT #{num}
+	</select>
+	
+	<select id="queryByQuestionId" parameterType="java.lang.Integer" resultType="Answer">
+		select
+		a.ID,
+		a.questionId,
+		a.categoryId,
+		a.userId,
+		a.username,
+		a.askName,
+		a.askEmail,
+		a.askWebSite,
+		a.goodCount,
+		a.outerUrl,
+		a.editTime,
+		a.editerIp,
+		a.anonymous,
+		a.isGood,
+		a.creator,
+		a.createTime,
+		a.lastUpdate,
+		at.answerTitle,
+		at.answerContent,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_answer a 
+		left join ask_answer_text at on at.answerId = a.id
+		left join sys_user u on a.creator = u.username 
+		where a.questionId = #{questionId}
+		order by a.isGood, a.id
+	</select>
+
+	<update id="updateIsGood" parameterType="java.lang.Integer">
+		update ask_answer set
+		isGood='1'
+		where id=#{id}
+	</update>
+
+</mapper>

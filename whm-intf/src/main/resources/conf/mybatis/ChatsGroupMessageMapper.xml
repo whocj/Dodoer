@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.chats.ChatsGroupMessageMapper">
+
+	<select id="queryByGroupId" parameterType="PageModel" resultType="ChatsGroupMessage">
+		select
+		cgm.id,
+		cgm.groupId,
+		cgm.username,
+		cgm.content,
+		cgm.creator,
+		cgm.createTime,
+		cgm.lastUpdate,
+		su.nickname
+		from chats_group_message cgm
+		left join sys_user su on su.username = cgm.username
+		where cgm.groupId = #{groupId}
+		order by cgm.id desc
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="ChatsGroupMessage">
+		select
+		cgm.id,
+		cgm.groupId,
+		cgm.username,
+		cgm.content,
+		cgm.creator,
+		cgm.createTime,
+		cgm.lastUpdate,
+		from chats_group_message cgm
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		chats_group_message
+	</select>
+
+	<insert id="insert" parameterType="ChatsFriendMessage">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into chats_group_message(
+			groupId,
+			username,
+			content,
+			creator,
+			createTime,
+			lastUpdate
+		)
+		values(#{groupId},#{username},#{content},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<delete id="deleteById">
+		delete from chats_group_message where id = #{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.spider.CrawInfoMapper">
+
+	<select id="queryByUrl" parameterType="java.lang.String"
+		resultType="CrawInfo">
+		select
+		ID as id,
+		URL as url,
+		crawTemplateId,
+		crawLogId,
+		CREATETIME as createTime
+		from
+		spider_craw_info where url =
+		#{url}
+	</select>
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="CrawInfo">
+		select
+		ID as id,
+		URL as url,
+		crawTemplateId,
+		crawLogId,
+		CREATETIME as createTime
+		from
+		spider_craw_info where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="CrawInfo">
+		select
+		ID
+		as id,
+		crawTemplateId,
+		crawLogId,
+		URL as url,
+		CREATETIME as createTime
+		from spider_craw_info
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		spider_craw_info
+	</select>
+
+	<insert id="insert" parameterType="CrawInfo">
+	
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	
+		insert into spider_craw_info(
+		url,crawTemplateId,crawLogId
+		)
+		values(#{url},#{crawTemplateId},#{crawLogId})
+	</insert>
+
+	<delete id="deleteById">
+		delete from spider_craw_info where id = #{id}
+	</delete>
+
+
+</mapper>

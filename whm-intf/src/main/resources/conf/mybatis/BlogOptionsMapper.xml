@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.blog.BlogOptionsMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="BlogOptions">
+		select
+		ID,
+		title,
+		subtitle,
+		allowComment,
+		description,
+		keywords,
+		maxshow,
+		domainPath,
+		createTime,
+		lastUpdate,
+		creatorId,
+		creator
+		from blog_options where id =
+		#{id}
+	</select>
+
+	<select id="queryByCreatorId" parameterType="java.lang.String"
+		resultType="BlogOptions">
+		select
+		ID,
+		title,
+		subtitle,
+		allowComment,
+		description,
+		keywords,
+		maxshow,
+		domainPath,
+		createTime,
+		lastUpdate,
+		creatorId,
+		creator
+		from blog_options where creatorId =
+		#{creatorId}
+	</select>
+
+	<select id="queryByCreator" parameterType="java.lang.String"
+		resultType="BlogOptions">
+		select
+		ID,
+		title,
+		subtitle,
+		allowComment,
+		description,
+		keywords,
+		maxshow,
+		domainPath,
+		createTime,
+		lastUpdate,
+		creatorId,
+		creator
+		from blog_options where creator =
+		#{creator}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="BlogOptions">
+		select
+		ID,
+		title,
+		subtitle,
+		allowComment,
+		description,
+		keywords,
+		maxshow,
+		domainPath,
+		createTime,
+		lastUpdate,
+		creatorId,
+		creator
+		from blog_options
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		blog_options
+	</select>
+
+	<insert id="insert" parameterType="BlogOptions">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into blog_options(
+			title,
+			subtitle,
+			allowComment,
+			description,
+			keywords,
+			maxshow,
+			domainPath,
+			createTime,
+			lastUpdate,
+			creatorId,
+			creator
+		)
+		values(#{title},#{subTitle},#{allowComment},#{description},
+		#{keywords},#{maxshow},#{domainPath},#{createTime},#{lastUpdate},#{creatorId},#{creator})
+	</insert>
+
+	<update id="update" parameterType="BlogOptions">
+		update blog_options set
+		id=#{id}
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="subTitle!=null and subTitle!=''">
+			,subtitle=#{subTitle}
+		</if>
+		<if test="allowComment!=null and allowComment!=''">
+			,allowComment=#{allowComment}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="maxshow!=null and maxshow!=''">
+			,maxshow=#{maxshow}
+		</if>
+		<if test="domainPath!=null and domainPath!=''">
+			,domainPath=#{domainPath}
+		</if>
+		<if test="createTime!=null and createTime!=''">
+			,createTime=#{createTime}
+		</if>
+		<if test="domainPath!=null and domainPath!=''">
+			,domainPath=#{domainPath}
+		</if>
+		<if test="creatorId!=null and creatorId!=''">
+			,creatorId=#{creatorId}
+		</if>
+		<if test="creator!=null and creator!=''">
+			,creator=#{creator}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from blog_options where id = #{id}
+	</delete>
+	
+</mapper>
