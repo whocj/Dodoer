@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.category.CategoryMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Category">
+		select ID,
+		SITE_ID as siteId,
+		PATH,
+		TITLE,
+		PRIORITY,
+		FORUM_COLS,
+		moderators,
+		creator,
+		createTime,
+		lastUpdate from bbs_category where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Category">
+		select
+		ID,
+		SITE_ID as siteId,
+		PATH,
+		TITLE,
+		PRIORITY,
+		FORUM_COLS,
+		moderators,
+		creator,
+		createTime,
+		lastUpdate from bbs_category
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from bbs_category
+	</select>
+
+	<insert id="insert" parameterType="Category">
+
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+
+		insert into bbs_category(
+		moderators,
+		SITE_ID,
+		PATH,
+		TITLE,
+		PRIORITY,
+		FORUM_COLS,
+		creator,
+		createTime,
+		lastUpdate)
+		values(#{moderators},
+		#{siteId},
+		#{path},
+		#{title},
+		#{priority},
+		#{forumCols},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="Category">
+		update bbs_category set
+		id=#{id}
+		<if test="siteId!=null and siteId!=''">
+			,SITE_ID=#{siteId}
+		</if>
+		<if test="path!=null and path!=''">
+			,PATH=#{path}
+		</if>
+		<if test="title!=null and title!=''">
+			,TITLE=#{title}
+		</if>
+		<if test="priority!=null and priority!=''">
+			,PRIORITY=#{priority}
+		</if>
+		<if test="forumCols!=null and forumCols!=''">
+			,FORUM_COLS=#{forumCols}
+		</if>
+		<if test="moderators!=null and moderators!=''">
+			,moderators=#{moderators}
+		</if>
+
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_category where id = #{id}
+	</delete>
+
+	<select id="queryBySite" resultType="Category">
+		select
+		ID,
+		SITE_ID as siteId,
+		PATH,
+		TITLE,
+		PRIORITY,
+		FORUM_COLS,
+		moderators,
+		creator,
+		createTime,
+		lastUpdate
+		from bbs_category where SITE_ID = #{siteId}
+		order by PRIORITY
+	</select>
+
+</mapper>

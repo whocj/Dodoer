@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.story.StoryUserBookshelfMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="StoryUserBookshelf">
+		select 
+		
+		id,
+		storyId,
+		title,
+		userId,
+		username,
+		readDetailId,
+		readDetailTitle,
+		status,
+		creator,
+		createTime,
+		lastUpdate
+		
+		from story_user_bookshelf 
+		where id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="StoryUserBookshelf">
+		select
+		id,
+		storyId,
+		title,
+		userId,
+		username,
+		readDetailId,
+		readDetailTitle,
+		status,
+		creator,
+		createTime,
+		lastUpdate 
+		from story_user_bookshelf
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from story_user_bookshelf
+	</select>
+
+	<insert id="insert" parameterType="Notice">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into story_user_bookshelf(
+		storyId,
+		title,
+		userId,
+		username,
+		readDetailId,
+		readDetailTitle,
+		status,
+		creator,
+		createTime,
+		lastUpdate 
+		)
+		values(#{storyId},
+		#{title},
+		#{userId},
+		#{username},
+		#{readDetailId},
+		#{readDetailTitle},
+		#{status},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="StoryUserBookshelf">
+		update story_user_bookshelf set
+		id=#{id}
+		<if test="storyId!=null and storyId!=''">
+			,storyId=#{storyId}
+		</if>
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="userId!=null and userId!=''">
+			,userId=#{userId}
+		</if>
+		<if test="username!=null and username!=''">
+			,username=#{username}
+		</if>
+		<if test="readDetailId!=null and readDetailId!=''">
+			,readDetailId=#{readDetailId}
+		</if>
+		<if test="readDetailTitle!=null and readDetailTitle!=''">
+			,readDetailTitle=#{readDetailTitle}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from story_user_bookshelf 
+		where id = #{id}
+	</delete>
+
+	<select id="queryByUsername" resultType="StoryUserBookshelf">
+		select
+		id,
+		storyId,
+		title,
+		userId,
+		username,
+		readDetailId,
+		readDetailTitle,
+		status,
+		creator,
+		createTime,
+		lastUpdate 
+		from story_user_bookshelf 
+		where username = #{username}
+		order by id desc
+	</select>
+
+</mapper>

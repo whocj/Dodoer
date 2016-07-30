@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.blog.BlogPostMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="BlogPost">
+		select
+		id,
+		title,
+		excerpt,
+		content,
+		type,
+		tagName,
+		categoryid,
+		pstatus,
+		cstatus,
+		ccount,
+		rcount,
+		weekccount,
+		weekrcount,
+		creatorId,
+		creator,
+		createTime,
+		lastUpdate,
+		keywords,
+		description
+		from blog_post where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="BlogPost">
+		select
+		p.id,
+		p.title,
+		p.excerpt,
+		p.content,
+		p.type,
+		p.tagName,
+		p.categoryid,
+		p.pstatus,
+		p.cstatus,
+		p.ccount,
+		p.rcount,
+		p.weekccount,
+		p.weekrcount,
+		p.creatorId,
+		p.creator,
+		p.createTime,
+		p.lastUpdate,
+		p.keywords,
+		p.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from blog_post p
+		left join sys_user u on p.creator = u.username 
+		where pstatus = '1'
+		order by p.id desc
+	</select>
+
+	<select id="queryHotBlogPost" parameterType="PageModel" resultType="BlogPost">
+		select
+		p.id,
+		p.title,
+		p.excerpt,
+		p.content,
+		p.type,
+		p.tagName,
+		p.categoryid,
+		p.pstatus,
+		p.cstatus,
+		p.ccount,
+		p.rcount,
+		p.weekccount,
+		p.weekrcount,
+		p.creatorId,
+		p.creator,
+		p.createTime,
+		p.lastUpdate,
+		p.keywords,
+		p.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from blog_post p
+		left join sys_user u on p.creator = u.username 
+		where p.pstatus = '1'
+		order by p.rcount desc
+	</select>
+
+	<select id="queryByCreator" parameterType="PageModel" resultType="BlogPost">
+		select
+		id,
+		title,
+		excerpt,
+		content,
+		type,
+		tagName,
+		categoryid,
+		pstatus,
+		cstatus,
+		ccount,
+		rcount,
+		weekccount,
+		weekrcount,
+		creatorId,
+		creator,
+		createTime,
+		lastUpdate,
+		description
+		from blog_post
+		where creator = #{query.creator}
+		and
+		pstatus = #{query.pstatus}
+		order by id desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		blog_post
+	</select>
+
+	<insert id="insert" parameterType="BlogPost">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into blog_post(
+			title,
+			excerpt,
+			content,
+			type,
+			tagName,
+			categoryid,
+			pstatus,
+			cstatus,
+			ccount,
+			rcount,
+			weekccount,
+			weekrcount,
+			creatorId,
+			creator,
+			createTime,
+			lastUpdate,
+			keywords,
+			description
+		)
+		values(#{title},#{excerpt},#{content},#{type},#{tagName},#{categoryId},#{pstatus},#{cstatus},
+		#{ccount},#{rcount},#{weekCCount},#{weekRCount},#{creatorId},#{creator},#{createTime},#{lastUpdate},#{keywords},#{description})
+	</insert>
+
+	<update id="update" parameterType="BlogPost">
+		update blog_post set
+		id=#{id}
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="excerpt!=null and excerpt!=''">
+			,excerpt=#{excerpt}
+		</if>
+		<if test="content!=null and content!=''">
+			,content=#{content}
+		</if>
+		<if test="type!=null and type!=''">
+			,type=#{type}
+		</if>
+		<if test="tagName!=null and tagName!=''">
+			,tagName=#{tagName}
+		</if>
+		<if test="categoryId!=null and categoryId!=''">
+			,categoryId=#{categoryId}
+		</if>
+		<if test="pstatus!=null and pstatus!=''">
+			,pstatus=#{pstatus}
+		</if>
+		<if test="cstatus!=null and cstatus!=''">
+			,cstatus=#{cstatus}
+		</if>
+		<if test="ccount!=null and ccount!=''">
+			,ccount=#{ccount}
+		</if>
+		<if test="weekCCount!=null and weekCCount!=''">
+			,weekccount=#{weekCCount}
+		</if>
+		<if test="weekRCount!=null and weekRCount!=''">
+			,weekrcount=#{weekRCount}
+		</if>
+		<if test="creatorId!=null and creatorId!=''">
+			,creatorId=#{creatorId}
+		</if>
+		<if test="creator!=null and creator!=''">
+			,creator=#{creator}
+		</if>
+		<if test="createTime!=null and createTime!=''">
+			,createTime=#{createTime}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from blog_post where id = #{id}
+	</delete>
+
+	<select id="queryLatestTopNum" parameterType="java.lang.Integer" resultType="BlogPost">
+		select
+		p.id,
+		p.title,
+		p.excerpt,
+		p.content,
+		p.type,
+		p.tagName,
+		p.categoryid,
+		p.pstatus,
+		p.cstatus,
+		p.ccount,
+		p.rcount,
+		p.weekccount,
+		p.weekrcount,
+		p.creatorId,
+		p.creator,
+		p.createTime,
+		p.lastUpdate,
+		p.keywords,
+		p.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from blog_post p
+		left join sys_user u on p.creator = u.username 
+		where p.pstatus = '1'
+		order by p.id desc
+		LIMIT #{num}
+	</select>
+
+	<update id="updateAddReply" parameterType="java.lang.Integer">
+		update blog_post set
+		ccount = ccount + 1
+		where id=#{id}
+	</update>
+
+	<update id="updateAddView" parameterType="java.lang.Integer">
+		update blog_post set
+		rcount = rcount + 1
+		where id=#{id}
+	</update>
+	
+	<select id="queryTitle" parameterType="PageModel" resultType="String">
+		select title from blog_post
+	</select>
+	
+	<select id="queryIdByCount"  resultType="Integer">
+		select id from blog_post  order by id desc LIMIT #{count}
+	</select>
+	
+	<select id="queryNextByCreatorAndId"
+		resultType="BlogPost">
+		select
+		id,
+		title,
+		excerpt,
+		content,
+		type,
+		tagName,
+		categoryid,
+		pstatus,
+		cstatus,
+		ccount,
+		rcount,
+		weekccount,
+		weekrcount,
+		creatorId,
+		creator,
+		createTime,
+		lastUpdate,
+		keywords,
+		description
+		from blog_post 
+		where  creator = #{creator} and id &gt; #{id} LIMIT 1
+	</select>
+	
+	<select id="queryPrevByCreatorAndId"
+		resultType="BlogPost">
+		select
+		id,
+		title,
+		excerpt,
+		content,
+		type,
+		tagName,
+		categoryid,
+		pstatus,
+		cstatus,
+		ccount,
+		rcount,
+		weekccount,
+		weekrcount,
+		creatorId,
+		creator,
+		createTime,
+		lastUpdate,
+		keywords,
+		description
+		from blog_post 
+		where creator = #{creator} and id &lt; #{id} LIMIT 1
+	</select>
+	
+	
+</mapper>

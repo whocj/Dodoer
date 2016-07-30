@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.spider.CrawLogMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="CrawLog">
+		select
+		ID,
+		CRAW_TEMPLATE_ID as crawTemplateId,
+		beginTime,
+		endTime,
+		status,
+		log,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		spider_craw_log
+		where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="CrawLog">
+		select
+		ID,
+		CRAW_TEMPLATE_ID as crawTemplateId,
+		beginTime,
+		endTime,
+		status,
+		log,
+		creator,
+		createTime,
+		lastUpdate
+		from spider_craw_log
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		spider_craw_info
+	</select>
+
+	<insert id="insert" parameterType="CrawLog">
+	
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		
+		insert into spider_craw_log(
+		CRAW_TEMPLATE_ID,
+		beginTime,
+		endTime,
+		status,
+		log,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{crawTemplateId},#{beginTime},#{endTime},#{status},#{log},#{creator},#{createTime},
+		#{lastUpdate})
+	</insert>
+
+</mapper>

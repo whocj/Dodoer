@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.search.SearchPostMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="SearchPost">
+		select
+		ID,
+		docId,
+		type,
+		title,
+		content,
+		author,
+		createTime,
+		tags,
+		site,
+		url,
+		isIndex,model
+		from bbs_search_post where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="SearchPost">
+		select
+		ID,
+		docId,
+		type,
+		title,
+		content,
+		author,
+		createTime,
+		tags,
+		site,
+		url,
+		isIndex,model
+		from bbs_search_post
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		bbs_search_post
+	</select>
+
+	<insert id="insert" parameterType="SearchPost">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into bbs_search_post(
+			docId,
+			type,
+			title,
+			content,
+			author,
+			createTime,
+			tags,
+			site,
+			url,
+			isIndex,model
+		)
+		values(#{docId},#{type},#{title},#{content},#{author},#{createTime},#{tags},#{site},#{url},#{isIndex},#{model})
+	</insert>
+
+	<update id="update" parameterType="SearchPost">
+		update bbs_search_post set
+		id=#{id}
+		<if test="docId!=null and docId!=''">
+			,docId=#{docId}
+		</if>
+		<if test="type!=null and type!=''">
+			,type=#{type}
+		</if>
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="content!=null and content!=''">
+			,content=#{content}
+		</if>
+		<if test="author!=null and author!=''">
+			,author=#{author}
+		</if>
+		<if test="createTime!=null and createTime!=''">
+			,createTime=#{createTime}
+		</if>
+		<if test="tags!=null and tags!=''">
+			,tags=#{tags}
+		</if>
+		<if test="site!=null and site!=''">
+			,site=#{site}
+		</if>
+		<if test="url!=null and url!=''">
+			,url=#{url}
+		</if>
+		<if test="isIndex!=null and isIndex!=''">
+			,isIndex=#{isIndex}
+		</if>
+		<if test="model!=null and model!=''">
+			,model=#{model}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<update id="updateIsIndex" parameterType="SearchPost">
+		update bbs_search_post set isIndex=isIndex+1
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_search_post where id = #{id}
+	</delete>
+
+	<select id="queryByIsIndexTop100" parameterType="java.lang.Integer" resultType="SearchPost">
+		select
+		ID,
+		docId,
+		type,
+		title,
+		content,
+		author,
+		createTime,
+		tags,
+		site,
+		url,
+		isIndex,model
+		from bbs_search_post where isIndex = #{isIndex}
+		order by id desc
+		LIMIT 100
+	</select>
+
+	<select id="queryByDocIdAndType" resultType="SearchPost">
+		select
+		ID,
+		docId,
+		type,
+		title,
+		content,
+		author,
+		createTime,
+		tags,
+		site,
+		url,
+		isIndex,model
+		from bbs_search_post where docId = #{docId} and type=#{type}
+	</select>
+
+</mapper>

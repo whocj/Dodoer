@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.chats.ChatsFriendMapper">
+
+	<select id="queryByUsername" resultType="ChatsFriend">
+		select
+		cf.id,
+		cf.username,
+		cf.friendname,
+		cf.creator,
+		cf.createTime,
+		cf.lastUpdate,
+		su.nickname as friendNickname,
+		ck.chatkey
+		from chats_friend cf 
+		left join sys_user su on su.username = cf.friendname
+		left join chats_kyes ck on su.username = ck.objId and ck.type = 'User'
+		where cf.username = #{username}
+		order by su.nickname
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		chats_friend
+	</select>
+
+	<insert id="insert" parameterType="ChatsFriend">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into chats_friend(
+			username,friendname,creator,createTime,lastUpdate
+		)
+		values(#{username},#{friendname},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<delete id="deleteById">
+		delete from chats_friend where id = #{id}
+	</delete>
+
+</mapper>

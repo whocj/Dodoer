@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.ask.AnswerTextMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="AnswerText">
+		select
+		ID,
+		answerId,
+		answerTitle,
+		answerContent,
+		answerContentText
+		from ask_answer_text where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="AnswerText">
+		select
+		ID,
+		answerId,
+		answerTitle,
+		answerContent,
+		answerContentText
+		 from ask_answer_text
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		ask_answer_text
+	</select>
+
+	<insert id="insert" parameterType="AnswerText">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into ask_answer_text(
+		answerId,
+		answerTitle,
+		answerContent,
+		answerContentText
+		)
+		values(#{answerId},#{answerTitle},#{answerContent},#{answerContentText})
+	</insert>
+
+	<update id="update" parameterType="AnswerText">
+		update ask_answer_text set
+		answerId=#{answerId}
+		<if test="answerTitle!=null and answerTitle!=''">
+			,answerTitle=#{answerTitle}
+		</if>
+		<if test="answerContent!=null and answerContent!=''">
+			,answerContent=#{answerContent}
+		</if>
+		<if test="answerContentText!=null and answerContentText!=''">
+			,answerContentText=#{answerContentText}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from ask_answer_text where id = #{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.post.PostTextMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="PostText">
+		select
+		ID,
+		POST_ID as postId,
+		POST_TITLE as postTitle,
+		POST_CONTENT as postContent,
+		POST_CONTENT_TEXT as postContentText
+		from bbs_post_text where id =
+		#{id}
+	</select>
+
+	<insert id="insert" parameterType="PostText">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into bbs_post_text(
+		POST_ID,
+		POST_TITLE ,
+		POST_CONTENT,
+		POST_CONTENT_TEXT
+		)
+		values(#{postId},
+		#{postTitle},
+		#{postContent},#{postContentText})
+	</insert>
+
+	<update id="update" parameterType="PostText">
+		update bbs_post_text set
+		POST_ID=#{postId}
+		<if test="postTitle!=null and postTitle!=''">
+			,POST_TITLE=#{postTitle}
+		</if>
+		<if test="postContent!=null and postContent!=''">
+			,POST_CONTENT=#{postContent}
+		</if>
+		<if test="postContentText!=null and postContentText!=''">
+			,POST_CONTENT_TEXT=#{postContentText}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_post_text where id = #{id}
+	</delete>
+
+</mapper>

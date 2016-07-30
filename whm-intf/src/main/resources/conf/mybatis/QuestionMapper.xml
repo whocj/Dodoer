@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.ask.QuestionMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Question">
+		select
+		q.ID,
+		q.categoryId,
+		q.userId,
+		q.username,
+		q.tagName,
+		q.viewCount,
+		q.replyCount,
+		q.goodCount,
+		q.outerUrl,
+		q.isAffix,
+		q.editTime,
+		q.editerIp,
+		q.editCount,
+		q.status,
+		q.anonymous,
+		q.creator,
+		q.createTime,
+		q.lastUpdate,
+		q.keywords,
+		q.description,
+		q.hasGood,
+		qt.questionTitle,
+		qt.questionContent,qt.questionContentText,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q
+		left join
+		ask_question_text qt on q.ID =
+		qt.questionId
+		left join sys_user u on q.username = u.username
+		where
+		q.id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Question">
+		select
+		q.id, q.userId, q.username, q.goodCount,
+		q.createTime,q.viewCount,q.replyCount,q.outerUrl,
+		q.keywords,
+		q.categoryId,q.status,q.tagName,qt.questionTitle, qt.questionContent,q.hasGood
+		,qt.questionContentText,q.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username
+		where 1=1 
+		order by q.id desc
+	</select>
+
+	<select id="listOrderByHot" parameterType="PageModel" resultType="Question">
+		select
+		q.id, q.userId, q.username, q.goodCount,
+		q.createTime,q.viewCount,q.replyCount,q.outerUrl,
+		q.keywords,
+		q.categoryId,q.status,q.tagName,qt.questionTitle, qt.questionContent,q.hasGood
+		,qt.questionContentText,q.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username
+		where 1=1 
+		order by q.viewCount desc
+	</select>
+	
+	<select id="listByNotAnswer" parameterType="PageModel" resultType="Question">
+		select
+		q.id, q.userId, q.username, q.goodCount,
+		q.createTime,q.viewCount,q.replyCount,q.outerUrl,
+		q.keywords,
+		q.categoryId,q.status,q.tagName,qt.questionTitle, qt.questionContent,q.hasGood
+		,qt.questionContentText,q.description,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username
+		where 1=1 and q.hasGood = '0'
+		order by q.id desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		ask_question
+	</select>
+
+	<insert id="insert" parameterType="Question">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into ask_question(
+		categoryId,
+		userId,
+		username,
+		tagName,
+		viewCount,
+		replyCount,
+		goodCount,
+		outerUrl,
+		isAffix,
+		editTime,
+		editerIp,
+		editCount,
+		status,
+		anonymous,
+		creator,
+		createTime,
+		lastUpdate,
+		keywords,
+		description,
+		hasGood
+		)
+		values(#{categoryId},#{userId},#{username},#{tagName},#{viewCount},#{replyCount},#{goodCount},
+		#{outerUrl},#{isAffix},#{editTime},#{editerIp},#{editCount},#{status},#{anonymous},#{creator},#{createTime},#{lastUpdate},
+		#{keywords},#{description},#{hasGood})
+	</insert>
+
+	<update id="update" parameterType="Question">
+		update ask_question set
+		viewCount=viewCount+1
+		<if test="tagName!=null and tagName!=''">
+			,tagName=#{tagName}
+		</if>
+		<if test="replyCount!=null and replyCount!=''">
+			,replyCount=#{replyCount}
+		</if>
+		<if test="goodCount!=null and goodCount!=''">
+			,goodCount=#{goodCount}
+		</if>
+		<if test="outerUrl!=null and outerUrl!=''">
+			,outerUrl=#{outerUrl}
+		</if>
+		<if test="isAffix!=null and isAffix!=''">
+			,isAffix=#{isAffix}
+		</if>
+		<if test="editTime!=null and editTime!=''">
+			,editTime=#{editTime}
+		</if>
+		<if test="editerIp!=null and editerIp!=''">
+			,editerIp=#{editerIp}
+		</if>
+		<if test="editCount!=null and editCount!=''">
+			,editCount=#{editCount}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		<if test="anonymous!=null and anonymous!=''">
+			,anonymous=#{anonymous}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		<if test="hasGood!=null and hasGood!=''">
+			,hasGood=#{hasGood}
+		</if>
+		
+
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from ask_question where id = #{id}
+	</delete>
+
+	<select id="queryLatestTopNum" parameterType="java.lang.Integer"
+		resultType="Question">
+		select q.id, q.userId,
+		q.username, q.goodCount,
+		q.createTime,q.description,
+		q.viewCount,
+		q.replyCount,
+		q.hasGood,
+		q.categoryId,q.status,q.tagName,qt.questionTitle,
+		qt.questionContent,qt.questionContentText,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username
+		order by id desc LIMIT #{num}
+	</select>
+
+	<select id="queryFeaturedTopNum" parameterType="java.lang.Integer"
+		resultType="Question">
+		select q.id,
+		q.userId, q.username, q.goodCount,
+		q.createTime,q.description,
+		q.viewCount,
+		q.replyCount,
+		q.hasGood,
+		q.categoryId,q.status,q.tagName,qt.questionTitle,
+		qt.questionContent,qt.questionContentText,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username 
+		where 1=1  order by q.viewCount desc LIMIT #{num}
+	</select>
+
+	<select id="queryByCategoryId" parameterType="PageModel"
+		resultType="Question">
+		select q.id,
+		q.userId, q.username, q.goodCount,
+		q.createTime,q.description,
+		q.viewCount,
+		q.replyCount,
+		q.hasGood,
+		q.categoryId,q.status,q.tagName,qt.questionTitle,
+		qt.questionContent,qt.questionContentText,
+		u.userLogo,u.userLogo50,u.userLogo100
+		from ask_question q 
+		left join ask_question_text qt on q.ID = qt.questionId
+		left join sys_user u on q.username = u.username 
+		where 1=1 and q.categoryId = #{query.categoryId}
+	</select>
+
+	<update id="updateQuestionReplyCount" parameterType="java.lang.Integer">
+		update ask_question set
+		replyCount=replyCount+1
+		where id=#{id}
+	</update>
+	
+	<update id="updateQuestionHasGood" parameterType="java.lang.Integer">
+		update ask_question set
+		hasGood='1'
+		where id=#{id}
+	</update>
+	
+	<select id="queryIdByCount"  resultType="Integer">
+		select id from ask_question  order by id desc LIMIT #{count}
+	</select>
+</mapper>

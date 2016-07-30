@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.spider.ListTemplateMapper">
+
+	<select id="queryByCrawTemplateId" parameterType="java.lang.Integer"
+		resultType="ListTemplate">
+		select
+		id,
+		forumId,
+		url,
+		username,
+		userId,
+		CRAW_TEMPLATE_ID as
+		crawTemplateId,
+		topicType,
+		listXPath,
+		totalPageXPath,
+		titleXPath,
+		nextXPath,
+		prevXPath,
+		detailXPath,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		spider_list_template
+		where CRAW_TEMPLATE_ID =
+		#{crawTemplateId}
+	</select>
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="ListTemplate">
+		select
+		id,
+		forumId,
+		url,
+		username,
+		userId,
+		CRAW_TEMPLATE_ID as
+		crawTemplateId,
+		topicType,
+		listXPath,
+		totalPageXPath,
+		titleXPath,
+		nextXPath,
+		prevXPath,
+		detailXPath,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		spider_list_template where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="ListTemplate">
+		select
+		slt.id,
+		sct.forumId,
+		url,
+		username,
+		userId,
+		CRAW_TEMPLATE_ID as
+		crawTemplateId,
+		sct.name as crawTemplateName,
+		topicType,
+		listXPath,
+		totalPageXPath,
+		titleXPath,
+		nextXPath,
+		prevXPath,
+		detailXPath,
+		slt.creator,
+		slt.createTime,
+		slt.lastUpdate
+		from spider_list_template slt
+		left join spider_craw_template sct on sct.id = slt.CRAW_TEMPLATE_ID
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		spider_list_template
+	</select>
+
+	<insert id="insert" parameterType="ListTemplate">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into spider_list_template(
+		forumId,
+		url,
+		username,
+		userId,
+		CRAW_TEMPLATE_ID,
+		topicType,
+		listXPath,
+		totalPageXPath,
+		titleXPath,
+		nextXPath,
+		prevXPath,
+		detailXPath,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{forumId},#{url},#{username},#{userId},#{crawTemplateId},#{topicType},#{listXPath},#{totalPageXPath},#{titleXPath},#{nextXPath},#{prevXPath},
+		#{detailXPath},#{creator},#{createTime},#{lastUpdate}
+		)
+	</insert>
+
+	<update id="update" parameterType="ListTemplate">
+		update spider_list_template set
+		userid=0
+		<if test="forumId!=null and forumId!=''">
+			,forumId=#{forumId}
+		</if>
+		<if test="url!=null and url!=''">
+			,url=#{url}
+		</if>
+		<if test="username!=null and username!=''">
+			,username=#{username}
+		</if>
+		<if test="crawTemplateId!=null and crawTemplateId!=''">
+			,CRAW_TEMPLATE_ID=#{crawTemplateId}
+		</if>
+		<if test="topicType!=null and topicType!=''">
+			,topicType=#{topicType}
+		</if>
+		<if test="listXPath!=null and listXPath!=''">
+			,listXPath=#{listXPath}
+		</if>
+		<if test="totalPageXPath!=null and totalPageXPath!=''">
+			,totalPageXPath=#{totalPageXPath}
+		</if>
+		<if test="titleXPath!=null and titleXPath!=''">
+			,titleXPath=#{titleXPath}
+		</if>
+		<if test="nextXPath!=null and nextXPath!=''">
+			,nextXPath=#{nextXPath}
+		</if>
+		<if test="prevXPath!=null and prevXPath!=''">
+			,prevXPath=#{prevXPath}
+		</if>
+		<if test="detailXPath!=null and detailXPath!=''">
+			,detailXPath=#{detailXPath}
+		</if>
+		<if test="creator!=null and creator!=''">
+			,creator=#{creator}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from spider_list_template where id = #{id}
+	</delete>
+
+</mapper>

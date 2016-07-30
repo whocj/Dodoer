@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.user.UserGroupMapper">
+	   
+   <select id="loadById" parameterType="java.lang.String" resultType="UserGroup">  
+      select
+		ID,
+		site_id as siteId,
+		NAME as name,
+		GROUP_TYPE as groupType,
+		GROUP_IMG as groupImg,
+		GROUP_POINT as groupPoint,
+		IS_DEFAULT as isDefault,
+		GRADE_NUM as gradeNum,
+		magic_packet_size as magicPacketSize
+		from bbs_user_group
+		where id = #{id}
+   </select>
+
+	<select id="list" parameterType="PageModel" resultType="UserGroup">
+		select
+		ID,
+		site_id as siteId,
+		NAME as name,
+		GROUP_TYPE as groupType,
+		GROUP_IMG as groupImg,
+		GROUP_POINT as groupPoint,
+		IS_DEFAULT as isDefault,
+		GRADE_NUM as gradeNum,
+		magic_packet_size as magicPacketSize
+		from bbs_user_group
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_user_online
+	</select>
+
+	<insert id="insert" parameterType="UserGroup">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_user_online(
+			site_id,NAME,GROUP_TYPE,GROUP_IMG,GROUP_POINT,IS_DEFAULT,GRADE_NUM,magic_packet_size
+		)
+		values(#{siteId},#{name},#{groupType},#{groupImg},#{groupPoint},#{isDefault},#{gradeNum},#{magicPacketSize})
+	</insert>
+
+	<update id="update" parameterType="UserGroup">
+		update sys_user_online set
+		SITE_ID=0
+		<if test="name!=null and name!=''">
+			,name=#{name}
+		</if>
+		<if test="groupType!=null and groupType!=''">
+			,GROUP_TYPE=#{groupType}
+		</if>
+		<if test="groupImg!=null and groupImg!=''">
+			,GROUP_IMG=#{groupImg}
+		</if>
+		<if test="groupPoint!=null and groupPoint!=''">
+			,GROUP_POINT=#{groupPoint}
+		</if>
+		<if test="isDefault!=null and isDefault!=''">
+			,IS_DEFAULT=#{isDefault}
+		</if>
+		<if test="gradeNum!=null and gradeNum!=''">
+			,GRADE_NUM=#{gradeNum}
+		</if>
+		<if test="magicPacketSize!=null and magicPacketSize!=''">
+			,magic_packet_size=#{magicPacketSize}
+		</if>
+
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from sys_user_online where id = #{id}
+	</delete>
+</mapper>

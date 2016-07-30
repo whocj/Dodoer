@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.FriendLinkMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="FriendLink">
+		select
+		ID,
+		site_id as siteId,
+		friendlinkctg_id as
+		friendLinkCtgId,
+		site_name as siteName,
+		domain,
+		logo,
+		email,
+		description,
+		views,
+		is_enabled as isEnabled,
+		priority,
+		creator,
+		createTime,
+		lastUpdate
+
+		from sys_friendlink where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="FriendLink">
+		select
+		ID,
+		site_id as siteId,
+		friendlinkctg_id as friendLinkCtgId,
+		site_name as
+		siteName,
+		domain,
+		logo,
+		email,
+		description,
+		views,
+		is_enabled as isEnabled,
+		priority,
+		creator,
+		createTime,
+		lastUpdate from sys_friendlink
+	</select>
+
+	<select id="queryBySiteId" resultType="FriendLink">
+		select
+		ID,
+		site_id as siteId,
+		friendlinkctg_id as friendLinkCtgId,
+		site_name as
+		siteName,
+		domain,
+		logo,
+		email,
+		description,
+		views,
+		is_enabled as isEnabled,
+		priority,
+		creator,
+		createTime,
+		lastUpdate from sys_friendlink
+		where site_id = #{siteId}
+		order by priority
+	</select>
+
+	<select id="queryByCreator" resultType="FriendLink">
+		select
+		ID,
+		site_id as siteId,
+		friendlinkctg_id as friendLinkCtgId,
+		site_name as
+		siteName,
+		domain,
+		logo,
+		email,
+		description,
+		views,
+		is_enabled as isEnabled,
+		priority,
+		creator,
+		createTime,
+		lastUpdate from sys_friendlink
+		where creator = #{creator}
+		order by priority
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_friendlink
+	</select>
+
+	<insert id="insert" parameterType="FriendLink">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_friendlink(
+		site_id,
+		friendlinkctg_id,
+		site_name,
+		domain,
+		logo,
+		email,
+		description,
+		views,
+		is_enabled,
+		priority,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{siteId},#{friendLinkCtgId},#{siteName},#{domain},#{logo},#{email},
+		#{description},#{views},#{isEnabled},#{priority},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="FriendLink">
+		update sys_friendlink set
+		SITE_ID=#{siteId}
+		<if test="friendLinkCtgId!=null and friendLinkCtgId!=''">
+			,friendlinkctg_id=#{friendLinkCtgId}
+		</if>
+		<if test="siteName!=null and siteName!=''">
+			,site_name=#{siteName}
+		</if>
+		<if test="domain!=null and domain!=''">
+			,domain=#{domain}
+		</if>
+		<if test="logo!=null and logo!=''">
+			,logo=#{logo}
+		</if>
+		<if test="email!=null and email!=''">
+			,email=#{email}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		<if test="views!=null and views!=''">
+			,views=#{views}
+		</if>
+		<if test="priority!=null and priority!=''">
+			,priority=#{priority}
+		</if>
+		<if test="isEnabled!=null and isEnabled!=''">
+			,is_enabled=#{isEnabled}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from sys_friendlink where id = #{id}
+	</delete>
+
+</mapper>

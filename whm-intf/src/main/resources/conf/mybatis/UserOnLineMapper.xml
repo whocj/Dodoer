@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.UserOnLineMapper">
+
+	<select id="list" parameterType="PageModel" resultType="UserOnLine">
+		select
+		ID,
+		user_id as userId,
+		username ,
+		loginTime,
+		loginIP,
+		creator,
+		createTime,
+		lastUpdate
+		from sys_user_online
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_user_online
+	</select>
+
+	<insert id="insert" parameterType="UserOnLine">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_user_online(
+		user_id,
+		username,
+		loginTime,
+		loginIP,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{userId}, #{username},
+		#{loginTime}, #{loginIP},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<delete id="deleteById">
+		delete from sys_user_online where id = #{id}
+	</delete>
+
+</mapper>

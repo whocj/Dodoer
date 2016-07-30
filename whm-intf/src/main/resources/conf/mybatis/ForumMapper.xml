@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.forum.ForumMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Forum">
+		select id, CATEGORY_ID as
+		categoryId,SITE_ID as siteId ,PATH
+		as
+		path,TITLE as title ,DESCRIPTION as description ,KEYWORDS as
+		keywords,
+		FORUM_RULE as forumRule ,PRIORITY as priority,OUTER_URL as
+		outerUrl,POINT_TOPIC as
+		pointTopic,POINT_REPLY as
+		pointReply,POINT_PRIME as
+		pointPrime,
+		point_Available as pointAvailable,
+		TOPIC_LOCK_LIMIT as
+		topicLockLimit,moderators ,group_views as
+		groupViews ,group_topics as
+		groupTopics,group_replies as groupReplies
+		from bbs_forum where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Forum">
+		select *
+		from bbs_forum
+	</select>
+
+	<select id="queryByCategoryId" resultType="Forum" parameterType="java.lang.Integer">
+				select  f.ID,f.TITLE, f.TOPIC_TOTAL as topicTotal, f.POST_TOTAL as postTotal,
+		 f.POST_TODAY as postToday, 
+		 f.CATEGORY_ID as categoryId, f.replyer_id as replyerId,
+		 u.username, t.TITLE as postTitle, f.LAST_TIME as lastTime,
+		f.post_id as postId
+		  from bbs_forum f
+		left join bbs_topic t on f.POST_ID = t.ID
+		left join sys_user u on f.replyer_id = u.ID
+		where
+		CATEGORY_ID = #{categoryId}
+		order by f.priority
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from bbs_forum
+	</select>
+
+	<insert id="insert" parameterType="Forum">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	
+		INSERT INTO
+		bbs_forum(CATEGORY_ID,SITE_ID,PATH,TITLE,DESCRIPTION,KEYWORDS,
+		FORUM_RULE,PRIORITY,OUTER_URL,POINT_TOPIC,POINT_REPLY,POINT_PRIME,POINT_AVAILABLE,
+		TOPIC_LOCK_LIMIT,moderators,group_views,group_topics,group_replies)
+		VALUES (#{categoryId}, #{siteId}, #{path}, #{title}, #{description},
+		#{keywords}, #{forumRule}, #{priority},
+		#{outerUrl}, #{pointTopic},
+		#{pointReply}, #{pointPrime}, #{pointAvailable}, #{topicLockLimit},
+		#{moderators},#{groupViews},#{groupTopics},#{groupReplies})
+	</insert>
+
+	<update id="update" parameterType="Forum">
+		update bbs_forum set
+		ID = #{id}
+		<if test="siteId!=null and siteId!=''">
+			,SITE_ID=#{siteId}
+		</if>
+		<if test="path!=null and path!=''">
+			,PATH=#{path}
+		</if>
+		<if test="title!=null and title!=''">
+			,TITLE=#{title}
+		</if>
+		<if test="description!=null and description!=''">
+			,DESCRIPTION=#{description}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,KEYWORDS=#{keywords}
+		</if>
+		<if test="forumRule!=null and forumRule!=''">
+			,FORUM_RULE=#{forumRule}
+		</if>
+		<if test="priority!=null and priority!=''">
+			,PRIORITY=#{priority}
+		</if>
+		<if test="outerUrl!=null and outerUrl!=''">
+			,OUTER_URL=#{outerUrl}
+		</if>
+		<if test="pointTopic!=null and pointTopic!=''">
+			,POINT_TOPIC=#{pointTopic}
+		</if>
+		<if test="pointReply!=null and pointReply!=''">
+			,POINT_REPLY=#{pointReply}
+		</if>
+		<if test="pointPrime!=null and pointPrime!=''">
+			,POINT_PRIME=#{pointPrime}
+		</if>
+		<if test="pointAvailable!=null and pointAvailable!=''">
+			,POINT_AVAILABLE=#{pointAvailable}
+		</if>
+		<if test="topicLockLimit!=null and topicLockLimit!=''">
+			,TOPIC_LOCK_LIMIT=#{topicLockLimit}
+		</if>
+		<if test="moderators!=null and moderators!=''">
+			,moderators=#{moderators}
+		</if>
+		<if test="groupViews!=null and groupViews!=''">
+			,group_views=#{groupViews}
+		</if>
+		<if test="groupTopics!=null and groupTopics!=''">
+			,group_topics=#{groupTopics}
+		</if>
+		<if test="groupReplies!=null and groupReplies!=''">
+			,group_replies=#{groupReplies}
+		</if>
+		<if test="topicTotal!=null and topicTotal!=''">
+			,TOPIC_TOTAL=TOPIC_TOTAL+1
+		</if>
+		<if test="postTotal!=null and postTotal!=''">
+			,POST_TOTAL=POST_TOTAL+1
+		</if>
+		<if test="postId!=null and postId!=''">
+			,POST_ID=#{postId}
+		</if>
+		<if test="postToday!=null and postToday!=''">
+			,POST_TODAY=POST_TODAY+1
+		</if>
+		<if test="replyerId!=null and replyerId!=''">
+			,replyer_id=#{replyerId}
+		</if>
+		<if test="lastTime!=null and lastTime!=''">
+			,LAST_TIME=#{lastTime}
+		</if>
+		
+		where id=#{id}
+	</update>
+
+	<update id="updateForumToday" parameterType="Forum">
+		update bbs_forum set POST_TOTAL = 0
+	</update>
+
+	<delete id="deleteById">
+		delete from bbs_forum where id = #{id}
+	</delete>
+
+</mapper>

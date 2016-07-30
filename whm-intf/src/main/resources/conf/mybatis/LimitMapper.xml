@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.LimitMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Limit">
+		select
+		id,
+		ip,
+		user_id as userId,
+		username,
+		remark,
+		creator,
+		createTime,
+		lastUpdate
+		from sys_limit where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Limit">
+		select
+		id,
+		ip,
+		user_id as userId,
+		username,
+		remark,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		sys_limit
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_limit
+	</select>
+
+	<insert id="insert" parameterType="Limit">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_limit(
+		ip,
+		user_id,
+		username,
+		remark,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{ip},#{userId},#{username},
+		#{remark},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="Limit">
+		update sys_limit set
+		user_id=0
+		<if test="ip!=null and ip!=''">
+			,ip=#{ip}
+		</if>
+		<if test="username!=null and username!=''">
+			,username=#{username}
+		</if>
+		<if test="remark!=null and remark!=''">
+			,remark=#{remark}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+
+	</update>
+
+	<delete id="deleteById">
+		delete from sys_limit where id = #{id}
+	</delete>
+
+</mapper>

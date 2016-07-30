@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.forum.ForumGroupOptMapper">
+
+	<insert id="insert" parameterType="ForumGroupOpt">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	
+		insert into
+		bbs_forum_group_opt(GROUP_ID, GROUP_NAME,
+		FORUM_ID,TYPE,CREATOR,CREATETIME,LASTUPDATE)
+		VALUES(#{groupId},#{groupName},#{forumId},#{type},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<delete id="cleanByForumId">
+		delete from
+		bbs_forum_group_opt where forum_id =
+		#{forumId}
+	</delete>
+
+	<select id="queryByForumId" parameterType="PageModel"
+		resultType="ForumGroupOpt">
+		select id, group_id as groupId, group_name as groupName,
+		forum_id as forumId, type from bbs_forum_group_opt where forum_id =
+		#{forumId}
+	</select>
+
+	<select id="queryByForumIdAndType" resultType="ForumGroupOpt">
+		select id,
+		group_id as groupId, group_name as groupName, forum_id as forumId,
+		type from bbs_forum_group_opt where forum_id =
+		#{forumId} and type =
+		#{type}
+	</select>
+
+	<delete id="deleteById">
+		delete from bbs_forum_group_opt where id = #{id}
+	</delete>
+</mapper>

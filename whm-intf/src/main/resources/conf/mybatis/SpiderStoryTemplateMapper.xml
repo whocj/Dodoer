@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.spider.SpiderStoryTemplateMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="SpiderStoryTemplate">
+		select
+		id,
+		name,
+		userId,
+		username,
+		titleXPath,
+		authorXPath,
+		outlineXPath,
+		picPathXPath,
+		detailXPath,
+		detailTitleXPath,
+		detailContentXPath,
+		nextXPath,
+		detailNextXPath,
+		execModel,
+		filterWord,
+		filterItem,
+		creator,
+		createTime,
+		lastUpdate
+		from
+		spider_story_template where id =
+		#{id}
+	</select>	
+
+	<select id="list" parameterType="PageModel" resultType="SpiderStoryTemplate">
+		select
+		id,
+		name,
+		userId,
+		username,
+		titleXPath,
+		authorXPath,
+		outlineXPath,
+		picPathXPath,
+		detailXPath,
+		detailTitleXPath,
+		detailContentXPath,
+		nextXPath,
+		detailNextXPath,
+		execModel,
+		filterWord,
+		filterItem,
+		creator,
+		createTime,
+		lastUpdate
+		from spider_story_template
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		spider_story_template
+	</select>
+
+	<insert id="insert" parameterType="SpiderStoryTemplate">
+	
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into spider_story_template(
+		name,
+		userId,
+		username,
+		titleXPath,
+		authorXPath,
+		outlineXPath,
+		picPathXPath,
+		detailXPath,
+		detailTitleXPath,
+		detailContentXPath,
+		nextXPath,
+		detailNextXPath,
+		execModel,
+		filterWord,
+		filterItem,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{name},#{userId},#{username},#{titleXPath},#{authorXPath},#{outlineXPath},#{picPathXPath},
+		#{detailXPath},#{detailTitleXPath},#{detailContentXPath},#{nextXPath},#{detailNextXPath},#{execModel},#{filterWord},
+		#{filterItem},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="SpiderStoryTemplate">
+		update spider_story_template set
+		id=#{id}
+		<if test="name!=null and name!=''">
+			,name=#{name}
+		</if>
+		<if test="titleXPath!=null and titleXPath!=''">
+			,titleXPath=#{titleXPath}
+		</if>
+		<if test="authorXPath!=null and authorXPath!=''">
+			,authorXPath=#{authorXPath}
+		</if>
+		<if test="outlineXPath!=null and outlineXPath!=''">
+			,outlineXPath=#{outlineXPath}
+		</if>
+		<if test="picPathXPath!=null and picPathXPath!=''">
+			,picPathXPath=#{picPathXPath}
+		</if>
+		<if test="detailXPath!=null and detailXPath!=''">
+			,detailXPath=#{detailXPath}
+		</if>
+		<if test="detailTitleXPath!=null and detailTitleXPath!=''">
+			,detailTitleXPath=#{detailTitleXPath}
+		</if>
+		<if test="detailContentXPath!=null and detailContentXPath!=''">
+			,detailContentXPath=#{detailContentXPath}
+		</if>
+		<if test="nextXPath!=null and nextXPath!=''">
+			,nextXPath=#{nextXPath}
+		</if>
+		<if test="detailNextXPath!=null and detailNextXPath!=''">
+			,detailNextXPath=#{detailNextXPath}
+		</if>
+		<if test="execModel!=null and execModel!=''">
+			,execModel=#{execModel}
+		</if>
+		<if test="filterWord!=null and filterWord!=''">
+			,filterWord=#{filterWord}
+		</if>
+		<if test="filterItem!=null and filterItem!=''">
+			,filterItem=#{filterItem}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from spider_story_template where id = #{id}
+	</delete>
+
+</mapper>

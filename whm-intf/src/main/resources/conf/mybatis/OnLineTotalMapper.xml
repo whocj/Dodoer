@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.sys.OnLineTotalMapper">
+
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="OnLineTotal">
+		select
+		ID,
+		user_id,
+		username,
+		online_latest,
+		online_day,
+		online_week,
+		online_month,
+		online_year,
+		online_total,
+		creator,
+		createTime,
+		lastUpdate
+
+		from sys_online_total where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Site">
+		select
+
+		from sys_online_total
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from
+		sys_online_total
+	</select>
+
+	<insert id="insert" parameterType="OnLineTotal">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into sys_online_total(
+		)
+		values(#{name},#{domain},#{contextPath},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="OnLineTotal">
+		update sys_online_total set
+		id=#{id}
+		<if test="name!=null and name!=''">
+			,name=#{name}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from sys_online_total where id = #{id}
+	</delete>
+
+</mapper>
