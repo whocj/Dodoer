@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:p="http://cxf.apache.org/policy" xmlns:ss="http://www.springframework.org/schema/security"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+   	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+   	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+   	http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+   	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+   	http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+   	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+   	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<!-- 	<jee:jndi-lookup id="dataSource" jndi-name="$[dataSourceJNDI]" proxy-interface="javax.sql.DataSource" lookup-on-startup="false"/> -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="$[jdbc.driverClassName]" />
+		<property name="url" value="$[jdbc.url]" />
+		<property name="username" value="$[jdbc.username]" />
+		<property name="password" value="$[jdbc.password]" />
+	</bean>
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用MapperScannerConfigurer和SqlSessionFactoryBean无法lazy-init -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:conf/mybatis.xml" />
+		<property name="plugins">
+			<array>
+				<bean class="com.summer.whm.common.PageInterceptor" />
+				<!-- sql性能监控插件，实际生产环境不建议使用 -->
+				<bean class="com.summer.whm.common.PerformanceInterceptor" />
+			</array>
+		</property>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.summer.whm.mapper" />
+<!-- 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /> -->
+			<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- 此处注意:由于lucene索引aop需要和数据库协作, 这里调高数据库事务优先级(保证数据库事务代码在其他需要协作的aop代码之前执行) -->
+	<tx:annotation-driven transaction-manager="txManager"
+		order="2" />
+
+</beans>
