@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.suning.framework</groupId>
+		<artifactId>snf-parent</artifactId>
+		<version>2.2.0</version>
+	</parent>
+	<groupId>com.suning.whm</groupId>
+	<artifactId>whm-pom</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>whm-pom</name>
+
+	<!-- profiles: 目前主要是对web项目中的静态资源进行过滤，如果你的静态资源中有变量需要，请删除这一段 -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<filters>
+					<filter>../${project.parent.artifactId}/vars/vars.dev.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>pre</id>
+			<build>
+				<filters>
+					<filter>../${project.parent.artifactId}/vars/vars.pre.properties</filter>
+				</filters>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+				<filters>
+					<filter>../${project.parent.artifactId}/vars/vars.prod.properties</filter>
+				</filters>
+			</build>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+<!-- 			<plugin> -->
+<!-- 	        <groupId>org.eclipse.jetty</groupId> -->
+<!-- 	        <artifactId>jetty-maven-plugin</artifactId> -->
+<!-- 	        <version>9.2.6.v20141205</version> -->
+<!-- 	        <configuration> -->
+<!-- 	          <httpConnector> -->
+<!-- 	            <port>8080</port> -->
+<!-- 	          </httpConnector> -->
+<!-- 	          <reload>automatic</reload> -->
+<!-- 	          <scanIntervalSeconds>20</scanIntervalSeconds> -->
+<!-- 	          <webApp> -->
+<!-- 	            <contextPath>/</contextPath> -->
+<!-- 	          </webApp> -->
+<!-- 	        </configuration> -->
+<!-- 	      </plugin> -->
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- war plugin config: 对静态资源进行过滤，替换变量。 如果你不需要，请移除这一段 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<warName>${project.artifactId}</warName>
+						<webResources>
+							<resource>
+								<directory>src/main/webapp</directory>
+								<filtering>true</filtering>
+								<includes>
+									<include>**/*.html</include>
+									<include>**/*.js</include>
+									<include>**/*.css</include>
+								</includes>
+							</resource>
+						</webResources>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>${basedir}/src/test/resources</directory>
+			</testResource>
+		</testResources>
+	</build>
+
+	<modules>
+		<module>../whm-intf</module>
+		<module>../whm-service</module>
+		<module>../whm-spider</module>
+		<module>../whm-web-in</module>
+<!-- 		<module>../whm-web</module> -->
+<!-- 		<module>../whm-blog-web</module> -->
+<!-- 		<module>../whm-ask-web</module> -->
+	</modules>
+	<properties>
+		<spring-version>3.1.2.RELEASE</spring-version>
+	</properties>
+</project>
