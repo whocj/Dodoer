@@ -2,13 +2,19 @@ package com.summer.whm.spider.crawl;
 
 import com.summer.whm.entiry.spider.DetailTemplate;
 import com.summer.whm.entiry.spider.ListTemplate;
+import com.summer.whm.entiry.spider.SpiderStoryJob;
+import com.summer.whm.entiry.spider.SpiderStoryTemplate;
 import com.summer.whm.service.post.PostService;
 import com.summer.whm.service.post.PostTextService;
 import com.summer.whm.service.post.TopicService;
 import com.summer.whm.service.search.SearchPostService;
+import com.summer.whm.service.stroy.StoryDetailService;
+import com.summer.whm.service.stroy.StoryInfoService;
+import com.summer.whm.service.stroy.StoryPartService;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.parse.ParseDetailTask;
 import com.summer.whm.spider.parse.ParseListTask;
+import com.summer.whm.spider.parse.ParseStoryTask;
 import com.summer.whm.spider.service.CrawInfoService;
 
 public class Crawl {
@@ -24,8 +30,31 @@ public class Crawl {
     private SpiderContext spiderContext;
 
     private SearchPostService searchPostService;
-    
+
+    private StoryInfoService storyInfoService;
+
+    private StoryPartService storyPartService;
+
+    private StoryDetailService storyDetailService;
+
     public Crawl() {
+
+    }
+
+    public Crawl(SpiderContext spiderContext, CrawInfoService crawInfoService, SearchPostService searchPostService) {
+        super();
+        this.spiderContext = spiderContext;
+        this.crawInfoService = crawInfoService;
+        this.searchPostService = searchPostService;
+    }
+
+    public Crawl(SpiderContext spiderContext, CrawInfoService crawInfoService, StoryInfoService storyInfoService,
+            StoryPartService storyPartService, StoryDetailService storyDetailService) {
+        super();
+        this.spiderContext = spiderContext;
+        this.storyInfoService = storyInfoService;
+        this.storyPartService = storyPartService;
+        this.storyDetailService = storyDetailService;
     }
 
     public Crawl(SpiderContext spiderContext, TopicService topicService, PostService postService,
@@ -150,6 +179,31 @@ public class Crawl {
 
         return spiderContext;
     }
+
+    public SpiderContext initShuyuewuContext() {
+        SpiderContext spiderContext = new SpiderContext();
+        
+        SpiderStoryTemplate spiderStoryTemplate = new SpiderStoryTemplate();
+        spiderStoryTemplate.setTitleXPath("//div[@id='info']/h1");
+        spiderStoryTemplate.setAuthorXPath("//div[@id='info']/p");
+        spiderStoryTemplate.setOutlineXPath("//div[@id='intro']/p");
+        spiderStoryTemplate.setDetailXPath("//div[@id='list']/dl/dd/a");
+        spiderStoryTemplate.setPicPathXPath("//div[@id='fmimg']/img");
+        
+        spiderStoryTemplate.setDetailTitleXPath("//div[@class='bookname']/h1");
+        spiderStoryTemplate.setDetailContentXPath("//div[@id='content']");
+        
+        spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
+        
+        SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
+        spiderStoryJob.setTemplateId(1);
+        spiderStoryJob.setCategoryId(10);
+        spiderStoryJob.setTitle("超强导航仪");
+        spiderStoryJob.setUrl("http://www.shuyuewu.com/kan_75582/");
+        spiderContext.setSpiderStoryJob(spiderStoryJob);
+        
+        return spiderContext;
+    }
     
     public void start() {
 
@@ -161,7 +215,8 @@ public class Crawl {
         parseListTask = new ParseListTask(spiderContext);
         new Thread(parseListTask).start();
         // for (int i = 0; i < Configs.PARSE_THREAD_SIZE; i++) {
-        parseDetailTask = new ParseDetailTask(spiderContext, topicService, postService, postTextService, searchPostService);
+        parseDetailTask = new ParseDetailTask(spiderContext, topicService, postService, postTextService,
+                searchPostService);
         new Thread(parseDetailTask).start();
         // }
 
@@ -172,24 +227,42 @@ public class Crawl {
         }
     }
 
+    public void startStory() {
+
+        crawlTask = new CrawlTask(spiderContext, crawInfoService);
+        Thread thread = new Thread(crawlTask);
+        thread.start();
+
+        ParseStoryTask parseStoryTask = new ParseStoryTask(spiderContext, storyInfoService, storyPartService,
+                storyDetailService);
+        new Thread(parseStoryTask).start();
+
+        try {
+            spiderContext.getUrlQueue().put(
+                    new CrawlElement(spiderContext.getSpiderStoryJob().getUrl(), CrawlType.StoryInfo));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private CrawlTask crawlTask = null;
     private ParseListTask parseListTask = null;
     private ParseDetailTask parseDetailTask = null;
 
     public void stop() {
-        if(crawlTask != null){
+        if (crawlTask != null) {
             crawlTask.stop();
         }
     }
 
     public void pause() {
-        if(crawlTask != null){
+        if (crawlTask != null) {
             crawlTask.pause();
         }
     }
 
     public void reStart() {
-        if(crawlTask != null){
+        if (crawlTask != null) {
             crawlTask.reStart();
         }
     }
@@ -203,7 +276,9 @@ public class Crawl {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
+        Crawl crawl = new Crawl();
+        crawl.setSpiderContext(crawl.initShuyuewuContext());
+        crawl.startStory();
     }
 
 }

@@ -1,5 +1,5 @@
 package com.summer.whm.spider.crawl;
 
 public enum CrawlType {
-    List, Detail, End
+    List, Detail, End, StoryInfo, StoryDetail
 }

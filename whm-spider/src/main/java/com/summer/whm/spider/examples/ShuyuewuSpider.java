@@ -41,11 +41,10 @@ public class ShuyuewuSpider {
             webclient.setThrowExceptionOnScriptError(false);
             webclient.setTimeout(3000);
             
-            final HtmlPage htmlpage = webclient.getPage("http://www.shuyuewu.com/kan_75582/13721033.html");
-            String result = htmlpage.asXml();
+            final HtmlPage htmlpage = webclient.getPage("http://www.shuyuewu.com/kan_75582/");
             final HtmlDivision div = (HtmlDivision) htmlpage.getByXPath("//div[@id='list']").get(0);
             
-            List<HtmlAnchor> anchorList   = (List<HtmlAnchor>)div.getByXPath("//dl/dd/a");
+            List<HtmlAnchor> anchorList   = (List<HtmlAnchor>)div.getByXPath("//div[@id='list']/dl/dd/a");
             for(HtmlAnchor htmlAnchor : anchorList){
                 System.out.println(htmlAnchor.getTextContent() + " url=" +htmlAnchor.getAttribute("href"));
             }
