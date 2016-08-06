@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.ProxyConfig;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.configs.GlobalConfigHolder;
@@ -15,6 +16,7 @@ import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.client.WebClientPool;
 import com.summer.whm.spider.parse.ParseDetailElement;
 import com.summer.whm.spider.parse.ParseListELement;
+import com.summer.whm.spider.parse.ParseStoryElement;
 import com.summer.whm.spider.service.CrawInfoService;
 
 public class CrawlTask implements Runnable {
@@ -26,7 +28,7 @@ public class CrawlTask implements Runnable {
 
     private Object obj = new Object();
     private int status = 0;// 0默认，1运行，2暂停，99停止
-    
+
     public CrawlTask(SpiderContext spiderContext, CrawInfoService crawInfoService) {
         this.spiderContext = spiderContext;
         initWebClient();
@@ -35,7 +37,11 @@ public class CrawlTask implements Runnable {
 
     public void initWebClient() {
         for (int i = 0; i < SpiderConfigs.WEBCLIENT_COUNT; i++) {
-            webclient[i] = new WebClient(BrowserVersion.FIREFOX_3, "10.19.110.31", 8080);
+            webclient[i] = new WebClient(BrowserVersion.FIREFOX_3);
+            ProxyConfig proxyConfig = new ProxyConfig();
+            proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+            webclient[i].setProxyConfig(proxyConfig);
+            
             webclient[i].setThrowExceptionOnScriptError(false);
             webclient[i].setThrowExceptionOnFailingStatusCode(false);
             webclient[i].setJavaScriptEnabled(false);
@@ -53,6 +59,7 @@ public class CrawlTask implements Runnable {
             BlockingQueue<CrawlElement> urlQueue = spiderContext.getUrlQueue();
             BlockingQueue<ParseDetailElement> parseDetailQueue = spiderContext.getParseDetailQueue();
             BlockingQueue<ParseListELement> parseListQueue = spiderContext.getParseListQueue();
+            BlockingQueue<ParseStoryElement> parseStoryQueue = spiderContext.getParseStoryQueue();
 
             CrawlElement crawlElement = null;
             HtmlPage htmlPage = null;
@@ -72,20 +79,25 @@ public class CrawlTask implements Runnable {
                         obj.wait();
                     }
 
-                    if (CrawlType.Detail.equals(crawlElement.getType())) {
-                        if (isCraw(crawlElement.getUrl())) {
-                            insertDB(crawlElement.getUrl());
-                        } else {
-                            continue;
-                        }
-                    }
-                    Thread.sleep(GlobalConfigHolder.SPIDER_SLEEP_TIME);//休息1秒钟
+//                    if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
+//                        if (isCraw(crawlElement.getUrl())) {
+//                            insertDB(crawlElement.getUrl());
+//                        } else {
+//                            continue;
+//                        }
+//                    }
+                    
+                    Thread.sleep(GlobalConfigHolder.SPIDER_SLEEP_TIME);// 休息1秒钟
                     htmlPage = crawl(crawlElement.getUrl());
                     if (htmlPage != null) {
                         if (CrawlType.Detail.equals(crawlElement.getType())) {
                             parseDetailQueue.put(new ParseDetailElement(htmlPage));
                         } else if (CrawlType.List.equals(crawlElement.getType())) {
                             parseListQueue.put(new ParseListELement(htmlPage));
+                        } else if (CrawlType.StoryInfo.equals(crawlElement.getType())) {
+                            parseStoryQueue.put(new ParseStoryElement(false, htmlPage));
+                        } else if (CrawlType.StoryDetail.equals(crawlElement.getType())) {
+                            parseStoryQueue.put(new ParseStoryElement(true, htmlPage));
                         }
                     } else {
                         System.out.println("Null-URL:" + crawlElement.getUrl());
@@ -97,16 +109,16 @@ public class CrawlTask implements Runnable {
         }
     }
 
-    private void clean(){
+    private void clean() {
         spiderContext.getUrlQueue().clear();
         spiderContext.getParseDetailQueue().clear();
         spiderContext.getParseListQueue().clear();
     }
-    
+
     public void stop() {
         try {
             clean();
-            if(status == SpiderContext.THREAD_STATUS_PAUSE){
+            if (status == SpiderContext.THREAD_STATUS_PAUSE) {
                 reStart();
             }
             spiderContext.getUrlQueue().put(new CrawlElement(CrawlType.End));
@@ -145,7 +157,8 @@ public class CrawlTask implements Runnable {
 
     public void insertDB(String url) {
         try {
-            crawInfoService.insert(new CrawInfo(url, spiderContext.getCrawTemplate().getId(), spiderContext.getCrawLog().getId()));
+            crawInfoService.insert(new CrawInfo(url, spiderContext.getCrawTemplate().getId(), spiderContext
+                    .getCrawLog().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

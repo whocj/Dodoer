@@ -1,6 +1,7 @@
 package com.summer.whm.spider.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -305,7 +306,33 @@ public class CustomerHttpClient {
         }
         return result;
     }
+    
+    public static HttpResp getResponse(String url, ClientName clientName) {
+        HttpResp resp = new HttpResp();
+        
+        try {
+            // log.error("请求" + url);
+            HttpGet httpget = new HttpGet(url);
+            addKeepAliveHeader(httpget);
 
+            HttpResponse response = getHttpClient(clientName).execute(httpget);
+            HttpEntity httpEntity = response.getEntity();
+            if (httpEntity != null) {
+                resp.setIs(httpEntity.getContent());
+                resp.setContentType(httpEntity.getContentType());
+                resp.setContentLength(httpEntity.getContentLength());
+                resp.setContentEncoding(httpEntity.getContentEncoding());
+                resp.setCode("200");
+            }
+        } catch (Exception e) {
+            if (SpiderConfigs.ENABLE_FAIL_LOG == 1) {
+                log.error("请求数据失败" + e.getMessage() + "url:" + url);
+            }
+            resp.setCode("500");
+        }
+        return resp;
+    }
+    
     public static void addKeepAliveHeader(HttpGet httpget) {
         if (SpiderConfigs.DEFALUT_KEEP_ALIVE == SpiderConfigs.HTTP_CLINET_KEEP_ALIVE) {
 
