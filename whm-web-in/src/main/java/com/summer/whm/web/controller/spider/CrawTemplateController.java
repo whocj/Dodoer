@@ -16,6 +16,7 @@ import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.forum.Forum;
 import com.summer.whm.entiry.spider.CrawTemplate;
 import com.summer.whm.service.forum.ForumService;
+import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.service.CrawTemplateService;
 import com.summer.whm.spider.service.CrawlService;
 import com.summer.whm.web.controller.BaseController;
@@ -84,21 +85,21 @@ public class CrawTemplateController extends BaseController {
     @RequestMapping("/start")
     public String start(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
             ModelMap model) {
-        crawlService.start(id, this.getSessionUser(request));
+        crawlService.start(id,  this.getSessionUser(request));
         return "redirect:list.htm";
     }
 
     @RequestMapping("/pause")
     public String pause(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
             ModelMap model) {
-        crawlService.pause(id, this.getSessionUser(request));
+        crawlService.pause(id,SpiderConfigs.DOMAIN_TYPE_TOPIC, this.getSessionUser(request));
         return "redirect:list.htm";
     }
 
     @RequestMapping("/stop")
     public String stop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
             ModelMap model) {
-        crawlService.stop(id, this.getSessionUser(request));
+        crawlService.stop(id, SpiderConfigs.DOMAIN_TYPE_TOPIC, this.getSessionUser(request));
         return "redirect:list.htm";
     }
 }
