@@ -12,6 +12,7 @@
 		beginTime,
 		endTime,
 		status,
+		type,
 		log,
 		creator,
 		createTime,
@@ -29,6 +30,7 @@
 		beginTime,
 		endTime,
 		status,
+		type,
 		log,
 		creator,
 		createTime,
@@ -52,12 +54,13 @@
 		beginTime,
 		endTime,
 		status,
+		type,
 		log,
 		creator,
 		createTime,
 		lastUpdate
 		)
-		values(#{crawTemplateId},#{beginTime},#{endTime},#{status},#{log},#{creator},#{createTime},
+		values(#{crawTemplateId},#{beginTime},#{endTime},#{status},#{type},#{log},#{creator},#{createTime},
 		#{lastUpdate})
 	</insert>
 

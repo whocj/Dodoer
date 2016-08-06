@@ -6,6 +6,7 @@ public class SpiderStoryJob extends BaseEntity {
 
     private Integer templateId;
     private Integer categoryId;
+    private String categoryName;
     private Integer storyId;
     private Integer userId;
 
@@ -14,8 +15,25 @@ public class SpiderStoryJob extends BaseEntity {
     private String url;
     private String title;
     private String status;
+    private String spiderStatus;
     private String qtRule;
     
+    public String getSpiderStatus() {
+        return spiderStatus;
+    }
+
+    public void setSpiderStatus(String spiderStatus) {
+        this.spiderStatus = spiderStatus;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }

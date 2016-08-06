@@ -11,6 +11,17 @@ public class CrawLog extends BaseEntity {
     private Date endTime;
     private String status;
     private String log;
+    
+    //BBS,Story
+    private String type;
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Integer getCrawTemplateId() {
         return crawTemplateId;
