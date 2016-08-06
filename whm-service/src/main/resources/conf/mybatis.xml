@@ -56,12 +56,17 @@
 	<typeAlias alias="ChatsUserReta" type="com.summer.whm.entiry.chats.ChatsUserReta" />
 	<typeAlias alias="ChatsKeys" type="com.summer.whm.entiry.chats.ChatsKeys" />
 	
+	<!-- 小说 -->
 	<typeAlias alias="Notice" type="com.summer.whm.entiry.sys.Notice" />
 	<typeAlias alias="StoryDetail" type="com.summer.whm.entiry.story.StoryDetail" />
 	<typeAlias alias="StoryInfo" type="com.summer.whm.entiry.story.StoryInfo" />
 	<typeAlias alias="StoryPart" type="com.summer.whm.entiry.story.StoryPart" />
 	<typeAlias alias="StoryUserBookshelf" type="com.summer.whm.entiry.story.StoryUserBookshelf" />
 	<typeAlias alias="StoryUserRead" type="com.summer.whm.entiry.story.StoryUserRead" />
+	
+	<!-- 小说爬虫 -->
+	<typeAlias alias="SpiderStoryTemplate" type="com.summer.whm.entiry.spider.SpiderStoryTemplate" />
+	<typeAlias alias="SpiderStoryJob" type="com.summer.whm.entiry.spider.SpiderStoryJob" />
   </typeAliases>
 
   <mappers>
@@ -121,5 +126,7 @@
 	<mapper resource="conf/mybatis/StoryUserBookshelfMapper.xml" />
 	<mapper resource="conf/mybatis/StoryUserReadMapper.xml" />
 
+	<mapper resource="conf/mybatis/SpiderStoryTemplateMapper.xml" />
+	<mapper resource="conf/mybatis/SpiderStoryJobMapper.xml" />
   </mappers>
 </configuration>
