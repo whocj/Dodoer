@@ -30,6 +30,8 @@ public class SpiderContext {
     public static final int THREAD_STATUS_ERROR = 3;
     public static final int THREAD_STATUS_STOP = 99;
     
+    private String type;
+    
     private CrawLog crawLog;
     private CrawTemplate crawTemplate;
     private DetailTemplate detailTemplate;
@@ -43,6 +45,19 @@ public class SpiderContext {
     
     private boolean isDone = false;
     
+    public SpiderContext(String type) {
+        super();
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public boolean isDone() {
         return isDone;
     }
@@ -121,5 +136,14 @@ public class SpiderContext {
 
     public BlockingQueue<ParseStoryElement> getParseStoryQueue() {
         return parseStoryQueue;
+    }
+    
+    public Integer getTemplateId(){
+        if(SpiderConfigs.DOMAIN_TYPE_STORY.equals(this.getType())){
+            return this.getSpiderStoryJob().getId();
+        }else if(SpiderConfigs.DOMAIN_TYPE_TOPIC.equals(this.getType())){
+            return this.getCrawTemplate().getId();
+        }
+        return null;
     }
 }

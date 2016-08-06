@@ -38,9 +38,9 @@ public class CrawlTask implements Runnable {
     public void initWebClient() {
         for (int i = 0; i < SpiderConfigs.WEBCLIENT_COUNT; i++) {
             webclient[i] = new WebClient(BrowserVersion.FIREFOX_3);
-            ProxyConfig proxyConfig = new ProxyConfig();
-            proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-            webclient[i].setProxyConfig(proxyConfig);
+//            ProxyConfig proxyConfig = new ProxyConfig();
+//            proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+//            webclient[i].setProxyConfig(proxyConfig);
             
             webclient[i].setThrowExceptionOnScriptError(false);
             webclient[i].setThrowExceptionOnFailingStatusCode(false);
@@ -72,6 +72,7 @@ public class CrawlTask implements Runnable {
                         spiderContext.setDone(true);
                         parseDetailQueue.put(new ParseDetailElement(true));
                         parseListQueue.put(new ParseListELement(true));
+                        parseStoryQueue.put(new ParseStoryElement(true));
                         return;
                     }
 
@@ -79,13 +80,13 @@ public class CrawlTask implements Runnable {
                         obj.wait();
                     }
 
-//                    if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
-//                        if (isCraw(crawlElement.getUrl())) {
-//                            insertDB(crawlElement.getUrl());
-//                        } else {
-//                            continue;
-//                        }
-//                    }
+                    if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
+                        if (isCraw(crawlElement.getUrl())) {
+                            insertDB(crawlElement.getUrl());
+                        } else {
+                            continue;
+                        }
+                    }
                     
                     Thread.sleep(GlobalConfigHolder.SPIDER_SLEEP_TIME);// 休息1秒钟
                     htmlPage = crawl(crawlElement.getUrl());
@@ -157,7 +158,7 @@ public class CrawlTask implements Runnable {
 
     public void insertDB(String url) {
         try {
-            crawInfoService.insert(new CrawInfo(url, spiderContext.getCrawTemplate().getId(), spiderContext
+            crawInfoService.insert(new CrawInfo(url, spiderContext.getTemplateId(), spiderContext
                     .getCrawLog().getId()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +168,6 @@ public class CrawlTask implements Runnable {
     public boolean isCraw(String url) {
         try {
             CrawInfo info = crawInfoService.queryByUrl(url);
-
             if (info == null) {
                 return true;
             } else {

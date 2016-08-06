@@ -40,5 +40,23 @@ public class SpiderConfigs {
     
     //当自定义重用策略时，空闲链接存活时间 默认300 单位秒
     public static int SPECIFIED_KEEP_ALIIVE_DUR = 300;
+    
+    public static String DOMAIN_TYPE_QUESTION = "question";
+    
+    public static String DOMAIN_TYPE_TOPIC = "topic";
+    
+    public static String DOMAIN_TYPE_BLOG = "blog";
+    
+    public static String DOMAIN_TYPE_STORY = "story";
+    
+    public static final String STATUS_DEFAULT = "Default";
+
+    public static final String STATUS_WAIT = "Wait";
+    
+    public static final String STATUS_RUN = "Run";
+
+    public static final String STATUS_STOP = "Stop";
+
+    public static final String STATUS_ERROR = "Error";
 
 }

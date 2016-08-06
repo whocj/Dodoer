@@ -14,6 +14,11 @@ public class ParseStoryElement {
         super();
     }
 
+    public ParseStoryElement(boolean isEnd) {
+        super();
+        this.isEnd = isEnd;
+    }
+    
     public ParseStoryElement(HtmlPage htmlPage) {
         super();
         this.htmlPage = htmlPage;

@@ -5,10 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -18,6 +20,7 @@ import com.summer.whm.entiry.spider.SpiderStoryJob;
 import com.summer.whm.entiry.spider.SpiderStoryTemplate;
 import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.entiry.story.StoryInfo;
+import com.summer.whm.service.search.SearchPostService;
 import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryPartService;
@@ -25,6 +28,7 @@ import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.crawl.CrawlElement;
 import com.summer.whm.spider.crawl.CrawlType;
+import com.summer.whm.spider.service.SpiderStoryJobService;
 import com.summer.whm.spider.store.CrawlStore;
 import com.summer.whm.spider.utils.URLUtil;
 import com.summer.whm.spider.utils.img.Image;
@@ -42,12 +46,16 @@ public class ParseStoryTask implements Runnable {
 
     private StoryDetailService storyDetailService;
 
+    private SpiderStoryJobService spiderStoryJobService;
+
     public ParseStoryTask(SpiderContext spiderContext, StoryInfoService storyInfoService,
-            StoryPartService storyPartService, StoryDetailService storyDetailService) {
+            StoryPartService storyPartService, StoryDetailService storyDetailService,
+            SpiderStoryJobService spiderStoryJobService) {
         this.spiderContext = spiderContext;
         this.storyInfoService = storyInfoService;
         this.storyPartService = storyPartService;
         this.storyDetailService = storyDetailService;
+        this.spiderStoryJobService = spiderStoryJobService;
     }
 
     @Override
@@ -55,6 +63,7 @@ public class ParseStoryTask implements Runnable {
         try {
             boolean done = false;
             BlockingQueue<ParseStoryElement> parseStoryElementQueue = spiderContext.getParseStoryQueue();
+            BlockingQueue<CrawlElement> urlQueue = spiderContext.getUrlQueue();
             ParseStoryElement parseStoryElement = null;
             while (!done) {
                 // 取出队首元素，如果队列为空，则阻塞
@@ -63,6 +72,14 @@ public class ParseStoryTask implements Runnable {
                     synchronized (this) {
                         if (parseStoryElement.isEnd()) {
                             System.out.println(Thread.currentThread().getName() + " Stop.");
+
+                            SpiderStoryJob spiderStoryJob = spiderContext.getSpiderStoryJob();
+
+                            SpiderStoryJob tempJob = new SpiderStoryJob();
+                            tempJob.setId(spiderStoryJob.getId());
+                            tempJob.setSpiderStatus(SpiderConfigs.STATUS_STOP);
+                            spiderStoryJobService.update(spiderStoryJob);
+
                             return;
                         }
 
@@ -75,6 +92,7 @@ public class ParseStoryTask implements Runnable {
                 } catch (Exception e) {
                     System.out.println(parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl());
                     e.printStackTrace();
+                    urlQueue.put(new CrawlElement(CrawlType.End));// 结束抓取数据
                 }
             }
         } catch (Exception e) {
@@ -83,8 +101,6 @@ public class ParseStoryTask implements Runnable {
     }
 
     public void parse(ParseStoryElement parseStoryElement, int current, List<String> list) throws InterruptedException {
-        System.out
-                .println("StoryURL=" + parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl());
         if (parseStoryElement.isDetail()) {
             parseDetail(parseStoryElement);
         } else {
@@ -102,36 +118,9 @@ public class ParseStoryTask implements Runnable {
         storyInfo.setId(spiderStoryJob.getStoryId());
         storyInfo
                 .setCrawlUrl(parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl().toString());
-
-        // 处理明细
-        List<HtmlAnchor> detailAnchorList = (List<HtmlAnchor>) htmlPage.getByXPath(template.getDetailXPath());
-        if (detailAnchorList != null && detailAnchorList.size() > 0) {
-            String href = null;
-            for (HtmlAnchor htmlAnchor : detailAnchorList) {
-                href = htmlAnchor.getAttribute("href");
-                if (href != null) {
-                    if (URLUtil.getHost(href) != null) {
-                        // 校验有站内连接
-                        if (URLUtil.compile(URLUtil.getHost(href), URLUtil.getHost(spiderStoryJob.getUrl()))) {
-                            urlQueue.put(new CrawlElement(href, CrawlType.StoryDetail));
-                        }
-                    } else if (href.startsWith("/")) {
-                        urlQueue.put(new CrawlElement(SpiderConfigs.HTTP_PROTOCOL
-                                + URLUtil.getHost(spiderStoryJob.getUrl()) + href, CrawlType.StoryDetail));
-                    } else {
-                        
-                        if(htmlPage.getWebResponse().getRequestSettings().getUrl().toString().endsWith("/")){
-                            urlQueue.put(new CrawlElement(htmlPage.getWebResponse().getRequestSettings().getUrl() 
-                                    + href, CrawlType.StoryDetail));
-                        }else{
-                            urlQueue.put(new CrawlElement(htmlPage.getWebResponse().getRequestSettings().getUrl() + "/"
-                                    + href, CrawlType.StoryDetail));
-                        }
-                    }
-                }
-            }
-        }
-
+        storyInfo.setCategoryId(spiderStoryJob.getCategoryId());
+        
+        
         if (current == 1) {// 第一页
             if (spiderStoryJob.getStoryId() == null) {// 第一次抓取数据，需要抓取文章基本信息
                 List<HtmlElement> titleElementList = ((List<HtmlElement>) htmlPage.getByXPath(template.getTitleXPath()));// 处理标题
@@ -163,10 +152,57 @@ public class ParseStoryTask implements Runnable {
 
                     String src = picPathElement.getAttribute("src");
                     String url = URLUtil.getHost(spiderStoryJob.getUrl()) + src;
+                    if (!url.startsWith("http")) {
+                        url = SpiderConfigs.HTTP_PROTOCOL + url;
+                    }
                     Image image = ImageService.downloadImgByUrl(url);
-                    if(image != null){
+                    if (image != null) {
                         storyInfo.setPicPath(image.getUrl());
+                    }else{
                         System.out.println("图片下载失败。");
+                    }
+                }
+            }
+        }
+
+        // 保存数据库
+        if (storyInfo != null && storyInfo.isNew()) {
+            storyInfo.setStatus("2");
+            // 保存小说基本信息
+            storyInfoService.save(storyInfo);
+            spiderStoryJob.setStoryId(storyInfo.getId());
+
+            // 更新小说抓取任务数据
+            SpiderStoryJob tempStoryJob = new SpiderStoryJob();
+            tempStoryJob.setId(spiderStoryJob.getId());
+            tempStoryJob.setStoryId(storyInfo.getId());
+            spiderStoryJobService.update(tempStoryJob);
+        }
+
+        // 处理明细
+        List<HtmlAnchor> detailAnchorList = (List<HtmlAnchor>) htmlPage.getByXPath(template.getDetailXPath());
+        if (detailAnchorList != null && detailAnchorList.size() > 0) {
+            String href = null;
+            for (HtmlAnchor htmlAnchor : detailAnchorList) {
+                href = htmlAnchor.getAttribute("href");
+                if (href != null) {
+                    if (URLUtil.getHost(href) != null) {
+                        // 校验有站内连接
+                        if (URLUtil.compile(URLUtil.getHost(href), URLUtil.getHost(spiderStoryJob.getUrl()))) {
+                            urlQueue.put(new CrawlElement(href, CrawlType.StoryDetail));
+                        }
+                    } else if (href.startsWith("/")) {
+                        urlQueue.put(new CrawlElement(SpiderConfigs.HTTP_PROTOCOL
+                                + URLUtil.getHost(spiderStoryJob.getUrl()) + href, CrawlType.StoryDetail));
+                    } else {
+
+                        if (htmlPage.getWebResponse().getRequestSettings().getUrl().toString().endsWith("/")) {
+                            urlQueue.put(new CrawlElement(htmlPage.getWebResponse().getRequestSettings().getUrl()
+                                    + href, CrawlType.StoryDetail));
+                        } else {
+                            urlQueue.put(new CrawlElement(htmlPage.getWebResponse().getRequestSettings().getUrl() + "/"
+                                    + href, CrawlType.StoryDetail));
+                        }
                     }
                 }
             }
@@ -203,8 +239,6 @@ public class ParseStoryTask implements Runnable {
         } else {
             urlQueue.put(new CrawlElement(CrawlType.End));
         }
-
-        System.out.println(storyInfo);
     }
 
     public void parseDetail(ParseStoryElement parseStoryElement) {
@@ -212,7 +246,7 @@ public class ParseStoryTask implements Runnable {
         HtmlPage htmlPage = parseStoryElement.getHtmlPage();
         SpiderStoryTemplate template = spiderContext.getSpiderStoryTemplate();
         SpiderStoryJob spiderStoryJob = spiderContext.getSpiderStoryJob();
-
+        
         List<HtmlElement> titleElementList = ((List<HtmlElement>) htmlPage.getByXPath(template.getDetailTitleXPath()));// 处理标题
         if (titleElementList != null && titleElementList.size() > 0) {
             HtmlElement titleElement = titleElementList.get(0);
@@ -229,22 +263,37 @@ public class ParseStoryTask implements Runnable {
                 .getDetailContentXPath()));// 处理内容
         if (contentElementList != null && contentElementList.size() > 0) {
             HtmlElement contentElement = contentElementList.get(0);
-                                                                                                                                                                                                     
+
             String xml = contentElement.asXml().replaceAll("【\\?书\\?阅☆屋\\?www.shuyuewu.com】", "【多多儿#www.dodoer.com】");
             xml = xml.replaceAll("m.shuyuewu.com", "m.dodoer.com");
-            xml = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(xml, "www.shuyuewu.com", "www.dodoer.com");
+            xml = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(xml, "www.shuyuewu.com",
+                    "www.dodoer.com");
             storyDetail.setContent(xml);
             String contentTxt = contentElement.asText();
             if (contentTxt != null) {
                 contentTxt = contentTxt.replaceAll("【\\?书\\?阅☆屋\\?www.shuyuewu.com】", "【多多儿#www.dodoer.com】");
                 contentTxt = contentTxt.replaceAll("m.shuyuewu.com", "m.dodoer.com");
-                contentTxt = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(contentTxt, "www.shuyuewu.com", "www.dodoer.com");
+                contentTxt = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(contentTxt,
+                        "www.shuyuewu.com", "www.dodoer.com");
                 storyDetail.setContentTxt(contentTxt);
             }
         }
         storyDetail.setStoryId(spiderStoryJob.getStoryId());
-        
-        System.out.println(storyDetail);
+        storyDetail.setCrawlUrl(htmlPage.getWebResponse().getRequestSettings().getUrl().toString());
+        storyDetail.setCreateTime(new Date());
+        storyDetail.setCreator(SpiderConfigs.SPIDER);
+        storyDetail.setStatus("2");
+        storyDetail.setReadCount(0);
+        storyDetail.setReplyCount(0);
+        insertDB(storyDetail);
+    }
+
+    public void insertDB(StoryDetail storyDetail) {
+        storyDetailService.insert(storyDetail);
+    }
+
+    public void insertDB(StoryInfo storyInfo) {
+        storyInfoService.save(storyInfo);
     }
 
     public void writeFile(CrawlStore crawlStore, DetailTemplate template) {

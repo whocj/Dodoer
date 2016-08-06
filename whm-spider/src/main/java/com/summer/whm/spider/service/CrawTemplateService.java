@@ -16,16 +16,6 @@ import com.summer.whm.service.BaseService;
 @Service
 public class CrawTemplateService extends BaseService {
 
-    public static final String STATUS_DEFAULT = "Default";
-
-    public static final String STATUS_WAIT = "Wait";
-    
-    public static final String STATUS_RUN = "Run";
-
-    public static final String STATUS_STOP = "Stop";
-
-    public static final String STATUS_ERROR = "Error";
-
     @Autowired
     private CrawTemplateMapper crawTemplateMapper;
     
