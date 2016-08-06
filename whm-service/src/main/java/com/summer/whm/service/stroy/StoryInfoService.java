@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.summer.whm.entiry.search.SearchPost;
 import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.entiry.story.StoryPart;
@@ -13,6 +14,8 @@ import com.summer.whm.mapper.story.StoryDetailMapper;
 import com.summer.whm.mapper.story.StoryInfoMapper;
 import com.summer.whm.mapper.story.StoryPartMapper;
 import com.summer.whm.service.BaseService;
+import com.summer.whm.service.search.SearchPostService;
+import com.summer.whm.service.search.model.PostType;
 
 /**
  * 小说基本信息
@@ -32,6 +35,9 @@ public class StoryInfoService extends BaseService {
     
     @Autowired
     private StoryDetailMapper storyDetailMapper;
+    
+    @Autowired
+    private SearchPostService searchPostService;
     
     public StoryInfo queryById(Integer storyId){
         StoryInfo storyInfo = storyInfoMapper.loadById(storyId + "");
@@ -53,6 +59,17 @@ public class StoryInfoService extends BaseService {
         return storyInfo;
     }
     
+    public Integer save(StoryInfo storyInfo){
+        if(storyInfo.isNew()){
+            storyInfoMapper.insert(storyInfo);
+            searchPostService.insert(new SearchPost(storyInfo.getId() + "", PostType.POST_TYPE_STORY, 
+                    storyInfo.getTitle(), storyInfo.getOutline(), storyInfo.getAuthor(), storyInfo.getTagName()));
+        }else{
+            storyInfoMapper.update(storyInfo); 
+        }
+        
+        return storyInfo.getId();
+    }
     
     
     @Override
