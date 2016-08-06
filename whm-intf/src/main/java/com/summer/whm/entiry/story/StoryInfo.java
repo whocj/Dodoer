@@ -208,4 +208,15 @@ public class StoryInfo extends BaseEntity {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "StoryInfo [categoryId=" + categoryId + ", title=" + title + ", author=" + author + ", status=" + status
+                + ", picPath=" + picPath + ", outline=" + outline + ", lastDetailId=" + lastDetailId
+                + ", lastDetailTitle=" + lastDetailTitle + ", tagName=" + tagName + ", likeCount=" + likeCount
+                + ", readCount=" + readCount + ", replyCount=" + replyCount + ", sortIndex=" + sortIndex + ", remark="
+                + remark + ", crawlUrl=" + crawlUrl + ", creator=" + creator + ", keywords=" + keywords
+                + ", description=" + description + ", storyPartList=" + storyPartList + ", storyDetailList="
+                + storyDetailList + ", part=" + part + "]";
+    }
+
 }
