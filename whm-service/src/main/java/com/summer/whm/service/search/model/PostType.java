@@ -13,6 +13,8 @@ public class PostType {
     public static final String POST_TYPE_POST = "Post";
 
     public static final String POST_TYPE_BLOG = "Blog";
+    
+    public static final String POST_TYPE_STORY = "Story";//小说
 
     public static final Map<String, String> POST_URL_PREFIX = new HashMap<String, String>();
 
@@ -20,5 +22,6 @@ public class PostType {
         POST_URL_PREFIX.put(POST_TYPE_QUESTION, "/q/detail/%s.html");
         POST_URL_PREFIX.put(POST_TYPE_TOPIC, "/t/detail/%s.html");
         POST_URL_PREFIX.put(POST_TYPE_BLOG, "/b/detail/%s.html");
+        POST_URL_PREFIX.put(POST_TYPE_BLOG, "/s/info/%s.html");
     }
 }
