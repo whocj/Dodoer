@@ -106,7 +106,10 @@
 		
 		#{creator},
 		#{createTime},
-		#{lastUpdate})
+		#{lastUpdate},
+		#{keywords},
+		#{description}
+		)
 	</insert>
 
 	<update id="update" parameterType="StoryInfo">
@@ -161,6 +164,13 @@
 		<if test="lastUpdate!=null and lastUpdate!=''">
 			,lastUpdate=#{lastUpdate}
 		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		
 		where id=#{id}
 	</update>
 

@@ -20,8 +20,8 @@ public class StoryDetail extends BaseEntity {
     private String partTitle;
     private String status;
     private String picPath;
-    private String readCount;
-    private String replyCount;
+    private int readCount;
+    private int replyCount;
     private String crawlUrl;
     
     public String getContentTxt() {
@@ -88,19 +88,19 @@ public class StoryDetail extends BaseEntity {
         this.picPath = picPath;
     }
 
-    public String getReadCount() {
+    public int getReadCount() {
         return readCount;
     }
 
-    public void setReadCount(String readCount) {
+    public void setReadCount(int readCount) {
         this.readCount = readCount;
     }
 
-    public String getReplyCount() {
+    public int getReplyCount() {
         return replyCount;
     }
 
-    public void setReplyCount(String replyCount) {
+    public void setReplyCount(int replyCount) {
         this.replyCount = replyCount;
     }
 
