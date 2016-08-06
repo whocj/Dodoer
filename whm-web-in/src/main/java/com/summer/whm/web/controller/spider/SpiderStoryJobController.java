@@ -1,10 +1,14 @@
 package com.summer.whm.web.controller.spider;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,42 +16,69 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
+import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
+import com.summer.whm.entiry.spider.SpiderStoryTemplate;
+import com.summer.whm.entiry.user.User;
+import com.summer.whm.service.category.CategoryService;
+import com.summer.whm.spider.SpiderConfigs;
+import com.summer.whm.spider.service.CrawlService;
 import com.summer.whm.spider.service.SpiderStoryJobService;
+import com.summer.whm.spider.service.SpiderStoryTemplateService;
+import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
 @RequestMapping("/spider/story/job")
-public class SpiderStoryJobController extends BaseController{
+public class SpiderStoryJobController extends BaseController {
     private static final Logger LOG = LoggerFactory.getLogger(SpiderStoryJobController.class);
-    
+
+    @Autowired
     private SpiderStoryJobService spiderStoryJobService;
-    
+
+    @Autowired
+    private SpiderStoryTemplateService spiderStoryTemplateService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private CrawlService crawlService;
+
     @RequestMapping("/list")
     public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage, ModelMap model) {
-        LOG.info("list SpiderStoryJob currentPage={}",currentPage);
+        LOG.info("list SpiderStoryJob currentPage={}", currentPage);
         PageModel<SpiderStoryJob> page = spiderStoryJobService.list(currentPage, WebConstants.PAGE_SIZE);
         model.put("page", page);
         return "spider/story/job/list.ftl";
     }
-    
 
     @RequestMapping("/edit")
     public String edit(HttpServletRequest request, @RequestParam(value = "id") int id, ModelMap model) {
         SpiderStoryJob spiderStoryJob = spiderStoryJobService.loadById(id + "");
         model.put("spiderStoryJob", spiderStoryJob);
-        PageModel<SpiderStoryJob> page = spiderStoryJobService.list(1, WebConstants.PAGE_SIZE * WebConstants.PAGE_SIZE);
-        model.put("forumList", page.getContent());
-        LOG.info("edit CrawTemplate id={}", id);
-        return "spider/crawTemplate/edit.ftl";
+        PageModel<SpiderStoryTemplate> page = spiderStoryTemplateService.list(1, WebConstants.PAGE_SIZE
+                * WebConstants.PAGE_SIZE);
+        model.put("templateList", page.getContent());
+
+        List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY);
+        model.put("categoryList", categoryList);
+
+        LOG.info("edit SpiderStoryJob id={}", id);
+        return "spider/story/job/edit.ftl";
     }
 
     @RequestMapping("/add")
     public String add(HttpServletRequest request, ModelMap model) {
         model.put("spiderStoryJob", new SpiderStoryJob());
-        PageModel<SpiderStoryJob> page = spiderStoryJobService.list(1, WebConstants.PAGE_SIZE * WebConstants.PAGE_SIZE);
-        model.put("forumList", page.getContent());
-        return "spider/crawTemplate/edit.ftl";
+        PageModel<SpiderStoryTemplate> page = spiderStoryTemplateService.list(1, WebConstants.PAGE_SIZE
+                * WebConstants.PAGE_SIZE);
+        model.put("templateList", page.getContent());
+
+        List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY);
+        model.put("categoryList", categoryList);
+
+        return "spider/story/job/edit.ftl";
     }
 
     @RequestMapping("/delete")
@@ -63,11 +94,36 @@ public class SpiderStoryJobController extends BaseController{
         LOG.info("submit SpiderStoryJob {}", spiderStoryJob);
         if (spiderStoryJob != null && spiderStoryJob.isNew()) {
             buildExtCreatorPara(request, spiderStoryJob);
+            User user = getSessionUser(request);
+            spiderStoryJob.setUserId(user.getId());
+            spiderStoryJob.setUsername(user.getUsername());
             spiderStoryJobService.insert(spiderStoryJob);
         } else {
+            spiderStoryJob.setLastUpdate(new Date());
             spiderStoryJobService.update(spiderStoryJob);
         }
 
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/start")
+    public String start(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.startStory(id, this.getSessionUser(request));
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/pause")
+    public String pause(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.pause(id, SpiderConfigs.DOMAIN_TYPE_STORY, this.getSessionUser(request));
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/stop")
+    public String stop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.stop(id, SpiderConfigs.DOMAIN_TYPE_STORY, this.getSessionUser(request));
         return "redirect:list.htm";
     }
 }
