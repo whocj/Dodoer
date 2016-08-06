@@ -141,6 +141,8 @@ public class GlobalConfigHolder {
     
     public static String BASE_STATIC_PATH = "/opt/whm/static";
     
+    public static String DODOER_STATIC_PATH = "/opt/dodoer/static";
+    
     public static String IMG_PATH = "/images";
     
     public static String TEMP_STATIC_PATH = "/temp";

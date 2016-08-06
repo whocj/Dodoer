@@ -145,7 +145,7 @@ public class SearchService {
         doc.add(new LongField(DocType.DOC_FIELD_TIMEMILLIS, System.currentTimeMillis(), LuceneUtils.storeLongType()));
         return doc;
     }
-    
+
     public static void main(String[] args){
         SearchService searchService = new SearchService();
         Map<String, String> paramMap = new HashMap<String, String>();

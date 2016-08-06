@@ -42,7 +42,6 @@ import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.MapContainer;

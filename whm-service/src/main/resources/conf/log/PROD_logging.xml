@@ -12,7 +12,7 @@
 		<File>sample-app.log</File>
 		<!-- 日志文件rolling策略 -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>sample.log.%i.bak</FileNamePattern>
+			<FileNamePattern>/opt/search/whm/log/whm-web.log.%i.bak</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>12</MaxIndex>
 		</rollingPolicy>
