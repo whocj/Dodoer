@@ -10,6 +10,7 @@
 		id,
 		templateId,
 		storyId,
+		categoryId,
 		userId,
 		username,
 		name,
@@ -30,6 +31,7 @@
 		id,
 		templateId,
 		storyId,
+		categoryId,
 		userId,
 		username,
 		name,
@@ -56,6 +58,7 @@
 		insert into spider_story_job(
 		templateId,
 		storyId,
+		categoryId,
 		userId,
 		username,
 		name,
@@ -67,7 +70,7 @@
 		createTime,
 		lastUpdate
 		)
-		values(#{templateId},#{storyId},#{userId},#{username},#{name},#{url},#{title},#{status},#{qtRule},#{creator},#{createTime},#{lastUpdate})
+		values(#{templateId},#{storyId},#{categoryId},#{userId},#{username},#{name},#{url},#{title},#{status},#{qtRule},#{creator},#{createTime},#{lastUpdate})
 	</insert>
 
 	<update id="update" parameterType="SpiderStoryJob">

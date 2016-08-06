@@ -112,4 +112,12 @@ public class StoryDetail extends BaseEntity {
         this.crawlUrl = crawlUrl;
     }
 
+    @Override
+    public String toString() {
+        return "StoryDetail [storyId=" + storyId + ", title=" + title + ", content=" + content + ", contentTxt="
+                + contentTxt + ", partId=" + partId + ", partTitle=" + partTitle + ", status=" + status + ", picPath="
+                + picPath + ", readCount=" + readCount + ", replyCount=" + replyCount + ", crawlUrl=" + crawlUrl + "]";
+    }
+
+    
 }

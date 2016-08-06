@@ -5,6 +5,7 @@ import com.summer.whm.entiry.BaseEntity;
 public class SpiderStoryJob extends BaseEntity {
 
     private Integer templateId;
+    private Integer categoryId;
     private Integer storyId;
     private Integer userId;
 
@@ -14,6 +15,14 @@ public class SpiderStoryJob extends BaseEntity {
     private String title;
     private String status;
     private String qtRule;
+    
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public Integer getTemplateId() {
         return templateId;
