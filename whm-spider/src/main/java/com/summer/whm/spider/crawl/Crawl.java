@@ -11,11 +11,13 @@ import com.summer.whm.service.search.SearchPostService;
 import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryPartService;
+import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.parse.ParseDetailTask;
 import com.summer.whm.spider.parse.ParseListTask;
 import com.summer.whm.spider.parse.ParseStoryTask;
 import com.summer.whm.spider.service.CrawInfoService;
+import com.summer.whm.spider.service.SpiderStoryJobService;
 
 public class Crawl {
 
@@ -36,6 +38,8 @@ public class Crawl {
     private StoryPartService storyPartService;
 
     private StoryDetailService storyDetailService;
+    
+    private SpiderStoryJobService spiderStoryJobService;
 
     public Crawl() {
 
@@ -48,13 +52,16 @@ public class Crawl {
         this.searchPostService = searchPostService;
     }
 
-    public Crawl(SpiderContext spiderContext, CrawInfoService crawInfoService, StoryInfoService storyInfoService,
-            StoryPartService storyPartService, StoryDetailService storyDetailService) {
+    public Crawl(SpiderContext spiderContext, CrawInfoService crawInfoService, SearchPostService searchPostService,
+            StoryInfoService storyInfoService, StoryPartService storyPartService, StoryDetailService storyDetailService, SpiderStoryJobService spiderStoryJobService) {
         super();
         this.spiderContext = spiderContext;
+        this.crawInfoService = crawInfoService;
+        this.searchPostService = searchPostService;
         this.storyInfoService = storyInfoService;
         this.storyPartService = storyPartService;
         this.storyDetailService = storyDetailService;
+        this.spiderStoryJobService = spiderStoryJobService;
     }
 
     public Crawl(SpiderContext spiderContext, TopicService topicService, PostService postService,
@@ -69,7 +76,7 @@ public class Crawl {
     }
 
     public SpiderContext initStackoverflowSpiderContext() {
-        SpiderContext spiderContext = new SpiderContext();
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_TOPIC);
         ListTemplate template = new ListTemplate();
         DetailTemplate detailTemplate = new DetailTemplate();
         template.setUrl("http://stackoverflow.com/questions?page=4578&sort=votes");
@@ -92,7 +99,7 @@ public class Crawl {
     }
 
     public SpiderContext initCSDNBlongpiderContext() {
-        SpiderContext spiderContext = new SpiderContext();
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_TOPIC);
         ListTemplate template = new ListTemplate();
         DetailTemplate detailTemplate = new DetailTemplate();
         template.setUrl("http://blog.csdn.net/?&page=1");
@@ -114,7 +121,7 @@ public class Crawl {
     }
 
     public SpiderContext initCSDNNewsSpiderContext() {
-        SpiderContext spiderContext = new SpiderContext();
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_TOPIC);
         ListTemplate template = new ListTemplate();
         DetailTemplate detailTemplate = new DetailTemplate();
         template.setUrl("http://news.csdn.net/news/1");
@@ -135,7 +142,7 @@ public class Crawl {
     }
 
     public SpiderContext initCNBlogspiderContext() {
-        SpiderContext spiderContext = new SpiderContext();
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_TOPIC);
         ListTemplate template = new ListTemplate();
         DetailTemplate detailTemplate = new DetailTemplate();
         template.setUrl("http://www.cnblogs.com/pick/");
@@ -158,7 +165,7 @@ public class Crawl {
     }
 
     public SpiderContext initITEyepiderContext() {
-        SpiderContext spiderContext = new SpiderContext();
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_TOPIC);
         ListTemplate template = new ListTemplate();
         DetailTemplate detailTemplate = new DetailTemplate();
         template.setUrl("http://www.cnblogs.com/pick/");
@@ -181,30 +188,30 @@ public class Crawl {
     }
 
     public SpiderContext initShuyuewuContext() {
-        SpiderContext spiderContext = new SpiderContext();
-        
+        SpiderContext spiderContext = new SpiderContext(SpiderConfigs.DOMAIN_TYPE_STORY);
+
         SpiderStoryTemplate spiderStoryTemplate = new SpiderStoryTemplate();
         spiderStoryTemplate.setTitleXPath("//div[@id='info']/h1");
         spiderStoryTemplate.setAuthorXPath("//div[@id='info']/p");
         spiderStoryTemplate.setOutlineXPath("//div[@id='intro']/p");
         spiderStoryTemplate.setDetailXPath("//div[@id='list']/dl/dd/a");
         spiderStoryTemplate.setPicPathXPath("//div[@id='fmimg']/img");
-        
+
         spiderStoryTemplate.setDetailTitleXPath("//div[@class='bookname']/h1");
         spiderStoryTemplate.setDetailContentXPath("//div[@id='content']");
-        
+
         spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
-        
+
         SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
         spiderStoryJob.setTemplateId(1);
         spiderStoryJob.setCategoryId(10);
         spiderStoryJob.setTitle("超强导航仪");
         spiderStoryJob.setUrl("http://www.shuyuewu.com/kan_75582/");
         spiderContext.setSpiderStoryJob(spiderStoryJob);
-        
+
         return spiderContext;
     }
-    
+
     public void start() {
 
         crawlTask = new CrawlTask(spiderContext, crawInfoService);
@@ -234,7 +241,7 @@ public class Crawl {
         thread.start();
 
         ParseStoryTask parseStoryTask = new ParseStoryTask(spiderContext, storyInfoService, storyPartService,
-                storyDetailService);
+                storyDetailService, spiderStoryJobService);
         new Thread(parseStoryTask).start();
 
         try {
