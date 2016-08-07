@@ -22,6 +22,6 @@ public class PostType {
         POST_URL_PREFIX.put(POST_TYPE_QUESTION, "/q/detail/%s.html");
         POST_URL_PREFIX.put(POST_TYPE_TOPIC, "/t/detail/%s.html");
         POST_URL_PREFIX.put(POST_TYPE_BLOG, "/b/detail/%s.html");
-        POST_URL_PREFIX.put(POST_TYPE_BLOG, "/s/info/%s.html");
+        POST_URL_PREFIX.put(POST_TYPE_STORY, "/s/info/%s.html");
     }
 }
