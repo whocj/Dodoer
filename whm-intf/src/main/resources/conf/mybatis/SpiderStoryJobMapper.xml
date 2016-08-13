@@ -46,7 +46,7 @@
 		ssj.createTime,
 		ssj.lastUpdate
 		from spider_story_job ssj
-left join bbs_category bc on bc.ID = ssj.categoryId
+		left join bbs_category bc on bc.ID = ssj.categoryId
 	</select>
 
 	<select id="count" resultType="long">

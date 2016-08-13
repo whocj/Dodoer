@@ -307,7 +307,7 @@
 		keywords,
 		description
 		from blog_post 
-		where creator = #{creator} and id &lt; #{id} LIMIT 1
+		where creator = #{creator} and id &lt; #{id} order by id desc LIMIT 1
 	</select>
 	
 	

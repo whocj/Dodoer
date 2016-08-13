@@ -178,4 +178,44 @@
 		where id = #{id}
 	</update>
 
+	<select id="queryNextByStoryAndId"
+		resultType="StoryDetail">
+		select
+		id,
+		storyId,
+		title,
+		partId,
+		partTitle,
+		status,
+		picPath,
+		readCount,
+		replyCount,
+		crawlUrl,
+		creator,
+		createTime,
+		lastUpdate
+		from story_detail
+		where  storyId = #{storyId} and id &gt; #{id} LIMIT 1
+	</select>
+
+	<select id="queryPrevByStoryAndId"
+		resultType="StoryDetail">
+		select
+		id,
+		storyId,
+		title,
+		partId,
+		partTitle,
+		status,
+		picPath,
+		readCount,
+		replyCount,
+		crawlUrl,
+		creator,
+		createTime,
+		lastUpdate
+		from story_detail
+		where storyId = #{storyId} and id &lt; #{id} order by id desc LIMIT 1
+	</select>
+
 </mapper>

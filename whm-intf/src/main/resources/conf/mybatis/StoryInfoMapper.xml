@@ -5,57 +5,65 @@
 <mapper namespace="com.summer.whm.mapper.story.StoryInfoMapper">
 	<select id="loadById" parameterType="java.lang.String"
 		resultType="StoryInfo">
-		select 
-		id,
-		categoryId,
-		title,
-		author,
-		status,
-		picPath,
-		outline,
-		lastDetailId,
-		lastDetailTitle,
-		tagName,
-		likeCount,
-		readCount,
-		replyCount,
-		sortIndex,
-		remark,
-		crawlUrl,
-		creator,
-		createTime,
-		lastUpdate,
-		keywords,
-		description
-		from story_info 
-		where id = #{id}
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.author,
+		si.outline,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where si.id = #{id}
 	</select>
 
 	<select id="list" parameterType="PageModel" resultType="StoryInfo">
 		select
-		id,
-		categoryId,
-		title,
-		author,
-		status,
-		picPath,
-		lastDetailId,
-		lastDetailTitle,
-		tagName,
-		likeCount,
-		readCount,
-		replyCount,
-		sortIndex,
-		remark,
-		crawlUrl,
-		creator,
-		createTime,
-		lastUpdate
-		from story_info
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="query.categoryId!=null and query.categoryId!=''">
+			and categoryId=#{query.categoryId}
+		</if>
+		order by sortIndex , id desc
 	</select>
 
 	<select id="count" resultType="long">
 		select count(*) from story_info
+		<if test="categoryId!=null and categoryId!=''">
+			,categoryId=#{categoryId}
+		</if>
 	</select>
 
 	<insert id="insert" parameterType="StoryInfo">
@@ -66,6 +74,7 @@
 		insert into story_info(
 		
 		categoryId,
+		categoryName,
 		title,
 		author,
 		status,
@@ -88,6 +97,7 @@
 		
 		)
 		values(#{categoryId},
+		#{categoryName},
 		#{title},
 		#{author},
 		#{status},
@@ -117,6 +127,9 @@
 		id=#{id}
 		<if test="categoryId!=null and categoryId!=''">
 			,categoryId=#{categoryId}
+		</if>
+		<if test="categoryName!=null and categoryName!=''">
+			,categoryName=#{categoryName}
 		</if>
 		<if test="title!=null and title!=''">
 			,title=#{title}
@@ -178,4 +191,106 @@
 		delete from story_info where id = #{id}
 	</delete>
 
+	<select id="queryTopNByOrderAndCategoryId" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		order by  #{orderField}
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryTopNByOrder" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		order by  #{orderField}
+		LIMIT #{topN}
+	</select>
+	
+	
+	<select id="queryTopNByHot" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.author,
+		si.outline,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and categoryId=#{categoryId}
+		</if>
+		order by sortIndex , id desc
+		LIMIT #{topN}
+	</select>
+		
+	<update id="addLike">
+		update story_info set
+		likeCount = likeCount + 1
+		where id=#{id}
+	</update>
+	
+	<update id="addRead">
+		update story_info set
+		readCount = readCount + 1
+		where id=#{id}
+	</update>
+	
+	<update id="addReply">
+		update story_info set
+		replyCount = replyCount + 1
+		where id=#{id}
+	</update>
 </mapper>

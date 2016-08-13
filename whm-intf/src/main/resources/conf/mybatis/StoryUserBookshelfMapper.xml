@@ -43,7 +43,7 @@
 		select count(*) from story_user_bookshelf
 	</select>
 
-	<insert id="insert" parameterType="Notice">
+	<insert id="insert" parameterType="StoryUserBookshelf">
 		<selectKey resultType="java.lang.Integer" order="AFTER"
 			keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
@@ -109,6 +109,27 @@
 
 	<select id="queryByUsername" resultType="StoryUserBookshelf">
 		select
+		sub.id,
+		sub.storyId,
+		sub.title,
+		si.picPath,
+		si.categoryName,
+		sub.userId,
+		sub.username,
+		sub.readDetailId,
+		sub.readDetailTitle,
+		sub.status,
+		sub.creator,
+		sub.createTime,
+		sub.lastUpdate 
+		from story_user_bookshelf sub
+		left join story_info si on si.id = sub.storyId
+		where sub.username = #{username}
+		order by sub.id desc
+	</select>
+	
+	<select id="queryByUserIdAndStoryId" resultType="StoryUserBookshelf">
+		select
 		id,
 		storyId,
 		title,
@@ -121,8 +142,9 @@
 		createTime,
 		lastUpdate 
 		from story_user_bookshelf 
-		where username = #{username}
-		order by id desc
+		where userId = #{userId}
+		and storyId = #{storyId}
 	</select>
+	
 
 </mapper>

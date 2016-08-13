@@ -14,12 +14,30 @@ public class StoryUserBookshelf extends BaseEntity {
 
     private Integer storyId;
 
+    private String categoryName;
     private String title;
+    private String picPath;
     private Integer userId;
     private String username;
     private Integer readDetailId;
     private String readDetailTitle;
     private String status;
+    
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
 
     public Integer getStoryId() {
         return storyId;
