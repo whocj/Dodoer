@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.summer.whm.entiry.story.StoryUserRead;
+import com.summer.whm.entiry.story.StoryUserBookshelf;
 import com.summer.whm.mapper.BaseMapper;
-import com.summer.whm.mapper.story.StoryUserReadMapper;
+import com.summer.whm.mapper.story.StoryUserBookshelfMapper;
 import com.summer.whm.service.BaseService;
 
 /**
@@ -22,14 +22,35 @@ import com.summer.whm.service.BaseService;
 public class StoryUserBookshelfService extends BaseService {
 
     @Autowired
-    private StoryUserReadMapper storyUserReadMapper;
+    private StoryUserBookshelfMapper storyUserBookshelfMapper;
 
-    public List<StoryUserRead> queryByUsername(String username) {
-        return storyUserReadMapper.queryByUsername(username);
+    public List<StoryUserBookshelf> queryByUsername(String username) {
+        return storyUserBookshelfMapper.queryByUsername(username);
+    }
+
+    public  StoryUserBookshelf queryByUserIdAndStoryId(Integer userId, Integer storyId){
+        return storyUserBookshelfMapper.queryByUserIdAndStoryId(userId, storyId);
+    }
+
+    public Integer save(StoryUserBookshelf storyUserBookshelf) {
+        if (storyUserBookshelf.isNew()) {
+            StoryUserBookshelf temp = storyUserBookshelfMapper.queryByUserIdAndStoryId(storyUserBookshelf.getUserId(),
+                    storyUserBookshelf.getStoryId());
+            if (temp != null) {
+                storyUserBookshelf.setId(temp.getId());
+                storyUserBookshelfMapper.update(storyUserBookshelf);
+            } else {
+                storyUserBookshelfMapper.insert(storyUserBookshelf);
+            }
+        } else {
+            storyUserBookshelfMapper.update(storyUserBookshelf);
+        }
+
+        return storyUserBookshelf.getId();
     }
 
     @Override
     protected BaseMapper getMapper() {
-        return storyUserReadMapper;
+        return storyUserBookshelfMapper;
     }
 }

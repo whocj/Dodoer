@@ -29,6 +29,14 @@ public class StoryDetailService extends BaseService {
         return storyDetailMapper;
     }
 
+    public StoryDetail queryNextByStoryAndId(Integer storyId, Integer id) {
+        return storyDetailMapper.queryNextByStoryAndId(storyId, id);
+    }
+
+    public StoryDetail queryPrevByStoryAndId(Integer storyId, Integer id) {
+        return storyDetailMapper.queryPrevByStoryAndId(storyId, id);
+    }
+
     public void addReadCount(Integer id) {
         storyDetailMapper.addReadCount(id);
     }

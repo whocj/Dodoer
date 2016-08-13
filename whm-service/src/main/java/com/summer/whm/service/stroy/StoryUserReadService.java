@@ -23,6 +23,27 @@ public class StoryUserReadService extends BaseService {
         return storyUserReadMapper.queryByUsername(username);
     }
 
+    public StoryUserRead queryByUserIdAndStoryId(Integer userId, Integer storyId) {
+        StoryUserRead temp = storyUserReadMapper.queryByUserIdAndStoryId(userId, storyId);
+        return temp;
+    }
+
+    public Integer save(StoryUserRead storyUserRead) {
+        if (storyUserRead.isNew()) {
+            StoryUserRead temp = storyUserReadMapper.queryByUserIdAndStoryId(storyUserRead.getUserId(),
+                    storyUserRead.getStoryId());
+            if (temp != null) {
+                storyUserRead.setId(temp.getId());
+                storyUserReadMapper.update(storyUserRead);
+            }
+            storyUserReadMapper.insert(storyUserRead);
+        } else {
+            storyUserReadMapper.update(storyUserRead);
+        }
+
+        return storyUserRead.getId();
+    }
+
     @Override
     protected BaseMapper getMapper() {
         return this.storyUserReadMapper;
