@@ -31,10 +31,19 @@
 		createTime,
 		lastUpdate 
 		from sys_notice
+		where 1=1
+		<if test="query.siteId!=null and query.siteId!=''">
+			and siteId=#{query.siteId}
+		</if>
+		order by id desc
 	</select>
 
 	<select id="count" resultType="long">
 		select count(*) from sys_notice
+		where 1=1 
+		<if test="query.siteId!=null and query.siteId!=''">
+			and siteId=#{query.siteId}
+		</if>
 	</select>
 
 	<insert id="insert" parameterType="Notice">

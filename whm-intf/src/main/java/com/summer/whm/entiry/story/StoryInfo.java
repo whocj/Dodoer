@@ -14,7 +14,7 @@ import com.summer.whm.entiry.BaseEntity;
 public class StoryInfo extends BaseEntity {
 
     private Integer categoryId;
-
+    private String categoryName;
     private String title;
     private String author;
     private String status;
@@ -206,6 +206,14 @@ public class StoryInfo extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @Override

@@ -8,13 +8,29 @@ import com.summer.whm.entiry.BaseEntity;
 public class StoryUserRead extends BaseEntity {
 
     private Integer storyId;
-
     private String title;
-
+    private String categoryName;
+    private String picPath;
     private Integer userId;
     private String username;
     private Integer readDetailId;
     private String readDetailTitle;
+    
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
 
     public Integer getStoryId() {
         return storyId;
