@@ -119,7 +119,7 @@ public class ParseStoryTask implements Runnable {
         storyInfo
                 .setCrawlUrl(parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl().toString());
         storyInfo.setCategoryId(spiderStoryJob.getCategoryId());
-        
+        storyInfo.setCategoryName(spiderStoryJob.getCategoryName());
         
         if (current == 1) {// 第一页
             if (spiderStoryJob.getStoryId() == null) {// 第一次抓取数据，需要抓取文章基本信息
