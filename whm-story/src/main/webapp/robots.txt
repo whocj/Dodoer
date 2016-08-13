@@ -1,0 +1,17 @@
+User-agent:*
+Disallow:/search/
+Disallow:/q/ask.html
+Disallow:/q/submit.html
+Disallow:/q/singleReply.html
+Disallow:/q/submitGoodAnswer.html
+Disallow:/ask/question/ask.html
+Disallow:/ask/question/submit.html
+Disallow:/ask/question/singleReply.html
+Disallow:/t/newTopic/
+Disallow:/t/reply.html
+Disallow:/bbs/topic/newTopic/
+Disallow:/bbs/topic/reply.html
+Disallow:/b/gotoUpdate.html
+Disallow:/blog/post/gotoUpdate.html
+Disallow:/blog/backend/
+Disallow:/whm-web-in/
