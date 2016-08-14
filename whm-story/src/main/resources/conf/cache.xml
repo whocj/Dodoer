@@ -13,7 +13,7 @@
 		* ehcache.disk.store.dir - A system property you would normally specify on the command line
 		e.g. java -Dehcache.disk.store.dir=/u01/myapp/diskdir ...
 	-->
-	<diskStore path="/opt/whm/temp/ehcache" />
+	<diskStore path="/opt/whm/story/temp/ehcache" />
 
 
 	<!--
