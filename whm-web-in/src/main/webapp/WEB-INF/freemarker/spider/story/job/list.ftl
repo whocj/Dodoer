@@ -28,6 +28,7 @@ function optDelete() {
 	<div class="rpos">当前位置： 板块 - 小说抓取任务 - 列表</div>
 	<form class="ropt">
 		<input type="submit" value="添加小说" onclick="this.form.action='${base }/spider/story/job/add.htm';"/>
+		<input type="submit" value="导入小说" onclick="this.form.action='${base }/spider/story/job/toUpload.htm';"/>
 		&nbsp;<input type="button" value="删除" onclick="optDelete();"/>
 	</form>
 	<div class="clear"></div>
@@ -41,7 +42,7 @@ function optDelete() {
 			<th width="100px">小说名称</th>
 			<th width="50px">分类</th>
 			<th width="100px">URL</th>
-			<th width="40px">状态</th>
+			<th width="40px">更新时间</th>
 			<th width="250px">操作</th>
 		</tr>
 		</thead>
@@ -54,7 +55,7 @@ function optDelete() {
 		<td>${datas.title}</td>
 		<td>${datas.categoryName}</td>
 		<td>${datas.url}</td>
-		<td>${datas.status}</td>
+		<td>${datas.lastUpdate?string('MM-dd HH:mm')}</td>
 		<td>
 			<a href="${base }/spider/story/job/start.htm?id=${datas.id}" class="pn-opt">开始</a> |
 			<a href="${base }/spider/story/job/pause.htm?id=${datas.id}" class="pn-opt">暂停</a> |
