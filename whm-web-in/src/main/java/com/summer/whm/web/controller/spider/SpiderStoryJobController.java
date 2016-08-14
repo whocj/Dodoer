@@ -1,5 +1,9 @@
 package com.summer.whm.web.controller.spider;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
@@ -101,6 +106,39 @@ public class SpiderStoryJobController extends BaseController {
         } else {
             spiderStoryJob.setLastUpdate(new Date());
             spiderStoryJobService.update(spiderStoryJob);
+        }
+
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/toUpload")
+    public String toUpload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return "spider/story/job/upload.ftl";
+    }
+
+    @RequestMapping("/upload")
+    public String upload(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam MultipartFile multipartFile) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
+        String temp = null;
+        while ((temp = br.readLine()) != null) {
+            String[] strs = temp.split("###");
+            if (strs != null && strs.length == 5) {
+                SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
+                spiderStoryJob.setTitle(strs[0]);
+                spiderStoryJob.setCategoryId(Integer.parseInt(strs[1]));
+                spiderStoryJob.setTemplateId(Integer.parseInt(strs[2]));
+                spiderStoryJob.setUrl(strs[3]);
+                spiderStoryJob.setQtRule(strs[4]);
+                buildExtCreatorPara(request, spiderStoryJob);
+                User user = getSessionUser(request);
+                spiderStoryJob.setUserId(user.getId());
+                spiderStoryJob.setUsername(user.getUsername());
+                LOG.info("upload SpiderStoryJob {}", spiderStoryJob);
+
+                spiderStoryJobService.insert(spiderStoryJob);
+            }
         }
 
         return "redirect:list.htm";
