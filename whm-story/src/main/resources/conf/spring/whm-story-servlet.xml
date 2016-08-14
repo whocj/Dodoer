@@ -86,7 +86,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:conf/whm-setting-web.properties</value>
+				<value>classpath:conf/whm-setting-story.properties</value>
 			</list>
 		</property>
 		<property name="placeholderPrefix" value="@{" />
@@ -126,13 +126,13 @@
 				<entry key="resRoot" value="@{resRoot}" />
 				<entry key="appVersion" value="${appVersion}" />
 				<entry key="imgUrl" value-ref="fmImgUrl" />
-				<entry key="env" value="$[system.env]" />
-				<entry key="domain" value="$[system.domain]" />
-				<entry key="siteTitle" value="$[site.title]" />
-				<entry key="siteKeywords" value="$[site.keywords]" />
-				<entry key="siteDescription" value="$[site.description]" />
-				<entry key="siteKeys" value="$[site.keys]" />
-				<entry key="siteDesc" value="$[site.desc]" />
+				<entry key="env" value="prod" />
+				<entry key="domain" value="http://www.dodoer.com" />
+				<entry key="siteTitle" value="多多儿小说-DODOER" />
+				<entry key="siteKeywords" value="多多儿小说,无广告小说,无弹窗小说,dodoer" />
+				<entry key="siteDescription" value="多多儿小说,无广告小说,无弹窗小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
+				<entry key="siteKeys" value="多多儿小说,无广告小说,无弹窗小说,dodoer" />
+				<entry key="siteDesc" value="多多儿小说,无广告小说,无弹窗小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
 			</map>
 		</property>
 		<property name="defaultEncoding" value="utf-8" />
