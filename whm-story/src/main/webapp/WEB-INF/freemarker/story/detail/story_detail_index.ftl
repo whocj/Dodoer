@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
 <meta name="description" content="${siteDescription }" />  
-<title>首页 - ${siteTitle }</title>
+<title>${storyDetail.title }-${storyInfo.title }|${storyInfo.author } - ${siteTitle }</title>
 </head>
 
 <body>
