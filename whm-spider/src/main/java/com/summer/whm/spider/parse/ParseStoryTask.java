@@ -131,6 +131,10 @@ public class ParseStoryTask implements Runnable {
                     storyInfo.setTitle(htmlPage.getTitleText());
                 }
 
+                if(StringUtils.isEmpty(storyInfo.getTitle())){
+                    storyInfo.setTitle("无题");
+                }
+                
                 List<HtmlElement> authorElementList = ((List<HtmlElement>) htmlPage.getByXPath(template
                         .getAuthorXPath()));// 处理作者
                 if (authorElementList != null && authorElementList.size() > 0) {
@@ -167,6 +171,8 @@ public class ParseStoryTask implements Runnable {
 
         // 保存数据库
         if (storyInfo != null && storyInfo.isNew()) {
+            storyInfo.setCreateTime(new Date());
+            storyInfo.setCreator(SpiderConfigs.SPIDER);
             storyInfo.setStatus("2");
             // 保存小说基本信息
             storyInfoService.save(storyInfo);
@@ -263,20 +269,18 @@ public class ParseStoryTask implements Runnable {
                 .getDetailContentXPath()));// 处理内容
         if (contentElementList != null && contentElementList.size() > 0) {
             HtmlElement contentElement = contentElementList.get(0);
-
-            String xml = contentElement.asXml().replaceAll("【\\?书\\?阅☆屋\\?www.shuyuewu.com】", "【多多儿#www.dodoer.com】");
-            xml = xml.replaceAll("m.shuyuewu.com", "m.dodoer.com");
-            xml = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(xml, "www.shuyuewu.com",
-                    "www.dodoer.com");
-            storyDetail.setContent(xml);
-            String contentTxt = contentElement.asText();
-            if (contentTxt != null) {
-                contentTxt = contentTxt.replaceAll("【\\?书\\?阅☆屋\\?www.shuyuewu.com】", "【多多儿#www.dodoer.com】");
-                contentTxt = contentTxt.replaceAll("m.shuyuewu.com", "m.dodoer.com");
-                contentTxt = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(contentTxt,
-                        "www.shuyuewu.com", "www.dodoer.com");
-                storyDetail.setContentTxt(contentTxt);
-            }
+            String text = contentElement.asText();
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "【ㄨ书?阅ぁ屋www.ShuYueWu.Com】", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "www.shuyuewu.com", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "←百度搜索→", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "ShuYueWu.Com", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "ShuYueWu", "");
+            String[] strs = text.split("\n\r");
+            strs[0] = "";
+            strs[strs.length - 1] = "";
+            String html = StringUtils.join(strs, "<br/><br/> &nbsp;&nbsp;&nbsp;&nbsp;");
+            storyDetail.setContent(html);
+            storyDetail.setContentTxt(StringUtils.join(strs, "\n\r"));
         }
         storyDetail.setStoryId(spiderStoryJob.getStoryId());
         storyDetail.setCrawlUrl(htmlPage.getWebResponse().getRequestSettings().getUrl().toString());

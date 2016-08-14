@@ -902,27 +902,37 @@ public class StringUtils {
         return (str == null) || (str.equals(""));
     }
 
-    /*** 
-     * replaceAll,忽略大小写 
-     * @param input 
-     * @param regex 
-     * @param replacement 
-     * @return 
-     */  
-    public static String replaceAllIgnoreCase(String input,String regex,String replacement){  
-         Pattern p = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);  
-            Matcher m = p.matcher(input);  
-            StringBuffer sb = new StringBuffer();  
-            boolean result = m.find();  
-            while (result)  
-            {  
-                m.appendReplacement(sb, replacement);  
-                result = m.find();  
-            }  
-            m.appendTail(sb);
-            return sb.toString();  
-    } 
-    
+    /***
+     * replaceAll,忽略大小写
+     * 
+     * @param input
+     * @param regex
+     * @param replacement
+     * @return
+     */
+    public static String replaceAllIgnoreCase(String input, String regex, String replacement) {
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(input);
+        StringBuffer sb = new StringBuffer();
+        boolean result = m.find();
+        while (result) {
+            m.appendReplacement(sb, replacement);
+            result = m.find();
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+
+    public static String replaceAllBrackets(String input, String regex, String replacement) {
+        Pattern p = Pattern.compile("(?<=【).*(?=】)");
+        Matcher m = p.matcher(input);
+        String ret = input;
+        while (m.find()) {
+            ret = ret.replace(m.group(), replacement);
+        }
+        return ret;
+    }
+
     public static void main(String[] args) {
 
     }

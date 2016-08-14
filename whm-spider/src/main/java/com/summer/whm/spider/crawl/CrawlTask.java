@@ -159,7 +159,7 @@ public class CrawlTask implements Runnable {
     public void insertDB(String url) {
         try {
             crawInfoService.insert(new CrawInfo(url, spiderContext.getTemplateId(), spiderContext
-                    .getCrawLog().getId()));
+                    .getCrawLog().getId(), spiderContext.getType()));
         } catch (Exception e) {
             e.printStackTrace();
         }
