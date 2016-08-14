@@ -1,6 +1,7 @@
 package com.summer.whm.spider.parse;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.summer.whm.entiry.story.StoryDetail;
 
 public class ParseStoryElement {
     
@@ -9,6 +10,8 @@ public class ParseStoryElement {
     private boolean isEnd = false;
 
     private HtmlPage htmlPage;
+    
+    private StoryDetail storyDetail;
     
     public ParseStoryElement() {
         super();
@@ -52,5 +55,13 @@ public class ParseStoryElement {
 
     public void setHtmlPage(HtmlPage htmlPage) {
         this.htmlPage = htmlPage;
+    }
+
+    public StoryDetail getStoryDetail() {
+        return storyDetail;
+    }
+
+    public void setStoryDetail(StoryDetail storyDetail) {
+        this.storyDetail = storyDetail;
     }
 }

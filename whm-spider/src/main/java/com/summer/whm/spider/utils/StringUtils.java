@@ -923,17 +923,20 @@ public class StringUtils {
         return sb.toString();
     }
 
-    public static String replaceAllBrackets(String input, String regex, String replacement) {
-        Pattern p = Pattern.compile("(?<=【).*(?=】)");
+    public static String replaceAllBrackets(String input, String replacement) {
+        Pattern p = Pattern.compile("(【(.*?[书|阅|屋|www|com]).*?】)");
         Matcher m = p.matcher(input);
-        String ret = input;
         while (m.find()) {
-            ret = ret.replace(m.group(), replacement);
+            input = input.replace(m.group(), replacement);
         }
-        return ret;
+
+        return input;
     }
 
     public static void main(String[] args) {
+        System.out.println(replaceAllBrackets(
+                "“是！”应声依然整齐。←百度搜索→【ㄨ书?阅ぁ屋www.ShuYueWu.Com】整齐。←百度搜索→【ㄨ书?阅ぁ屋1www.ShuYueWu.Com】三垣四象再成阵势，虽威势不再，仍然让刚刚经历了生死",
+                ""));
 
     }
 }
