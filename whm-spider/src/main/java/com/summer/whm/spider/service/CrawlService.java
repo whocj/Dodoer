@@ -117,7 +117,7 @@ public class CrawlService {
 
         SpiderStoryJob spiderStoryJob = spiderStoryJobService.loadById(jobId + "");
 
-        SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(jobId + "");
+        SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(spiderStoryJob.getTemplateId() + "");
 
         CrawLog crawLog = new CrawLog();
         crawLog.setBeginTime(new Date());
