@@ -28,6 +28,7 @@ import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.crawl.CrawlElement;
 import com.summer.whm.spider.crawl.CrawlType;
+import com.summer.whm.spider.exception.ParseException;
 import com.summer.whm.spider.service.SpiderStoryJobService;
 import com.summer.whm.spider.store.CrawlStore;
 import com.summer.whm.spider.utils.URLUtil;
@@ -79,7 +80,6 @@ public class ParseStoryTask implements Runnable {
                             tempJob.setId(spiderStoryJob.getId());
                             tempJob.setSpiderStatus(SpiderConfigs.STATUS_STOP);
                             spiderStoryJobService.update(spiderStoryJob);
-
                             return;
                         }
 
@@ -100,7 +100,7 @@ public class ParseStoryTask implements Runnable {
         }
     }
 
-    public void parse(ParseStoryElement parseStoryElement, int current, List<String> list) throws InterruptedException {
+    public void parse(ParseStoryElement parseStoryElement, int current, List<String> list) throws InterruptedException, ParseException {
         if (parseStoryElement.isDetail()) {
             parseDetail(parseStoryElement);
         } else {
@@ -131,7 +131,7 @@ public class ParseStoryTask implements Runnable {
                     storyInfo.setTitle(htmlPage.getTitleText());
                 }
 
-                if(StringUtils.isEmpty(storyInfo.getTitle())){
+                if(StringUtils.isEmpty(storyInfo.getTitle().trim())){
                     storyInfo.setTitle("无题");
                 }
                 
@@ -235,7 +235,7 @@ public class ParseStoryTask implements Runnable {
                     }
                     System.out.println("NextURL=" + nextHtmlPage.getWebResponse().getRequestSettings().getUrl());
                     parse(new ParseStoryElement(false, nextHtmlPage), current + 1, list);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println(htmlPage.getWebResponse().getRequestSettings().getUrl());
                     e.printStackTrace();
                 }
@@ -247,7 +247,7 @@ public class ParseStoryTask implements Runnable {
         }
     }
 
-    public void parseDetail(ParseStoryElement parseStoryElement) {
+    public void parseDetail(ParseStoryElement parseStoryElement) throws InterruptedException, ParseException{
         StoryDetail storyDetail = new StoryDetail();
         HtmlPage htmlPage = parseStoryElement.getHtmlPage();
         SpiderStoryTemplate template = spiderContext.getSpiderStoryTemplate();
@@ -258,11 +258,17 @@ public class ParseStoryTask implements Runnable {
             HtmlElement titleElement = titleElementList.get(0);
             String title = titleElement.asText();
             if (title != null) {
-                if (title.lastIndexOf("》") != -1) {
-                    title = title.substring(title.lastIndexOf("》") + 1);
+                if (title.indexOf("》") != -1) {
+                    title = title.replace("《" + spiderStoryJob.getTitle() + "》", "");
+                }else{
+                    title = title.replace(spiderStoryJob.getTitle(), "");
                 }
                 storyDetail.setTitle(title);
             }
+        }
+        
+        if(StringUtils.isEmpty(storyDetail.getTitle())){
+            storyDetail.setTitle("无题");
         }
 
         List<HtmlElement> contentElementList = ((List<HtmlElement>) htmlPage.getByXPath(template
@@ -270,18 +276,24 @@ public class ParseStoryTask implements Runnable {
         if (contentElementList != null && contentElementList.size() > 0) {
             HtmlElement contentElement = contentElementList.get(0);
             String text = contentElement.asText();
-            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "【ㄨ书?阅ぁ屋www.ShuYueWu.Com】", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllBrackets(text, "");
             text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "www.shuyuewu.com", "");
-            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "←百度搜索→", "");
+            text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "m.shuyuewu.com", "");
             text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "ShuYueWu.Com", "");
             text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "ShuYueWu", "");
+            text = text.replaceAll("←百度搜索→", "");
+            text = text.replaceAll("百度搜索", "");
+            text = text.replaceAll("一秒记住，为您提供精彩小说阅读。", "");
+            text = text.replaceAll("一秒记住，為您提供精彩小说阅读。", "");
+            text = text.replaceAll("手机用户请浏览阅读，更优质的阅读体验。", "");
             String[] strs = text.split("\n\r");
-            strs[0] = "";
-            strs[strs.length - 1] = "";
+            //strs[0] = "";
+            //strs[strs.length - 1] = "";
             String html = StringUtils.join(strs, "<br/><br/> &nbsp;&nbsp;&nbsp;&nbsp;");
             storyDetail.setContent(html);
-            storyDetail.setContentTxt(StringUtils.join(strs, "\n\r"));
+//            storyDetail.setContentTxt(StringUtils.join(strs, "\n\r"));
         }
+        
         storyDetail.setStoryId(spiderStoryJob.getStoryId());
         storyDetail.setCrawlUrl(htmlPage.getWebResponse().getRequestSettings().getUrl().toString());
         storyDetail.setCreateTime(new Date());
@@ -289,7 +301,34 @@ public class ParseStoryTask implements Runnable {
         storyDetail.setStatus("2");
         storyDetail.setReadCount(0);
         storyDetail.setReplyCount(0);
+        
+        //第一次处理出现异常，第二次操作
+        if(parseStoryElement.getStoryDetail() != null){
+            storyDetail.setId(parseStoryElement.getStoryDetail().getId());
+        }
+        
         insertDB(storyDetail);
+        
+        StoryInfo storyInfo = new StoryInfo();
+        storyInfo.setId(spiderStoryJob.getStoryId());
+        storyInfo.setLastDetailId(storyDetail.getId());
+        storyInfo.setLastDetailTitle(storyDetail.getTitle());
+        insertDB(storyInfo);
+        
+        if(StringUtils.isEmpty(storyDetail.getContent())){
+            if(parseStoryElement.getStoryDetail() == null){
+                BlockingQueue<CrawlElement> urlQueue = spiderContext.getUrlQueue();
+                
+                CrawlElement crawlElement = new CrawlElement(htmlPage.getWebResponse().getRequestSettings().getUrl().toString(), CrawlType.StoryDetail);
+                crawlElement.setAgain(true);
+                crawlElement.setObj(storyDetail);
+                urlQueue.put(crawlElement);
+                
+                System.out.println("小说明细解析失败，" + htmlPage.getWebResponse().getRequestSettings().getUrl().toString());
+            }else{
+                throw new ParseException("小说明细解析失败，" + htmlPage.getWebResponse().getRequestSettings().getUrl().toString());
+            }
+        }
     }
 
     public void insertDB(StoryDetail storyDetail) {

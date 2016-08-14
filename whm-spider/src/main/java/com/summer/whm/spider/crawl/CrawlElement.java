@@ -4,6 +4,26 @@ public class CrawlElement {
     private String url;
 
     private CrawlType type;
+    
+    private Object obj;
+    
+    private boolean again = false;
+    
+    public boolean isAgain() {
+        return again;
+    }
+
+    public void setAgain(boolean again) {
+        this.again = again;
+    }
+
+    public Object getObj() {
+        return obj;
+    }
+
+    public void setObj(Object obj) {
+        this.obj = obj;
+    }
 
     public CrawlElement() {
         super();

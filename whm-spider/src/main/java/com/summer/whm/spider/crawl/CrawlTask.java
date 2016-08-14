@@ -11,6 +11,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.configs.GlobalConfigHolder;
 import com.summer.whm.entiry.spider.CrawInfo;
+import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.client.WebClientPool;
@@ -81,7 +82,7 @@ public class CrawlTask implements Runnable {
                     }
 
                     if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
-                        if (isCraw(crawlElement.getUrl())) {
+                        if (crawlElement.isAgain() || isCraw(crawlElement.getUrl())) {
                             insertDB(crawlElement.getUrl());
                         } else {
                             continue;
@@ -98,7 +99,9 @@ public class CrawlTask implements Runnable {
                         } else if (CrawlType.StoryInfo.equals(crawlElement.getType())) {
                             parseStoryQueue.put(new ParseStoryElement(false, htmlPage));
                         } else if (CrawlType.StoryDetail.equals(crawlElement.getType())) {
-                            parseStoryQueue.put(new ParseStoryElement(true, htmlPage));
+                            ParseStoryElement parseStoryElement = new ParseStoryElement(true, htmlPage);
+                            parseStoryElement.setStoryDetail((StoryDetail)crawlElement.getObj());
+                            parseStoryQueue.put(parseStoryElement);
                         }
                     } else {
                         System.out.println("Null-URL:" + crawlElement.getUrl());
