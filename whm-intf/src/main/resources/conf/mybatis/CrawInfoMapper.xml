@@ -53,9 +53,9 @@
 		</selectKey>
 	
 		insert into spider_craw_info(
-		url,crawTemplateId,crawLogId
+		url,crawTemplateId,crawLogId,type,CREATETIME
 		)
-		values(#{url},#{crawTemplateId},#{crawLogId})
+		values(#{url},#{crawTemplateId},#{crawLogId},#{type},#{createTime})
 	</insert>
 
 	<delete id="deleteById">

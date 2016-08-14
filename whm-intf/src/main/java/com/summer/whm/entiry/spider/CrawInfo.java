@@ -12,6 +12,16 @@ public class CrawInfo extends BaseEntity {
     
     private Integer crawLogId;
     
+    private String type;
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public CrawInfo() {
     }
 
@@ -21,12 +31,13 @@ public class CrawInfo extends BaseEntity {
         this.setCreateTime(new Date());
     }
     
-    public CrawInfo(String url, Integer crawTemplateId, Integer crawLogId) {
+    public CrawInfo(String url, Integer crawTemplateId, Integer crawLogId, String type) {
         super();
         this.url = url;
         this.crawTemplateId = crawTemplateId;
         this.crawLogId = crawLogId;
         this.setCreateTime(new Date());
+        this.type = type;
     }
 
     public Integer getCrawTemplateId() {
