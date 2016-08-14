@@ -56,7 +56,7 @@
 		<if test="query.categoryId!=null and query.categoryId!=''">
 			and categoryId=#{query.categoryId}
 		</if>
-		order by sortIndex , id desc
+		order by sortIndex desc, id desc
 	</select>
 
 	<select id="count" resultType="long">
@@ -213,7 +213,8 @@
 		si.createTime,
 		si.lastUpdate
 		from story_info si
-		order by  #{orderField}
+		where si.categoryId = #{categoryId}
+		order by  #{orderField} desc
 		LIMIT #{topN}
 	</select>
 	
@@ -240,7 +241,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
-		order by  #{orderField}
+		order by  #{orderField} desc
 		LIMIT #{topN}
 	</select>
 	
@@ -272,7 +273,7 @@
 		<if test="categoryId!=null and categoryId!=''">
 			and categoryId=#{categoryId}
 		</if>
-		order by sortIndex , id desc
+		order by sortIndex desc, id desc
 		LIMIT #{topN}
 	</select>
 		
