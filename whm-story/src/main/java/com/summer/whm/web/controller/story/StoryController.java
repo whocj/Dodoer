@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
+import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.entiry.story.StoryUserBookshelf;
 import com.summer.whm.entiry.story.StoryUserRead;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryUserBookshelfService;
@@ -46,6 +48,9 @@ public class StoryController extends BaseController {
     @Autowired
     private StoryUserBookshelfService storyUserBookshelfService;
 
+    @Autowired
+    private CategoryService categoryService;
+    
     @RequestMapping("/list/{cid}/{cp}")
     public String list(HttpServletRequest request, HttpServletResponse response,
             @PathVariable("cp") int cp, @PathVariable("cid") int cid, ModelMap model) {
@@ -61,6 +66,9 @@ public class StoryController extends BaseController {
         }
         storyInfoService.list(page);
         model.put("page", page);
+        
+        Category category = categoryService.loadById(cid + "");
+        model.put("category", category);
         
         //热门推荐的
         List<StoryInfo> hotList = storyInfoService.queryTopNByHot(cid, 3);
