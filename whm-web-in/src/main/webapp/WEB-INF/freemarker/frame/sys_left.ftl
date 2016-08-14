@@ -18,6 +18,7 @@
 		<li><a href="${base }/sys/loginLog/list.htm" target="rightFrame">登录日志</a></li>
 		<li><a href="${base }/sys/sensitivity/list.htm" target="rightFrame">敏感词管理</a></li>
 		<li><a href="${base }/sys/site/list.htm" target="rightFrame">站点管理</a></li>
+		<li><a href="${base }/sys/notice/list.htm" target="rightFrame">公告管理</a></li>
 		<li><a href="${base }/sys/app/release/main.htm" target="rightFrame">应用管理</a></li>
 	</ul>
 </body>

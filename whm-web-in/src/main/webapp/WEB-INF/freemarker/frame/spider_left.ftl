@@ -17,6 +17,9 @@
 		<li><a href="${base }/spider/detailTemplate/list.htm" target="rightFrame">详情模版</a></li>
 		<li><a href="${base }/spider/crawLog/list.htm" target="rightFrame">爬虫日志</a></li>
 		<li><a href="${base }/spider/crawInfo/list.htm" target="rightFrame">爬虫信息</a></li>
+		
+		<li><a href="${base }/spider/story/template/list.htm" target="rightFrame">小说模版</a></li>
+		<li><a href="${base }/spider/story/job/list.htm" target="rightFrame">小说抓取任务</a></li>
 	</ul>
 </body>
 </html>
