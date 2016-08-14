@@ -48,6 +48,7 @@
 		ssj.lastUpdate
 		from spider_story_job ssj
 		left join bbs_category bc on bc.ID = ssj.categoryId
+		order by ssj.id desc
 	</select>
 
 	<select id="count" resultType="long">
