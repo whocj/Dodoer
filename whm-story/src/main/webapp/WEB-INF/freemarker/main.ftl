@@ -44,7 +44,8 @@
 		 </ul>
 		</div>
 		</div>
-
+		
+		
 		<div class="newscontent">
 		<div class="l">
 		<h2>最新入库小说</h2>

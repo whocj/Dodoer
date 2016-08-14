@@ -8,7 +8,9 @@
 				</p>
 			</div>
 			<div class="span6">
-				商务合作：dodoer.cj@gmail.com
+				<p class="copyright">
+					商务合作：dodoer.cj@gmail.com
+				</p>
 			</div>
 		</div>
 	</div>

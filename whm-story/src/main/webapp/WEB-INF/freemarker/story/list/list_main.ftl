@@ -1,8 +1,3 @@
-<style>
-<!--
-
--->
-</style>
 <div id="hotcontent">
 <div class="ll">
       <#list hotList as datas>
