@@ -5,7 +5,7 @@
 	media='all' />
 <link rel='stylesheet' id='main-css-css'
 	href='${resRoot}/css/main5152.css?ver=1.0' type='text/css' media='all' />
-<link rel='stylesheet' id='main-css-css'
+<link rel='stylesheet' id='story-css-css'
 	href='${resRoot}/css/story.css?ver=1.0' type='text/css' media='all' />
 <!-- script -->
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>

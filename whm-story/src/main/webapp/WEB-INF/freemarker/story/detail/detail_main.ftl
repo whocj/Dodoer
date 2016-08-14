@@ -19,9 +19,9 @@
 <!-- 			&nbsp;推荐阅读：<a target="_blank" href="/kan_61/" title="末日之城">末日之城</a><a -->
 		</div>
 	</div>
-
-	<br>
+		<div id="content">
 		${storyDetail.content }
+		</div>
 		<div class="bottem2">
 		    <a href="javascript:ajaxGetForLayer('${base }/story/addLike/${storyInfo.id }.html')" >投推荐票</a>
 			<#if prevStoryDetail!''>
