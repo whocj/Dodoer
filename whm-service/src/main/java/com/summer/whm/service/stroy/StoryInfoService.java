@@ -78,7 +78,7 @@ public class StoryInfoService extends BaseService {
 
     public List<StoryInfo> queryStoryInfoOrderlastUpdateTop(Integer categoryId, Integer topN) {
         if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_LASTUPDATE, topN);
+            return storyInfoMapper.queryTopNByOrder(FIELD_LASTUPDATE , topN);
         } else {
             return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LASTUPDATE, topN);
         }
@@ -94,25 +94,25 @@ public class StoryInfoService extends BaseService {
 
     public List<StoryInfo> queryTopReply(Integer categoryId, Integer topN) {
         if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_REPLYCOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrder(FIELD_REPLYCOUNT , topN);
         } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_REPLYCOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_REPLYCOUNT, topN);
         }
     }
 
     public List<StoryInfo> queryTopHot(Integer categoryId, Integer topN) {
         if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_READCOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrder(FIELD_READCOUNT, topN);
         } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_READCOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_READCOUNT, topN);
         }
     }
 
     public List<StoryInfo> queryTopLike(Integer categoryId, Integer topN) {
         if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_LIKECOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrder(FIELD_LIKECOUNT , topN);
         } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LIKECOUNT + " desc ", topN);
+            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LIKECOUNT , topN);
         }
     }
 
