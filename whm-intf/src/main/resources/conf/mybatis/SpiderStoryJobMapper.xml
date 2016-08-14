@@ -7,24 +7,25 @@
 	<select id="loadById" parameterType="java.lang.String"
 		resultType="SpiderStoryJob">
 		select
-		id,
-		templateId,
-		storyId,
-		categoryId,
-		userId,
-		username,
-		name,
-		url,
-		title,
-		status,
-		spiderStatus,
-		qtRule,
-		creator,
-		createTime,
-		lastUpdate
-		from
-		spider_story_job where id =
-		#{id}
+		ssj.id,
+		ssj.templateId,
+		ssj.storyId,
+		ssj.categoryId,
+		bc.TITLE as categoryName,
+		ssj.userId,
+		ssj.username,
+		ssj.name,
+		ssj.url,
+		ssj.title,
+		ssj.status,
+		ssj.spiderStatus,
+		ssj.qtRule,
+		ssj.creator,
+		ssj.createTime,
+		ssj.lastUpdate
+		from spider_story_job ssj
+		left join bbs_category bc on bc.ID = ssj.categoryId
+		where ssj.id = #{id}
 	</select>
 
 	<select id="list" parameterType="PageModel" resultType="SpiderStoryJob">
