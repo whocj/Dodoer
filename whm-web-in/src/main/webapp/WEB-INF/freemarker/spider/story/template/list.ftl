@@ -39,7 +39,7 @@ function optDelete() {
 		<tr>
 			<th width="20px">选择</th>
 			<th width="100px">名称</th>
-			<th width="100px">小说标题</th>
+			<th width="100px">执行模块</th>
 			<th width="70px">创建人</th>
 			<th width="70px">创建时间</th>
 			<th width="250px">操作</th>
@@ -52,10 +52,11 @@ function optDelete() {
 			<input type="hidden" name="wids" value="${datas.id!}"/>
 		</td>
 		<td>${datas.name }</td>
-		<td>${datas.titleXPath }</td>
+		<td>${datas.execModel }</td>
 		<td>${datas.username }</td>
 		<td>${datas.createTime?string('yyyy-MM-dd HH:mm:ss') }</td>
 		<td>
+			<a href="${base }/spider/story/template/start.htm?id=${datas.id}" class="pn-opt">开始</a> |
 			<a href="${base }/spider/story/template/edit.htm?id=${datas.id}" class="pn-opt">修改</a> |
 			<a href="${base }/spider/story/template/delete.htm?ids=${datas.id}" onclick="if(!confirm('你确定要删除吗?')) {return false;}" class="pn-opt">删除</a>
 		</td>

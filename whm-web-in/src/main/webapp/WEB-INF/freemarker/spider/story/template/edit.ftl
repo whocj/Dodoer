@@ -19,7 +19,7 @@ $(function() {
 	</form>
 	<div class="clear"></div>
 </div>
-<form id="jvForm" action="${base }/spider/story/template/submit.htm">
+<form id="jvForm" action="${base }/spider/story/template/submit.htm" method="post">
 	<table width="100%" class="pn-ftable" cellpadding="2" cellspacing="1" border="0">
 		<tbody>
 		<tr>
@@ -35,7 +35,7 @@ $(function() {
 				<span class="pn-frequired">*</span>小说标题:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.titleXPath }" name="titleXPath" class="required" size="40">
+				<textarea rows="8" cols="80" name="titleXPath" maxlength="1500" class="required">${spiderStoryTemplate.titleXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -43,15 +43,15 @@ $(function() {
 				<span class="pn-frequired">*</span>作者:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.authorXPath }" name="authorXPath" class="required" size="40">
+				<textarea rows="8" cols="80" name="authorXPath" maxlength="1500" class="required">${spiderStoryTemplate.authorXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
 			<td width="20%" class="pn-flabel pn-flabel-h">
-				<span class="pn-frequired">*</span>概要:
+				概要:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.outlineXPath }" name="outlineXPath" class="required" size="40">
+				<textarea rows="8" cols="80" name="outlineXPath" maxlength="1500">${spiderStoryTemplate.outlineXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -59,7 +59,7 @@ $(function() {
 				图片:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.picPathXPath }" name="picPathXPath"  size="40">
+			 	<textarea rows="8" cols="80" name="picPathXPath" maxlength="1500">${spiderStoryTemplate.picPathXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -80,10 +80,10 @@ $(function() {
 		</tr>
 		<tr>
 			<td width="20%" class="pn-flabel pn-flabel-h">
-				<span class="pn-frequired">*</span>明细标题:
+				明细标题:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.detailTitleXPath }" name="detailTitleXPath" class="required" size="40">
+				<textarea rows="8" cols="80" name="detailTitleXPath" maxlength="1500">${spiderStoryTemplate.detailTitleXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
@@ -91,7 +91,7 @@ $(function() {
 				<span class="pn-frequired">*</span>明细内容:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<input type="text" maxlength="128" value="${spiderStoryTemplate.detailContentXPath }" name="detailContentXPath" class="required" size="40">
+				<textarea rows="8" cols="80" name="detailContentXPath" maxlength="2000">${spiderStoryTemplate.detailContentXPath?html }</textarea>
 			</td>
 		</tr>
 		<tr>
