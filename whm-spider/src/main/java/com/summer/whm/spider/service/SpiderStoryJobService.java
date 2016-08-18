@@ -1,5 +1,7 @@
 package com.summer.whm.spider.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,19 @@ public class SpiderStoryJobService extends BaseService {
     @Autowired
     private SpiderStoryJobMapper spiderStoryJobMapper;
 
+    public SpiderStoryJob queryByUrl(String url) {
+        return spiderStoryJobMapper.queryByUrl(url);
+    }
+    
+    public List<SpiderStoryJob> queryByTempateIdAndStatus(Integer templateId, String status) {
+        return spiderStoryJobMapper.queryByTempateIdAndStatus(templateId, status);
+    }
+
     @Override
     protected BaseMapper getMapper() {
         return spiderStoryJobMapper;
     }
- 
+
     public PageModel<SpiderStoryJob> list(int pageIndex, int pageSize) {
         PageModel<SpiderStoryJob> page = new PageModel<SpiderStoryJob>(pageIndex, pageSize);
         super.list(page);

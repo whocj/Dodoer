@@ -64,6 +64,7 @@ public class CrawlTask implements Runnable {
 
             CrawlElement crawlElement = null;
             HtmlPage htmlPage = null;
+            int count = 0;
             while (!done) {
                 synchronized (obj) {
                     // 取出队首元素，如果队列为空，则阻塞
@@ -88,8 +89,12 @@ public class CrawlTask implements Runnable {
                             continue;
                         }
                     }
-                    
                     Thread.sleep(GlobalConfigHolder.SPIDER_SLEEP_TIME);// 休息1秒钟
+                    if(count == 100){
+                        count = 0;
+                        Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME);// 休息5分钟
+                    }
+                    count++;
                     htmlPage = crawl(crawlElement.getUrl());
                     if (htmlPage != null) {
                         if (CrawlType.Detail.equals(crawlElement.getType())) {

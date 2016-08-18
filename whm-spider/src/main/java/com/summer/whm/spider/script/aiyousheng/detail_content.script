@@ -1,0 +1,26 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+String url = htmlPage.getWebResponse().getRequestSettings().getUrl().toString();
+String id = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='content" + id + "']");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    element.removeChild("div", 2);
+    
+    text = element.asText();
+    
+    String[] strs = text.split("\n");
+	text = "";
+	boolean f = true;
+	for(int i = 0; i < strs.length; i++){
+		if(!"".equals(strs[i].trim())){
+			if(f){
+				text = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+				f = false;
+			}else{
+				text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+			}
+		}
+	}
+}
+return text;
