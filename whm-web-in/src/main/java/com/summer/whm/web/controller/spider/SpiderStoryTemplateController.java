@@ -17,6 +17,8 @@ import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.spider.SpiderStoryTemplate;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.spider.SpiderConfigs;
+import com.summer.whm.spider.service.CrawlService;
 import com.summer.whm.spider.service.SpiderStoryTemplateService;
 import com.summer.whm.web.controller.BaseController;
 
@@ -27,6 +29,9 @@ public class SpiderStoryTemplateController extends BaseController{
 
     @Autowired
     private SpiderStoryTemplateService spiderStoryTemplateService;
+    
+    @Autowired
+    private CrawlService crawlService;
     
     @RequestMapping("/list")
     public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage, ModelMap model) {
@@ -73,6 +78,27 @@ public class SpiderStoryTemplateController extends BaseController{
             spiderStoryTemplateService.update(spiderStoryTemplate);
         }
 
+        return "redirect:list.htm";
+    }
+    
+    @RequestMapping("/start")
+    public String start(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.startStoryTemplate(id, this.getSessionUser(request));
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/pause")
+    public String pause(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.pause(id, SpiderConfigs.DOMAIN_TYPE_STORY, this.getSessionUser(request));
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/stop")
+    public String stop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") int id,
+            ModelMap model) {
+        crawlService.stop(id, SpiderConfigs.DOMAIN_TYPE_STORY, this.getSessionUser(request));
         return "redirect:list.htm";
     }
 }
