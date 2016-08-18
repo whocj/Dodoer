@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.summer.whm.entiry.search.SearchPost;
 import com.summer.whm.entiry.story.StoryDetail;
+import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.mapper.BaseMapper;
 import com.summer.whm.mapper.story.StoryDetailMapper;
 import com.summer.whm.service.BaseService;
+import com.summer.whm.service.search.model.PostType;
 
 /**
  * 
@@ -29,6 +32,20 @@ public class StoryDetailService extends BaseService {
         return storyDetailMapper;
     }
 
+    public List<StoryDetail> queryByStoryIdAndContentIsNull(Integer storyId){
+        return storyDetailMapper.queryByStoryIdAndContentIsNull(storyId);
+    }
+    
+    public Integer save(StoryDetail storyDetail) {
+        if (storyDetail.isNew()) {
+            storyDetailMapper.insert(storyDetail);
+        } else {
+            storyDetailMapper.update(storyDetail);
+        }
+
+        return storyDetail.getId();
+    }
+    
     public StoryDetail queryNextByStoryAndId(Integer storyId, Integer id) {
         return storyDetailMapper.queryNextByStoryAndId(storyId, id);
     }
