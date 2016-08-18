@@ -160,6 +160,9 @@ public class GlobalConfigHolder {
     public static int PIC_MAX_LENGTH = 500;
     
     public static String DEFAULT_USER_PIC = "/images/user/avatar.png";
+
+    //每爬100个页面休息5分钟
+    public static Integer SPIDER_CRAWL_SLEEP_TIME = 300000;
     
     static {
         SKIN_MAP.put("blue", "blue");

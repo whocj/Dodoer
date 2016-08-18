@@ -70,9 +70,9 @@ public class StoryInfoService extends BaseService {
     
     public List<StoryInfo> queryStoryInfoOrderCreateTimeTop(Integer categoryId, Integer topN) {
         if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_CREATETIME, topN);
+            return storyInfoMapper.queryTopNByOrder("id", topN);
         } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_CREATETIME, topN);
+            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, "id", topN);
         }
     }
 
