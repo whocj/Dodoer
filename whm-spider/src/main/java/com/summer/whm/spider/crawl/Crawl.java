@@ -15,6 +15,7 @@ import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.parse.ParseDetailTask;
 import com.summer.whm.spider.parse.ParseListTask;
+import com.summer.whm.spider.parse.ParseStoryScriptTask;
 import com.summer.whm.spider.parse.ParseStoryTask;
 import com.summer.whm.spider.service.CrawInfoService;
 import com.summer.whm.spider.service.SpiderStoryJobService;
@@ -239,10 +240,15 @@ public class Crawl {
         crawlTask = new CrawlTask(spiderContext, crawInfoService);
         Thread thread = new Thread(crawlTask);
         thread.start();
-
-        ParseStoryTask parseStoryTask = new ParseStoryTask(spiderContext, storyInfoService, storyPartService,
-                storyDetailService, spiderStoryJobService);
-        new Thread(parseStoryTask).start();
+        if("ParseStoryTask".equals(spiderContext.getSpiderStoryTemplate().getExecModel())){
+            ParseStoryTask parseStoryTask = new ParseStoryTask(spiderContext, storyInfoService, storyPartService,
+                    storyDetailService, spiderStoryJobService);
+            new Thread(parseStoryTask).start();
+        }else{
+            ParseStoryScriptTask parseStoryScriptTask = new ParseStoryScriptTask(spiderContext, storyInfoService, storyPartService,
+                    storyDetailService, spiderStoryJobService);
+            new Thread(parseStoryScriptTask).start();
+        }
 
         try {
             spiderContext.getUrlQueue().put(

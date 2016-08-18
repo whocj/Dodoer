@@ -10,6 +10,7 @@ import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.ProxyConfig;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.summer.whm.common.configs.GlobalConfigHolder;
+import com.summer.whm.spider.utils.FileUtils;
 
 public class WebClientPool {
     private final GenericObjectPool<WebClient> internalPool;
@@ -18,10 +19,13 @@ public class WebClientPool {
         this.internalPool = new GenericObjectPool<WebClient>(new BasePoolableObjectFactory<WebClient>() {
             public WebClient makeObject() throws Exception {
                 WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3);
-//                ProxyConfig proxyConfig = new ProxyConfig();
-//                proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-//                webClient.setProxyConfig(proxyConfig);
-                
+
+//                if (FileUtils.isWindow()) {
+//                    ProxyConfig proxyConfig = new ProxyConfig();
+//                    proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+//                    webClient.setProxyConfig(proxyConfig);
+//                }
+
                 webClient.setUseInsecureSSL(true);
                 webClient.setThrowExceptionOnScriptError(false);
                 webClient.setThrowExceptionOnFailingStatusCode(false);
@@ -41,12 +45,12 @@ public class WebClientPool {
                         System.out.println(message);
                     }
                 });
-                
+
                 return webClient;
             }
         }, Integer.MAX_VALUE);
     }
-    
+
     public WebClient borrowWebClient() throws Exception {
         return this.internalPool.borrowObject();
     }

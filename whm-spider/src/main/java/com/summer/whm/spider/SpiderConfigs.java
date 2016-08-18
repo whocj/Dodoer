@@ -2,7 +2,7 @@ package com.summer.whm.spider;
 
 
 public class SpiderConfigs {
-    public final static int URL_QUEUE_SIZE = 1000000;// 阻塞队列大小
+    public final static int URL_QUEUE_SIZE = 5000;// 阻塞队列大小
     public final static int CRAWL_THREAD_SIZE = 1;// 抓取线程个数
     public final static int PARSE_THREAD_SIZE = 1;// 解析线程个数
     public final static int WEBCLIENT_COUNT = 100;// 解析线程个数
@@ -30,9 +30,9 @@ public class SpiderConfigs {
     public static int SUNING_DOMAIN_MAX_ROUTE_CONNECTIONS = 128;
     public static int SUNING_DOMAIN_MAX_TOTAL_CONNECTIONS = 128;
     
-    public static int HTTP_CONNECT_TIMEOUT = 500;
-    public static int HTTP_SO_TIMEOUT = 500;
-    public static int HTTP_POOL_TIMEOUT = 1000;
+    public static int HTTP_CONNECT_TIMEOUT = 5000;
+    public static int HTTP_SO_TIMEOUT = 5000;
+    public static int HTTP_POOL_TIMEOUT = 10000;
     public static int HTTP_MAX_ROUTE_CONNECTIONS = 1024;
     public static int HTTP_MAX_TOTAL_CONNECTIONS = 1024;
     
@@ -49,6 +49,8 @@ public class SpiderConfigs {
     
     public static String DOMAIN_TYPE_STORY = "story";
     
+    public static String DOMAIN_TYPE_STORY_TEMPLATE = "storyTemplate";
+    
     public static final String STATUS_DEFAULT = "Default";
 
     public static final String STATUS_WAIT = "Wait";
@@ -58,5 +60,14 @@ public class SpiderConfigs {
     public static final String STATUS_STOP = "Stop";
 
     public static final String STATUS_ERROR = "Error";
+    
+    //小说任务状态，初始化
+    public static final String STORY_JOB_STATUS_INIT = "0";
+    
+    //小说任务状态，完结
+    public static final String STORY_JOB_STATUS_FINISH = "3";
+    
+    //小说任务状态，错误
+    public static final String STORY_JOB_STATUS_ERROR = "99";
 
 }
