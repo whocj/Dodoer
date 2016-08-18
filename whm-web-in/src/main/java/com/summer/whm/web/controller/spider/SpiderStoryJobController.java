@@ -2,7 +2,6 @@ package com.summer.whm.web.controller.spider;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
@@ -102,6 +101,7 @@ public class SpiderStoryJobController extends BaseController {
             User user = getSessionUser(request);
             spiderStoryJob.setUserId(user.getId());
             spiderStoryJob.setUsername(user.getUsername());
+            spiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);
             spiderStoryJobService.insert(spiderStoryJob);
         } else {
             spiderStoryJob.setLastUpdate(new Date());
@@ -120,24 +120,31 @@ public class SpiderStoryJobController extends BaseController {
     public String upload(HttpServletRequest request, HttpServletResponse response,
             @RequestParam MultipartFile multipartFile) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "utf-8"));
         String temp = null;
         while ((temp = br.readLine()) != null) {
             String[] strs = temp.split("###");
             if (strs != null && strs.length == 5) {
-                SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
-                spiderStoryJob.setTitle(strs[0]);
-                spiderStoryJob.setCategoryId(Integer.parseInt(strs[1]));
-                spiderStoryJob.setTemplateId(Integer.parseInt(strs[2]));
-                spiderStoryJob.setUrl(strs[3]);
-                spiderStoryJob.setQtRule(strs[4]);
-                buildExtCreatorPara(request, spiderStoryJob);
-                User user = getSessionUser(request);
-                spiderStoryJob.setUserId(user.getId());
-                spiderStoryJob.setUsername(user.getUsername());
-                LOG.info("upload SpiderStoryJob {}", spiderStoryJob);
+                
+                SpiderStoryJob tempJob =  spiderStoryJobService.queryByUrl(strs[3]);
+                if(tempJob == null){
+                    SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
+                    spiderStoryJob.setTitle(strs[0]);
+                    spiderStoryJob.setCategoryId(Integer.parseInt(strs[1]));
+                    spiderStoryJob.setTemplateId(Integer.parseInt(strs[2]));
+                    spiderStoryJob.setUrl(strs[3]);
+                    spiderStoryJob.setQtRule(strs[4]);
+                    spiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);;
+                    buildExtCreatorPara(request, spiderStoryJob);
+                    User user = getSessionUser(request);
+                    spiderStoryJob.setUserId(user.getId());
+                    spiderStoryJob.setUsername(user.getUsername());
+                    LOG.info("upload SpiderStoryJob {}", spiderStoryJob);
 
-                spiderStoryJobService.insert(spiderStoryJob);
+                    spiderStoryJobService.insert(spiderStoryJob);
+                }else{
+                    System.out.println(strs[0] + "数据重复。");
+                }
             }
         }
 
