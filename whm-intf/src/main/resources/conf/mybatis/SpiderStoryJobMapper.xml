@@ -83,6 +83,10 @@
 	<update id="update" parameterType="SpiderStoryJob">
 		update spider_story_job set
 		id=#{id}
+		
+		<if test="categoryId!=null and categoryId!=''">
+			,categoryId=#{categoryId}
+		</if>
 		<if test="templateId!=null and templateId!=''">
 			,templateId=#{templateId}
 		</if>
@@ -117,5 +121,51 @@
 	<delete id="deleteById">
 		delete from spider_story_job where id = #{id}
 	</delete>
+	
+	<select id="queryByTempateIdAndStatus" resultType="SpiderStoryJob">
+		select
+		ssj.id,
+		ssj.templateId,
+		ssj.storyId,
+		ssj.categoryId,
+		bc.TITLE as categoryName,
+		ssj.userId,
+		ssj.username,
+		ssj.name,
+		ssj.url,
+		ssj.title,
+		ssj.status,
+		ssj.spiderStatus,
+		ssj.qtRule,
+		ssj.creator,
+		ssj.createTime,
+		ssj.lastUpdate
+		from spider_story_job ssj
+		left join bbs_category bc on bc.ID = ssj.categoryId
+		where ssj.templateId = #{templateId}
+		and ssj.status = #{status}
+		order by ssj.lastUpdate desc
+	</select>
+	
+	<select id="queryByUrl" resultType="SpiderStoryJob">
+		select
+		ssj.id,
+		ssj.templateId,
+		ssj.storyId,
+		ssj.categoryId,
+		ssj.userId,
+		ssj.username,
+		ssj.name,
+		ssj.url,
+		ssj.title,
+		ssj.status,
+		ssj.spiderStatus,
+		ssj.qtRule,
+		ssj.creator,
+		ssj.createTime,
+		ssj.lastUpdate
+		from spider_story_job ssj
+		where ssj.url = #{url}
+	</select>
 
 </mapper>
