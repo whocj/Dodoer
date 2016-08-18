@@ -27,4 +27,6 @@ public interface StoryDetailMapper extends BaseMapper {
     StoryDetail queryNextByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id);
 
     StoryDetail queryPrevByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id);
+    
+    List<StoryDetail> queryByStoryIdAndContentIsNull(@Param("storyId") Integer storyId);
 }
