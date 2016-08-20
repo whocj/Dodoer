@@ -3,7 +3,7 @@
 	<ul id="recentcomments">
 		<#list noticeList as datas>
 			<li class="recentcomments">
-				<a href="${base }/notice/detail/${datas.id}.html">${datas.title }</a></li>
+				<a href="${base }/notice/${datas.id}.html">${datas.title }</a></li>
 		</#list>
 	</ul>
 </section>

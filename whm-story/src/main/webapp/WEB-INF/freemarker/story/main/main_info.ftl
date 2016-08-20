@@ -1,6 +1,6 @@
 <div class="box_con white">
 	<div class="con_top">
-		<a href="${base }">多多儿</a> &gt; ${storyInfo.categoryName }  &gt; ${storyInfo.title }最新章节列表
+		<a href="${base }/index.html">多多儿</a> &gt; ${storyInfo.categoryName }  &gt; ${storyInfo.title }最新章节列表
 	</div>
 	<div id="maininfo">
 		<div id="info">
@@ -19,7 +19,7 @@
 	</div>
 	<div id="sidebar">
 		<div id="fmimg">
-			<img alt="${storyInfo.title }" src="${storyInfo.picPath }"
+			<img alt="${storyInfo.title }" src="${storyInfo.picPath }" onerror="nofind()"
 				width="120" height="150">
 		</div>
 	</div>
