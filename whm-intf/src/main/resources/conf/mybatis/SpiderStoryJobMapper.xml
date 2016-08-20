@@ -144,7 +144,7 @@
 		left join bbs_category bc on bc.ID = ssj.categoryId
 		where ssj.templateId = #{templateId}
 		and ssj.status = #{status}
-		order by ssj.lastUpdate desc
+		order by ssj.lastUpdate
 	</select>
 	
 	<select id="queryByUrl" resultType="SpiderStoryJob">
