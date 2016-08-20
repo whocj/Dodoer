@@ -1,6 +1,6 @@
 <div class="box_con">
 	<div class="con_top">
-		<a href="${base }">多多儿</a> &gt; ${storyInfo.categoryName } &gt; ${storyInfo.title }
+		<a href="${base }/index.html">多多儿</a> &gt; ${storyInfo.categoryName } &gt; ${storyInfo.title }
 	</div>
 	<div class="bookname">
 		<h1>《${storyInfo.title}》${storyDetail.title }</h1>
