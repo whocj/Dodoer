@@ -113,7 +113,7 @@ public class GlobalConfigHolder {
     public static String BBS_POST_URL = DOMAIN_URL + "/bbs/topic/batchPostCommit.htm";
     
     //爬虫等等时间
-    public static Integer SPIDER_SLEEP_TIME  = 1000;
+    public static Integer SPIDER_SLEEP_TIME  = 2000;
     
     //超时时间
     public static Integer SPIDER_CLIENT_TIMEOUT  = 20000;

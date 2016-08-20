@@ -40,18 +40,6 @@ public class StoryInfoService extends BaseService {
     @Autowired
     private SearchPostService searchPostService;
 
-    public static final String FIELD_CREATETIME = "createTime";
-
-    public static final String FIELD_LASTUPDATE = "lastUpdate";
-
-    public static final String FIELD_SORTINDEX = "sortIndex";
-
-    public static final String FIELD_REPLYCOUNT = "replyCount";
-
-    public static final String FIELD_READCOUNT = "readCount";
-
-    public static final String FIELD_LIKECOUNT = "likeCount";
-    
     public  void addLike(Integer id){
         storyInfoMapper.addLike(id);
     }
@@ -69,51 +57,27 @@ public class StoryInfoService extends BaseService {
     }
     
     public List<StoryInfo> queryStoryInfoOrderCreateTimeTop(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder("id", topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, "id", topN);
-        }
+        return storyInfoMapper.queryStoryInfoOrderCreateTimeTop(categoryId, topN);
     }
 
     public List<StoryInfo> queryStoryInfoOrderlastUpdateTop(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_LASTUPDATE , topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LASTUPDATE, topN);
-        }
+        return storyInfoMapper.queryStoryInfoOrderlastUpdateTop(categoryId, topN);
     }
 
     public List<StoryInfo> queryStoryInfoOrderSortIndexTop(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_LASTUPDATE, topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LASTUPDATE, topN);
-        }
+        return storyInfoMapper.queryStoryInfoOrderSortIndexTop(categoryId, topN);
     }
 
     public List<StoryInfo> queryTopReply(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_REPLYCOUNT , topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_REPLYCOUNT, topN);
-        }
+        return storyInfoMapper.queryTopReply(categoryId, topN);
     }
 
     public List<StoryInfo> queryTopHot(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_READCOUNT, topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_READCOUNT, topN);
-        }
+        return storyInfoMapper.queryTopHot(categoryId, topN);
     }
 
     public List<StoryInfo> queryTopLike(Integer categoryId, Integer topN) {
-        if (categoryId == null) {
-            return storyInfoMapper.queryTopNByOrder(FIELD_LIKECOUNT , topN);
-        } else {
-            return storyInfoMapper.queryTopNByOrderAndCategoryId(categoryId, FIELD_LIKECOUNT , topN);
-        }
+        return storyInfoMapper.queryTopLike(categoryId, topN);
     }
 
     public StoryInfo queryById(Integer storyId) {
