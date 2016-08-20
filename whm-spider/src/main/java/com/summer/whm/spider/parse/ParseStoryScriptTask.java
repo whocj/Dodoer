@@ -28,6 +28,7 @@ import com.summer.whm.spider.SpiderContext;
 import com.summer.whm.spider.crawl.CrawlElement;
 import com.summer.whm.spider.crawl.CrawlType;
 import com.summer.whm.spider.exception.ParseException;
+import com.summer.whm.spider.model.html.Anchor;
 import com.summer.whm.spider.script.ScriptManager;
 import com.summer.whm.spider.service.SpiderStoryJobService;
 import com.summer.whm.spider.store.CrawlStore;
@@ -173,41 +174,42 @@ public class ParseStoryScriptTask implements Runnable {
                 spiderStoryJobService.update(tempStoryJob);
                 
                 // 处理明细
-                List<HtmlAnchor> detailAnchorList = (List<HtmlAnchor>) htmlPage.getByXPath(template.getDetailXPath());
-                if (detailAnchorList != null && detailAnchorList.size() > 0) {
+                
+                Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);//处理明细URL
+                if(anchorObj != null){
                     String href = null;
                     String url = null;
-                    for (HtmlAnchor htmlAnchor : detailAnchorList) {
-                        href = htmlAnchor.getAttribute("href");
-                        if (href != null) {
-                            if (URLUtil.getHost(href) != null) {
-                                // 校验有站内连接
-                                url = href;
-                            } else if (href.startsWith("/")) {
-                                url = SpiderConfigs.HTTP_PROTOCOL + URLUtil.getHost(spiderStoryJob.getUrl()) + href;
+                    
+                    List<Anchor> anchorList = (List<Anchor>)anchorObj;
+                    for(Anchor anchor : anchorList){
+                        href = anchor.getUrl();
+                        if (URLUtil.getHost(href) != null) {
+                            // 校验有站内连接
+                            url = href;
+                        } else if (href.startsWith("/")) {
+                            url = SpiderConfigs.HTTP_PROTOCOL + URLUtil.getHost(spiderStoryJob.getUrl()) + href;
+                        } else {
+                            if (htmlPage.getWebResponse().getRequestSettings().getUrl().toString().endsWith("/")) {
+                                url = htmlPage.getWebResponse().getRequestSettings().getUrl() + href;
                             } else {
-                                if (htmlPage.getWebResponse().getRequestSettings().getUrl().toString().endsWith("/")) {
-                                    url = htmlPage.getWebResponse().getRequestSettings().getUrl() + href;
-                                } else {
-                                    url = htmlPage.getWebResponse().getRequestSettings().getUrl() + "/" + href;
-                                }
+                                url = htmlPage.getWebResponse().getRequestSettings().getUrl() + "/" + href;
                             }
-                            
-                            StoryDetail storyDetail = new StoryDetail();
-                            storyDetail.setTitle(htmlAnchor.getTextContent());
-                            storyDetail.setStoryId(storyInfo.getId());
-                            storyDetail.setCrawlUrl(url);
-                            storyDetail.setCreateTime(new Date());
-                            storyDetail.setCreator(SpiderConfigs.SPIDER);
-                            storyDetail.setStatus("0");
-                            storyDetail.setReadCount(0);
-                            storyDetail.setReplyCount(0);
-                            saveDB(storyDetail);
-                            
-                            CrawlElement crawlElement =  new CrawlElement(url, CrawlType.StoryDetail);
-                            crawlElement.setObj(storyDetail);
-                            urlQueue.put(crawlElement);
                         }
+                        
+                        StoryDetail storyDetail = new StoryDetail();
+                        storyDetail.setTitle(anchor.getTxt());
+                        storyDetail.setStoryId(storyInfo.getId());
+                        storyDetail.setCrawlUrl(url);
+                        storyDetail.setCreateTime(new Date());
+                        storyDetail.setCreator(SpiderConfigs.SPIDER);
+                        storyDetail.setStatus("0");
+                        storyDetail.setReadCount(0);
+                        storyDetail.setReplyCount(0);
+                        saveDB(storyDetail);
+                        
+                        CrawlElement crawlElement =  new CrawlElement(url, CrawlType.StoryDetail);
+                        crawlElement.setObj(storyDetail);
+                        urlQueue.put(crawlElement);
                     }
                 }
 
