@@ -17,11 +17,18 @@ import com.summer.whm.mapper.BaseMapper;
 public interface StoryInfoMapper extends BaseMapper {
     
     List<StoryInfo> queryTopNByHot(@Param("categoryId") Integer categoryId, @Param("topN") Integer topN);
-    
-    List<StoryInfo> queryTopNByOrderAndCategoryId(@Param("categoryId") Integer categoryId,
-            @Param("orderField") String orderField, @Param("topN") Integer topN);
 
-    List<StoryInfo> queryTopNByOrder(@Param("orderField") String orderField, @Param("topN") Integer topN);
+    List<StoryInfo> queryStoryInfoOrderCreateTimeTop(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
+    
+    List<StoryInfo> queryStoryInfoOrderlastUpdateTop(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
+    
+    List<StoryInfo> queryStoryInfoOrderSortIndexTop(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
+    
+    List<StoryInfo> queryTopReply(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
+    
+    List<StoryInfo> queryTopHot(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
+    
+    List<StoryInfo> queryTopLike(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
 
     void addLike( @Param("id") Integer id);
     

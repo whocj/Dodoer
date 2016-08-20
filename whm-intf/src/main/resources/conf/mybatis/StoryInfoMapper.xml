@@ -36,6 +36,7 @@
 		si.categoryId,
 		si.categoryName,
 		si.title,
+		si.outline,
 		si.author,
 		si.status,
 		si.picPath,
@@ -190,40 +191,14 @@
 	<delete id="deleteById">
 		delete from story_info where id = #{id}
 	</delete>
-
-	<select id="queryTopNByOrderAndCategoryId" resultType="StoryInfo">
-		select
-		si.id,
-		si.categoryId,
-		si.categoryName,
-		si.title,
-		si.author,
-		si.status,
-		si.picPath,
-		si.lastDetailId,
-		si.lastDetailTitle,
-		si.tagName,
-		si.likeCount,
-		si.readCount,
-		si.replyCount,
-		si.sortIndex,
-		si.remark,
-		si.crawlUrl,
-		si.creator,
-		si.createTime,
-		si.lastUpdate
-		from story_info si
-		where si.categoryId = #{categoryId}
-		order by  #{orderField} desc
-		LIMIT #{topN}
-	</select>
 	
-	<select id="queryTopNByOrder" resultType="StoryInfo">
+	<select id="queryStoryInfoOrderCreateTimeTop" resultType="StoryInfo">
 		select
 		si.id,
 		si.categoryId,
 		si.categoryName,
 		si.title,
+		si.outline,
 		si.author,
 		si.status,
 		si.picPath,
@@ -241,10 +216,167 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
-		order by  #{orderField} desc
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.createTime desc
 		LIMIT #{topN}
 	</select>
 	
+	<select id="queryStoryInfoOrderlastUpdateTop" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.lastUpdate desc
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryStoryInfoOrderSortIndexTop" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.sortIndex desc, si.readCount desc
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryTopReply" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.replyCount desc
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryTopHot" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.readCount desc
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryTopLike" resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where 1=1
+		<if test="categoryId!=null and categoryId!=''">
+			and si.categoryId = #{categoryId}
+		</if>
+		order by si.likeCount desc
+		LIMIT #{topN}
+	</select>
 	
 	<select id="queryTopNByHot" resultType="StoryInfo">
 		select
@@ -252,6 +384,7 @@
 		si.categoryId,
 		si.categoryName,
 		si.title,
+		si.outline,
 		si.author,
 		si.outline,
 		si.status,
