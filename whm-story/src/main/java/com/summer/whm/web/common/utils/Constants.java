@@ -38,6 +38,8 @@ public class Constants {
      * url中的jsessionid名称
      */
     public static final String JSESSION_URL = "jsessionid";
+    
+    public static final String JSESSION_UA = "ua";
 
     /**
      * HTTP POST请求
@@ -78,6 +80,8 @@ public class Constants {
 
     public static final String FRIST_DO_MAIN = "www.dodoer.com";
     
+    public static final String MOBILE_DO_MAIN = "m.dodoer.com";
+    
     public static String PUBLIC_AUTH_SOURCE_QQ = "QQ";
 
     public static String PUBLIC_AUTH_SOURCE_WEBO = "WEBO";
@@ -97,6 +101,10 @@ public class Constants {
     public static final String RESP_STATUS_PRO = "403";
     
     public static final String RESP_STATUS_ERR = "500";
+    
+    public static final String UA_TYPE_MOBILE = "mobile";
+    
+    public static final String UA_TYPE_PC = "pc";
     
     static {
         SKIN_MAP.put("blue", "blue");

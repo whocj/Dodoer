@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import com.summer.whm.WebConstants;
 import com.summer.whm.entiry.BaseEntity;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.web.common.utils.CheckMobile;
+import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.controller.common.ForwardManager;
 
 public class BaseController {
     public static Logger log = LoggerFactory.getLogger(BaseController.class);
@@ -24,6 +28,50 @@ public class BaseController {
     public final static String ERROR = "error_404.ftl";
 
     public static final String LOGIN_URL = "redirect:/login/index.html";
+
+    
+    
+    /**
+     * 检查访问方式是否为移动端
+     * 
+     * @Title: check
+     * @Date : 2014-7-7 下午03:55:19
+     * @param request
+     * @throws IOException
+     */
+    public boolean checkMobile(HttpServletRequest request, HttpServletResponse response){
+        boolean isFromMobile = false;
+
+        HttpSession session = request.getSession();
+        // 检查是否已经记录访问方式（移动端或pc端）
+        if (null == session.getAttribute(Constants.JSESSION_UA)) {
+            try {
+                StringBuffer url = request.getRequestURL();
+                boolean flag = CheckMobile.checkUrl(url.toString());
+                if(!flag){
+                    // 获取ua，用来判断是否为移动端访问
+                    String userAgent = request.getHeader("USER-AGENT").toLowerCase();
+                    if (null == userAgent) {
+                        userAgent = "";
+                    }
+                    isFromMobile = CheckMobile.check(userAgent);
+                }
+                // 判断是否为移动端访问
+                if (flag || isFromMobile) {
+//                    System.out.println("移动端访问");
+                    session.setAttribute(Constants.JSESSION_UA, Constants.UA_TYPE_MOBILE);
+                } else {
+//                    System.out.println("pc端访问");
+                    session.setAttribute(Constants.JSESSION_UA, Constants.UA_TYPE_PC);
+                }
+            } catch (Exception e) {
+            }
+        } else {
+            isFromMobile = session.getAttribute(Constants.JSESSION_UA).equals(Constants.UA_TYPE_MOBILE);
+        }
+
+        return isFromMobile;
+    }
 
     public User getSessionUser(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(WebConstants.SESSION_USER);
@@ -112,5 +160,10 @@ public class BaseController {
 
     public void setSessionUser(HttpServletRequest request, User user) {
         request.getSession().setAttribute(WebConstants.SESSION_USER, user);
+    }
+    
+    public String getForward(HttpServletRequest request, HttpServletResponse response,  String forward){
+        boolean isMobile = this.checkMobile(request, response);
+        return ForwardManager.getForward(forward, isMobile);
     }
 }

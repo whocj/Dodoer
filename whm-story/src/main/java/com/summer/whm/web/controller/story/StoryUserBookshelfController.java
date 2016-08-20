@@ -93,7 +93,7 @@ public class StoryUserBookshelfController extends BaseController {
         List<StoryUserBookshelf> bookshelfList = storyUserBookshelfService.queryByUsername(user.getUsername());
         model.put("bookshelfList", bookshelfList);
 
-        return "/story/bookshelf/bookshelf_index.ftl";
+        return "story/bookshelf/bookshelf_index.ftl";
     }
 
 }

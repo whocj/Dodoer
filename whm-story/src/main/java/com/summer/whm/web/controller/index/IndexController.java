@@ -45,7 +45,7 @@ public class IndexController extends BaseController {
     public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
         List<Tag> tagList = tagService.queryByIsSysAndSite(Constants.IS_STR_TRUE, Constants.SITE_ID_STORY);
         List<FriendLink> friendLinkList = friendLinkService.queryBySiteId(Constants.SITE_ID_STORY);
-
+        
         //热门推荐的
         List<StoryInfo> hotList = storyInfoService.queryTopNByHot(null, 4);
         model.put("hotList", hotList);
@@ -76,7 +76,7 @@ public class IndexController extends BaseController {
         model.put("friendLinkList", friendLinkList);
         model.put("tagList", tagList);
 
-        return "index.ftl";
+        return this.getForward(request, response, "index.ftl");
     }
 
 }
