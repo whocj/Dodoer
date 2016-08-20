@@ -1,0 +1,33 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//dl/dd/a");
+if (elementList != null && elementList.size() > 0) {
+    java.util.Map anchorMap = new java.util.HashMap();
+    
+    for (int i = 0; i < elementList.size(); i++) {
+        com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList
+                .get(i);
+        anchorMap.put(element.getAttribute("href"), element.getTextContent());
+    }
+    
+    java.util.List list = new java.util.ArrayList();
+    java.util.Iterator iterator = anchorMap.entrySet().iterator();
+    while(iterator.hasNext()){
+        java.util.Map.Entry entry = (java.util.Map.Entry) iterator.next();
+        list.add(new com.summer.whm.spider.model.html.Anchor((String)entry.getKey(), (String)entry.getValue()));
+    }
+    
+    java.util.Collections.sort(list, new java.util.Comparator() {
+        public int compare(Object o1, Object o2) {
+             com.summer.whm.spider.model.html.Anchor a1 = (com.summer.whm.spider.model.html.Anchor)o1;
+             com.summer.whm.spider.model.html.Anchor a2 = (com.summer.whm.spider.model.html.Anchor)o2;
+            
+            if(a1.getUrl().compareTo(a2.getUrl()) > 0){
+                return 1;
+            }else {
+                return -1;
+            }
+        }});
+    return list;
+}
+
+return null;

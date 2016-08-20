@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.spider.client.WebClientPool;
+import com.summer.whm.spider.model.html.Anchor;
 import com.summer.whm.spider.script.ScriptManager;
-import com.summer.whm.spider.utils.SerializeUtil;
 
 public class RunScript {
 
@@ -30,29 +28,28 @@ public class RunScript {
     public static void main(String[] args) throws FailingHttpStatusCodeException, Exception {
 
         WebClientPool webClientPool = new WebClientPool();
-//        InputStream is = RunScript.class.getResourceAsStream("detail_content.script");
-//        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//        String temp = null;
-//        StringBuffer sb = new StringBuffer();
-//        while ((temp = br.readLine()) != null) {
-//            sb.append(temp).append("\n");
-//        }
-//        System.out.println(sb.toString());
+        InputStream is = RunScript.class.getResourceAsStream("story_outline.script");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String temp = null;
+        StringBuffer sb = new StringBuffer();
+        while ((temp = br.readLine()) != null) {
+            sb.append(temp).append("\n");
+        }
+        System.out.println(sb.toString());
         HtmlPage htmlPage = null;
-        htmlPage = webClientPool.borrowWebClient().getPage("http://www.aiyousheng.com/17612/");
+        htmlPage = webClientPool.borrowWebClient().getPage("http://www.aiyousheng.com/20024/");
         
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("htmlPage", htmlPage);
-        //String ret = ScriptManager.getInstance().run(sb.toString(), map);
-        //System.out.println(ret);
-        //System.out.println(htmlPage.asXml());
-        List<HtmlElement> anchorList   = (List<HtmlElement>)htmlPage.getByXPath("//dl/dd/a");
-        System.out.println(anchorList.size());
-        for(HtmlElement htmlAnchor : anchorList){
-            System.out.println(htmlAnchor.getTextContent() + " url=" +htmlAnchor.getAttribute("href"));
-            //System.out.println(htmlAnchor.asXml());
-        }
-
+        Object ret = ScriptManager.getInstance().run(sb.toString(), map);
+        System.out.println(ret);
+//        if(ret != null){
+//            List<Anchor> anchorList = (List<Anchor>)ret;
+//            for(Anchor anchor : anchorList){
+//                System.out.println(anchor);    
+//            }
+//        }
+  
     }
 
 }

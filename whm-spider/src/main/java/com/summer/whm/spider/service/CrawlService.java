@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.summer.whm.common.configs.GlobalConfigHolder;
 import com.summer.whm.entiry.spider.CrawLog;
 import com.summer.whm.entiry.spider.CrawTemplate;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
@@ -143,8 +144,11 @@ public class CrawlService {
                 storyDetailService, spiderStoryJobService);
         crawl.startStory();
         
-        spiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
-        spiderStoryJobService.update(spiderStoryJob);
+        SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
+        
+        tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
+        tempSpiderStoryJob.setId(spiderStoryJob.getId());
+        spiderStoryJobService.update(tempSpiderStoryJob);
         
         crawlMap.put(SpiderConfigs.DOMAIN_TYPE_STORY + "@" + jobId, crawl);
     }
@@ -156,9 +160,11 @@ public class CrawlService {
         SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(templateId + "");
         List<SpiderStoryJob> spiderStoryJobList = spiderStoryJobService.queryByTempateIdAndStatus(templateId, SpiderConfigs.STORY_JOB_STATUS_INIT);
         System.out.println("#准备小说任务 " + spiderStoryJobList.size() + " 条");
+        boolean isFristCrawl = false;
         for(SpiderStoryJob spiderStoryJob : spiderStoryJobList){
             System.out.println("#开始处理小说Job" + spiderStoryJob.getTitle());
-
+            isFristCrawl = spiderStoryJob.getStoryId() == null;
+            
             CrawLog crawLog = new CrawLog();
             crawLog.setBeginTime(new Date());
             crawLog.setCreator(user.getUsername());
@@ -173,7 +179,7 @@ public class CrawlService {
                 StringFilter sf = new StringFilter(spiderStoryTemplate.getFilterWord());
                 spiderContext.setStringFilter(sf);
             }
-
+            
             spiderContext.setCrawLog(crawLog);
             spiderContext.setSpiderStoryJob(spiderStoryJob);
             spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
@@ -181,13 +187,20 @@ public class CrawlService {
             Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService, storyPartService,
                     storyDetailService, spiderStoryJobService);
             crawl.startStory();
-
-            spiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
-            spiderStoryJobService.update(spiderStoryJob);
-
+            
+            SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
+            tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
+            tempSpiderStoryJob.setId(spiderStoryJob.getId());
+            spiderStoryJobService.update(tempSpiderStoryJob);
+            
             try {
-                //等特10秒处理下一个任务
-                Thread.sleep(10000);
+                if(isFristCrawl){
+                  //等特10秒处理下一个任务
+                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME * 4);
+                }else{
+                  //等特10秒处理下一个任务
+                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME / 2);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
