@@ -1,6 +1,3 @@
-<style>
-
-</style>
 <div class="page-container">
 	<div class="container">
 		<div class="row">
@@ -11,8 +8,8 @@
 			<#list hotList as datas>
 			  <div class="item">
 			        <div class="image"><a href="${base }/main/${datas.id}.html">
-			        <img src="${datas.picPath }" 
-			         alt="${datas.title }" width="120" height="150"></a></div>
+			        <img alt="${datas.title }" src="${datas.picPath }" onerror="nofind()"
+			         width="120" height="150"></a></div>
 			        <dl>
 			           <dt><a href="${base }/main/${datas.id}.html">${datas.title }</a><span>${datas.author }</span></dt>
 			           <dd>
@@ -25,11 +22,27 @@
 			</div>
 			<!-- end of hot content -->
 
-
+		<div class="newscontent">
+		<div class="l">
+		<h2>最新上架小说</h2>
+		<ul>
+		<#list newStoryList as datas>
+			<li>
+				<span class="s1">[${datas.categoryName }]</span>
+				<span class="s2">
+				<a href="${base }/main/${datas.id}.html">${datas.title }</a></span>
+				<span class="s3"><a href="${base }/detail/${datas.lastDetailId}.html" target="_blank">${datas.lastDetailTitle }</a></span>
+				<span class="s4">${datas.author }</span>
+				<span class="s5">${datas.createTime?string('MM-dd') }</span>
+			</li>
+		</#list>
+		 </ul>
+		</div><div class="clear"></div>
+		</div>
 
 		<div class="newscontent">
 		<div class="l">
-		<h2>最近更新小说列表</h2>
+		<h2>最近更新小说</h2>
 		<ul>
 		<#list lastUpdateStoryList as datas>
 			<li>
@@ -46,25 +59,7 @@
 		</div>
 		
 		
-		<div class="newscontent">
-		<div class="l">
-		<h2>最新入库小说</h2>
-		<ul>
 		
-		<#list newStoryList as datas>
-			<li>
-				<span class="s1">[${datas.categoryName }]</span>
-				<span class="s2">
-				<a href="${base }/main/${datas.id}.html">${datas.title }</a></span>
-				<span class="s3"><a href="${base }/detail/${datas.lastDetailId}.html" target="_blank">${datas.lastDetailTitle }</a></span>
-				<span class="s4">${datas.author }</span>
-				<span class="s5">${datas.createTime?string('MM-dd') }</span>
-			</li>
-		</#list>
-		       
-		 </ul>
-		</div><div class="clear"></div>
-		</div>
 
 			
 			</div>

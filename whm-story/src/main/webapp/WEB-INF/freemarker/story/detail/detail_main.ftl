@@ -23,7 +23,7 @@
 		${storyDetail.content }
 		</div>
 		<div class="bottem2">
-		    <a href="javascript:ajaxGetForLayer('${base }/story/addLike/${storyInfo.id }.html')" >投推荐票</a>
+		    <a href="javascript:ajaxGetForLayer('${base }/addLike/${storyInfo.id }.html')" >投推荐票</a>
 			<#if prevStoryDetail!''>
 				<a href="${base }/detail/${prevStoryDetail.id}.html">上一章←</a>
 			</#if>
@@ -31,6 +31,6 @@
 			<#if nextStoryDetail!''>
 				<a href="${base }/detail/${nextStoryDetail.id}.html">→下一章</a>
 			</#if>
-			<a href="javascript:ajaxGetForLayer('${base }/story/user/bookshelf/add/${storyInfo.id }.html')" >加入书签</a>
+			<a href="javascript:ajaxGetForLayer('${base }/user/bookshelf/add/${storyInfo.id }.html')" >加入书签</a>
 	</div>
 </div>

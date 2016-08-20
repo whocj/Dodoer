@@ -42,6 +42,12 @@ function ajaxGetForLayer(url){
 	});
 }
 
+function nofind(){
+	var img=event.srcElement;
+	img.src="/RES/images/default_120_150.jpg";
+	img.onerror=null; //控制不要一直跳动
+}
+
 
 
 

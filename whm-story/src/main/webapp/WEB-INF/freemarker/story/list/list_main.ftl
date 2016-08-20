@@ -3,7 +3,7 @@
       <#list hotList as datas>
        <div class="item">
         <div class="image"><a href="${base }/main/${datas.id}.html">
-        <img src="${datas.picPath }" 
+        <img src="${datas.picPath }" onerror="nofind()"
         	alt="${datas.title }" style="width:120px;height:150px;"></a></div>
         <dl>
            <dt><span>${datas.author }</span><a href="${base }/main/${datas.id}.html">${datas.title }</a></dt>

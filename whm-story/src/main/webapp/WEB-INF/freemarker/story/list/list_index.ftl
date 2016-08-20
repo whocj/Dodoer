@@ -27,5 +27,6 @@
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->
+<#include "/common/spider_include.ftl"/>
 </body>
 </html>

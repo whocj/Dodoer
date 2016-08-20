@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
 <meta name="description" content="${siteDescription }" />  
-<title>${storyDetail.title }-${storyInfo.title }|${storyInfo.author } - ${siteTitle }</title>
+<title>我的书架 - ${siteTitle }</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 	<!-- End of Search Wrapper -->
 
 	<!-- Start of Page Container -->
-	<#include "/story/detail/detail_main.ftl"/>
+	<#include "/story/bookshelf/bookshelf_main.ftl"/>
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->
@@ -27,6 +27,5 @@
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->
-<#include "/common/spider_include.ftl"/>
 </body>
 </html>
