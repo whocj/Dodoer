@@ -26,14 +26,15 @@ public class BlogCommentController extends BaseController {
     @RequestMapping("/commit")
     public String commit(HttpServletRequest request, HttpServletResponse response, BlogComment comment,
             ModelMap model) {
-        String ip = request.getRemoteHost();
+       
         User user = this.getSessionUser(request);
-        if (user != null) {
-            comment.setCreatorId(user.getId());
-            comment.setCreator(user.getUsername());
-            comment.setEmail(user.getEmail());
+        // 未登录用户，跳转至登录页面
+        if (user == null) {
+            return LOGIN_URL;
         }
         
+        String ip = request.getRemoteHost();
+
         comment.setIp(ip);
         comment.setCreateTime(new Date());
         comment.setLastUpdate(new Date());
