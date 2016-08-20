@@ -13,6 +13,16 @@ public class TestSubstring {
     public static void main(String[] args) {
         String a = "《斗罗大陆3龙王传说》第四章 入学";
         System.out.println(a.substring(a.lastIndexOf("》") + 1));
+        
+        a = "http://www.aiyousheng.com/17612/19471218.html";
+        String id = a.substring(a.lastIndexOf("/") + 1, a.lastIndexOf("."));
+        System.out.println(id);
+        
+        a = "http://www.aiyousheng.com/book/17612.html";
+        id = a.substring(a.lastIndexOf("/") + 1, a.lastIndexOf("."));
+        System.out.println(id);
+        
+        
     }
 
 }
