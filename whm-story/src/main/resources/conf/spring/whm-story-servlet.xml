@@ -128,11 +128,12 @@
 				<entry key="imgUrl" value-ref="fmImgUrl" />
 				<entry key="env" value="prod" />
 				<entry key="domain" value="http://www.dodoer.com" />
-				<entry key="siteTitle" value="多多儿小说-DODOER" />
-				<entry key="siteKeywords" value="多多儿小说,无广告小说,无弹窗小说,dodoer" />
-				<entry key="siteDescription" value="多多儿小说,无广告小说,无弹窗小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
-				<entry key="siteKeys" value="多多儿小说,无广告小说,无弹窗小说,dodoer" />
-				<entry key="siteDesc" value="多多儿小说,无广告小说,无弹窗小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
+				<entry key="siteTitle" value="多多儿小说-dodoer.com" />
+				<entry key="siteTitleMobile" value="多多儿小说手机版-m.dodoer.com" />
+				<entry key="siteKeywords" value="多多儿小说,无广告小说,无弹窗小说,免费小说,dodoer.com" />
+				<entry key="siteDescription" value="多多儿小说,无广告小说,无弹窗小说,免费小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
+				<entry key="siteKeys" value="多多儿小说,无广告小说,无弹窗小说,免费小说,dodoer" />
+				<entry key="siteDesc" value="多多儿小说,无广告小说,无弹窗小说,免费小说,dodoer,玄幻魔法,仙侠修真,都市言情,历史军史,网游竞技,科幻恐怖" />
 			</map>
 		</property>
 		<property name="defaultEncoding" value="utf-8" />

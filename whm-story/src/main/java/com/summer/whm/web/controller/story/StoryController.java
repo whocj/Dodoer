@@ -82,9 +82,32 @@ public class StoryController extends BaseController {
         model.put("readStoryList", readStoryList);
         model.put("likeStoryList", likeStoryList);
         
-        return "story/list/list_index.ftl";
+        return getForward(request, response, "story/list/list_index.ftl");
     }
 
+    //手机使用分页使用
+    @RequestMapping("/more/{cid}/{cp}")
+    public String more(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable("cp") int cp, @PathVariable("cid") int cid, ModelMap model) {
+        if(cp < 1){
+            cp = 1;
+        }
+        
+        PageModel<StoryInfo> page = new PageModel<StoryInfo>(cp, WebConstants.PAGE_SIZE);
+        if (cid != 0) {
+            page.insertQuery("categoryId", cid);
+        } else {
+            page.insertQuery("categoryId", null);
+        }
+        storyInfoService.list(page);
+        model.put("page", page);
+        
+        Category category = categoryService.loadById(cid + "");
+        model.put("category", category);
+        
+        return "m/story/list/list_more.ftl";
+    }
+    
     @RequestMapping("/main/{id}")
     public String main(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") int id,
             ModelMap model) {
@@ -94,7 +117,7 @@ public class StoryController extends BaseController {
             model.put("storyInfo", storyInfo);
         }
 
-        return "story/main/story_info_index.ftl";
+        return getForward(request, response, "story/main/story_info_index.ftl");
     }
 
     @RequestMapping("/detail/{id}")
@@ -113,6 +136,8 @@ public class StoryController extends BaseController {
             model.put("storyInfo", storyInfo);
             model.put("storyDetail", storyDetail);
 
+            storyInfoService.addRead(storyInfo.getId());
+            
             // 处理阅读记录
             User user = this.getSessionUser(request);
             if (user != null) {
@@ -147,7 +172,7 @@ public class StoryController extends BaseController {
             }
         }
 
-        return "story/detail/story_detail_index.ftl";
+        return getForward(request, response, "story/detail/story_detail_index.ftl");
     }
 
     @RequestMapping("/addLike/{id}")
