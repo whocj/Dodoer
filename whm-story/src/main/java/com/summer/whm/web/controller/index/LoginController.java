@@ -138,7 +138,7 @@ public class LoginController extends BaseController {
         String QQ_INFO_URL = "https://graph.qq.com/user/get_user_info";
         // oauth_consumer_key=100330589&access_token=4CA7D71A41CFDCE842BC94ECE5F4000F&openid=14863C2AF601216F6BBD91D5AFDE1938&format=json
         StringBuffer sb = new StringBuffer(QQ_INFO_URL);
-        sb.append("?").append("oauth_consumer_key=101296555&format=json").append("&access_token=").append(token)
+        sb.append("?").append("oauth_consumer_key=101344928&format=json").append("&access_token=").append(token)
                 .append("&openid=").append(key);
 
         ClientName clientName = ClientName.DEFAULT_CLIENT;

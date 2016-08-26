@@ -2,7 +2,6 @@ package com.summer.whm.web.servlet.xml;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -16,9 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.summer.whm.common.configs.GlobalConfigHolder;
-import com.summer.whm.service.sys.BaiduZhanneiSitemapService;
-import com.summer.whm.service.sys.SitemapService;
+import com.summer.whm.service.sys.sitemap.story.StoryBaiduZhanneiSitemapService;
+import com.summer.whm.service.sys.sitemap.story.StorySitemapService;
 import com.summer.whm.web.common.SpringContainer;
+import com.summer.whm.web.common.utils.CheckMobile;
 import com.summer.whm.web.servlet.AbstractBaseServlet;
 
 /**
@@ -33,9 +33,14 @@ public class XMLServlet extends AbstractBaseServlet {
 
     private static final long serialVersionUID = 1L;
     private final Logger log = LoggerFactory.getLogger(XMLServlet.class);
+    
     @Override
     public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/xml;charset=utf-8");
+        
+        StringBuffer url = req.getRequestURL();
+        boolean isMobile = CheckMobile.checkUrl(url.toString());
+        
         String uri = req.getRequestURI();
         String path = req.getSession().getServletContext().getRealPath("/");
         File file = new File(path, uri);
@@ -53,7 +58,7 @@ public class XMLServlet extends AbstractBaseServlet {
             fis = null;
         } else {
             // 读静态文件
-            path = GlobalConfigHolder.BASE_STATIC_PATH;
+            path = GlobalConfigHolder.DODOER_STATIC_PATH;
             file = new File(path, uri);
             if (file != null && file.isFile()) {
                 FileInputStream fis = new FileInputStream(file);
@@ -67,31 +72,24 @@ public class XMLServlet extends AbstractBaseServlet {
             } else {
                 // 网站地图
                 if (uri.endsWith("sitemap.xml")) {
-                    SitemapService sitemapService = SpringContainer.getBean(SitemapService.class);
+                    StorySitemapService sitemapService = SpringContainer.getBean(StorySitemapService.class);
                     XMLWriter xmlWriter = null;
                     try {
-                        Document sitemap = sitemapService.buildXMLDoc(GlobalConfigHolder.SITEMAP_COUNT);
-                        xmlWriter = new XMLWriter(resp.getWriter());
-                        xmlWriter.write(sitemap);
-                    } catch (Exception e) {
-                        log.error("XML文件操作失败," , e);
-                    } finally {
-                        try {
-                            xmlWriter.close();
-                        } catch (IOException e) {
+                        
+                        String scount  = req.getParameter("count");
+                        int count = GlobalConfigHolder.SITEMAP_COUNT;
+                        if(scount != null){
+                            try{
+                                count = Integer.parseInt(scount);
+                                if(count > 5000){
+                                    count = 5000;
+                                }
+                            }catch(Exception e){
+                                log.error("XML文件操作失败,scount" + scount , e);
+                            }
                         }
-                    }
-                }
-                
-                // 网站地图
-                if (uri.endsWith("allsitemap.xml")) {
-                    SitemapService sitemapService = SpringContainer.getBean(SitemapService.class);
-                    XMLWriter xmlWriter = null;
-                    int count = Integer.parseInt(req.getParameter("count"));
-                    try {
-                        Document sitemap = sitemapService.buildXMLDoc(count);
-                        FileOutputStream fos = new FileOutputStream(file);
-                        xmlWriter = new XMLWriter(fos);
+                        Document sitemap = sitemapService.buildXMLDoc(count, isMobile);
+                        xmlWriter = new XMLWriter(resp.getWriter());
                         xmlWriter.write(sitemap);
                     } catch (Exception e) {
                         log.error("XML文件操作失败," , e);
@@ -105,48 +103,19 @@ public class XMLServlet extends AbstractBaseServlet {
 
                 // 百度站内网站地图
                 if (uri.endsWith("baiduzn.xml")) {
-                    BaiduZhanneiSitemapService baiduZhanneiSitemapService = SpringContainer
-                            .getBean(BaiduZhanneiSitemapService.class);
+                    StoryBaiduZhanneiSitemapService baiduZhanneiSitemapService = SpringContainer
+                            .getBean(StoryBaiduZhanneiSitemapService.class);
                     XMLWriter xmlWriter = null;
                     try {
-                        Document sitemap = baiduZhanneiSitemapService.buildBaiduZNXMLDoc();
+                        Document sitemap = baiduZhanneiSitemapService.buildBaiduZNXMLDoc(isMobile);
                         xmlWriter = new XMLWriter(resp.getWriter());
                         xmlWriter.write(sitemap);
                     } catch (Exception e) {
+                        e.printStackTrace();
                         log.error("XML文件操作失败," , e);
                     } finally {
                         try {
                             xmlWriter.close();
-                        } catch (IOException e) {
-                        }
-                    }
-                }
-                
-                // 百度站内网站地图
-                if (uri.endsWith("baiduzntopic.xml")) {
-                    BaiduZhanneiSitemapService baiduZhanneiSitemapService = SpringContainer
-                            .getBean(BaiduZhanneiSitemapService.class);
-                    XMLWriter xmlWriter = null;
-                    try {
-                        int count = Integer.parseInt(req.getParameter("count"));
-                        String save = req.getParameter("save");
-                        Document sitemap = baiduZhanneiSitemapService.buildBaiduZNTopicXMLDoc(count);
-                        if("1".equals(save)){
-                            FileOutputStream fos = new FileOutputStream(file);
-                            xmlWriter = new XMLWriter(fos);
-                            xmlWriter.write(sitemap);
-                        }else{
-                            xmlWriter = new XMLWriter(resp.getWriter());
-                            xmlWriter.write(sitemap);
-                        }
-                        
-                    } catch (Exception e) {
-                        log.error("XML文件操作失败," , e);
-                    } finally {
-                        try {
-                            if(xmlWriter != null){
-                                xmlWriter.close();
-                            }
                         } catch (IOException e) {
                         }
                     }

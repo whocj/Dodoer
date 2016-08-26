@@ -56,6 +56,8 @@ public class CheckMobile {
         System.out.println(url.lastIndexOf("m.dodoer.com"));
         url = "http://m.dodoer.com/hello/";
         System.out.println(url.lastIndexOf("m.dodoer.com"));
+        url = "m.dodoer.com";
+        System.out.println(url.lastIndexOf("m.dodoer.com"));
         url = "http://dev.m.dodoer.com/hello/";
         System.out.println(url.lastIndexOf("m.dodoer.com"));
     }
