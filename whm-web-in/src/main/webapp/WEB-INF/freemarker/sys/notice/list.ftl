@@ -17,7 +17,7 @@ function optDelete() {
 		return;
 	}
 	var f = getTableForm();
-	f.action="${base}/sys/site/delete.htm";
+	f.action="${base}/sys/notice/delete.htm";
 	f.submit();
 }
 </script>
@@ -27,7 +27,7 @@ function optDelete() {
 <div class="rhead">
 	<div class="rpos">当前位置： 板块 - 公告管理 - 列表</div>
 	<form class="ropt">
-		<input type="submit" value="添加站点" onclick="this.form.action='${base }/sys/otice/add.htm';"/>
+		<input type="submit" value="添加公告" onclick="this.form.action='${base }/sys/notice/add.htm';"/>
 		&nbsp;<input type="button" value="删除" onclick="optDelete();"/>
 	</form>
 	<div class="clear"></div>

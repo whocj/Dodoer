@@ -36,7 +36,7 @@ $(function() {
 				<span class="pn-frequired">*</span>公告内容:
 			</td>
 			<td width="80%" class="pn-fcontent">
-				<textarea rows="60" class="required" cols="50" name="content">${notice.content }</textarea>
+				<textarea rows="20" class="required" cols="80" name="content">${notice.content?html }</textarea>
 			</td>
 		</tr>
 		<tr>
