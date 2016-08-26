@@ -2,7 +2,21 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitle }</title>
+<meta property="og:type" content="novel"/>
+<meta property="og:title" content="${storyInfo.title }"/>
+<meta property="og:description" content="${storyInfo.outline }"/>
+<meta property="og:image" content="${storyInfo.picPath }"/>
+<meta property="og:novel:category" content="${storyInfo.categoryName }"/>
+<meta property="og:novel:author" content="${storyInfo.author }"/>
+<meta property="og:novel:book_name" content="${storyInfo.title }"/>
+<meta property="og:novel:read_url" content="${mobileDomain }/main/${storyInfo.id }.html"/>
+
+<meta property="og:novel:click_cnt" content="${storyInfo.readCount }"/>
+<meta property="og:novel:update_time" content="${storyInfo.lastUpdateDetail?string('yyyy-MM-dd HH:mm') }"/>
+<meta property="og:novel:latest_chapter_name" content="${storyInfo.lastDetailTitle }"/>
+<meta property="og:novel:latest_chapter_url" content="${mobileDomain }/detail/${storyInfo.lastDetailId }.html"/>
+
+<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -12,46 +26,6 @@
 <link rel="stylesheet" href="${resRoot}/m/css/qz_show.css">
 <#include "/m/common/include.ftl">
 <#include "/m/common/include_js.ftl">
-<style type="text/css">
-<!--
-#list {
-    padding: 2px;
-}
-#list dl {
-    float: left;
-    overflow: hidden;
-    padding-bottom: 1px;
-    margin: auto;
-    width: 100%;
-}
-#list dt {
-    background: none repeat scroll 0 0 #C3DFEA;
-    display: inline;
-    float: left;
-    font-size: 14px;
-    line-height: 28px;
-    overflow: hidden;
-    text-align: center;
-    vertical-align: middle;
-    width: 98%;
-    margin: auto auto 5px;
-    padding: 5px 10px;
-}
-#list dd {
-    border-bottom: 1px dashed #CCC;
-    display: inline;
-    float: left;
-    height: 25px;
-    line-height: 200%;
-    margin-bottom: 5px;
-    overflow: hidden;
-    text-align: left;
-    text-indent: 10px;
-    vertical-align: middle;
-    width: 50%;
-}
--->
-</style>
 </head>
 <body>
 <div id="main_body">
@@ -71,7 +45,7 @@
 
 <section class="s_floor">
 <div class="pr">
-	<h2>${storyInfo.title}</h2>
+	<h2>${storyInfo.title}${storyInfo.statusTxt }</h2>
 	<p class="s_p">
 		<span>阅读：<span id="viewnum">${storyInfo.readCount}</span></span>
 		<span>点攒：<span id="commentnum">${storyInfo.likeCount }</span></span>

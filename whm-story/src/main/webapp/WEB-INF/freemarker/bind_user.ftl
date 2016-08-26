@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="application-name" content="Help Me - WHM" />
-<title>绑定用户-WHO HELP ME</title>
+<title>绑定用户 - 多多儿小说-Dodoer</title>
 <#include "/common/global_include.ftl">
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>
 <script type='text/javascript' src='${resRoot}/js/jquery.form.js'></script>

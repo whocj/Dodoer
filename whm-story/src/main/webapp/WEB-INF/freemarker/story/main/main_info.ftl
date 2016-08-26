@@ -4,7 +4,7 @@
 	</div>
 	<div id="maininfo">
 		<div id="info">
-			<h1>${storyInfo.title }</h1>
+			<h1>${storyInfo.title }${storyInfo.statusTxt }</h1>
 			<p>作者：${storyInfo.author }</p>
 			<p>最后更新：${storyInfo.lastUpdate?string('yyyy-MM-dd HH:mm') }</p>
 			<p>
@@ -12,6 +12,7 @@
 				<a href="javascript:ajaxGetForLayer('${base }/user/bookshelf/add/${storyInfo.id }.html')" >加入书签</a>
 			</p>
 		</div>
+		<#include "/common/baidu_share.ftl"/>
 		<div id="intro">
 			<p>
 				${storyInfo.outline }</p>

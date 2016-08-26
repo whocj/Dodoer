@@ -151,7 +151,7 @@ body {
 .s_moreread dt{float:left;margin-right:10px;}
 .s_moreread dd h3{font-size:1.5rem;color:#333;padding-bottom:7px;text-align: left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .s_moreread dd {overflow:hidden;text-overflow:ellipsis;text-align:right;font-size:12px;}
-.s_moreread dd:nth-of-type(2){text-align: left;padding-bottom:6px;color: #999;}
+.s_moreread dd:nth-of-type(2){text-align: left;padding-bottom:6px;color: #999;    height: 70px;}
 .s_moreread dd:nth-of-type(3){color: #999;}
 .s_moreread dd span{padding-right:10px;}
 .s_moreread div a:nth-last-of-type(1){margin:0;}

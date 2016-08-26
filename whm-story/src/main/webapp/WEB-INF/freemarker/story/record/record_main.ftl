@@ -48,7 +48,7 @@ table.grid td {
 					<span class="s1">${datas_index + 1}</span>
 					<span class="s1"><a href="${base }/user/bookshelf/del/${datas.id}.html">删除</a></span>
 					<span class="s2">
-					<a href="${base }/main/${datas.storyId}.html">${datas.title }</a></span>
+					<a href="${base }/main/${datas.storyId}.html">${datas.title }</a>${datas.statusTxt }</span>
 					<span class="s3"><a href="${base }/detail/${datas.readDetailId}.html">${datas.readDetailTitle }</a></span>
 					<span class="s5">${datas.lastUpdate?string('MM-dd HH:mm') }</span>
 				</li>

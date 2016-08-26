@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="application-name" content="Help Me - WHM" />
-<title>用户认证 - WHM</title>
+<meta name="application-name" content="多多儿小说-Dodoer" />
+<title>用户认证 - 多多儿小说-Dodoer</title>
 <#include "/common/global_include.ftl">
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>
 <script type='text/javascript' src='${resRoot}/js/jquery.form.js'></script>
@@ -15,15 +15,15 @@ data-redirecturi="http://www.whohelpme.com/login/QQLogin.html" charset="utf-8"><
 	if(QC.Login.check()){
 		QC.Login.getMe(function(openId, accessToken){
 			
-			 $.post("http://www.whohelpme.com/login/publicAuthLogin.html", {
+			 $.post("http://www.dodoer.com/login/publicAuthLogin.html", {
 				 key:openId,
 				 source:"QQ",
 				 token:accessToken
 				}, function(data) {
 					try{
-						opener.window.closeWin(data.user.username, "登录成功！");
-						//opener.window.location.reload(true);
-						window.close();
+						//opener.window.closeWin(data.user.username, "登录成功！");
+						opener.window.location.reload(true);
+		//				window.close();
 					}catch(e){}
 				}, "json");
 
