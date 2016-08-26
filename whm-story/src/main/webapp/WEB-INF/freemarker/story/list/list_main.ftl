@@ -29,7 +29,7 @@
 				<li>
 					<span class="s1">[${datas.categoryName }]</span>
 					<span class="s2">
-					<a href="${base }/main/${datas.id}.html">${datas.title }</a></span>
+					<a href="${base }/main/${datas.id}.html">${datas.title }</a>${datas.statusTxt }</span>
 					<span class="s3"><a href="${base }/detail/${datas.lastDetailId}.html">${datas.lastDetailTitle }</a></span>
 					<span class="s4">${datas.author }</span>
 					<span class="s5">${datas.lastUpdate?string('MM-dd') }</span>

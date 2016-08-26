@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>首页 - ${siteTitle }</title>
+<title>首页 - ${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -27,7 +27,7 @@
 			<li>
 				<a href="${base }/main/${datas.id}.html">
 				<img src="${datas.picPath }" width="150" height="180" onerror="nofind()" alt="${datas.title }|${datas.author }">
-				<span>${datas.title }|${datas.author }</span></a>
+				<span>${datas.title }|${datas.author }${datas.statusTxt }</span></a>
 			</li>
 			</#list>
 			</ul>
@@ -47,14 +47,14 @@
 			<#if datas_index == 0>
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
-				<dt><img src="${datas.picPath }"  width="120" height="150" onerror="nofind()" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }</h3></dd>
+				<dt><img src="${datas.picPath }"  width="90" height="120" onerror="nofind()" alt="${datas.title }" ></dt>
+				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
 			</dl>
 			<#elseif datas_index &lt; 10>
-			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }</a>
+			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }${datas.statusTxt }</a>
 			</#if>
 		</#list>
 		</div>
@@ -69,14 +69,14 @@
 			<#if datas_index == 0>
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
-				<dt><img src="${datas.picPath }" onerror="nofind()"  width="120"  height="150" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }</h3></dd>
+				<dt><img src="${datas.picPath }" onerror="nofind()"  width="90"  height="120" alt="${datas.title }" ></dt>
+				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
 			</dl>
 			<#elseif datas_index &lt; 10>
-			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }</a>
+			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }${datas.statusTxt }</a>
 			</#if>
 		</#list>
 		</div>
@@ -91,14 +91,14 @@
 			<#if datas_index == 0>
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
-				<dt><img src="${datas.picPath }" onerror="nofind()"   width="120" height="150" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }</h3></dd>
+				<dt><img src="${datas.picPath }" onerror="nofind()"   width="90" height="120" alt="${datas.title }" ></dt>
+				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
 			</dl>
 			<#elseif datas_index &lt; 10>
-			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }</a>
+			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }${datas.statusTxt }</a>
 			</#if>
 		</#list>
 		</div>
@@ -113,14 +113,14 @@
 			<#if datas_index == 0>
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
-				<dt><img src="${datas.picPath }" onerror="nofind()"  width="120"  height="150" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }</h3></dd>
+				<dt><img src="${datas.picPath }" onerror="nofind()"  width="90"  height="120" alt="${datas.title }" ></dt>
+				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
 			</dl>
 			<#elseif datas_index &lt; 10>
-			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }</a>
+			<a href="${base }/main/${datas.id}.html" class="item">[${datas.categoryName }]${datas.title }${datas.statusTxt }</a>
 			</#if>
 		</#list>
 		</div>

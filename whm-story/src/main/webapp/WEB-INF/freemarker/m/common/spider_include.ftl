@@ -12,10 +12,9 @@
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(bp, s);
 })();
-
 //360
 (function(){
-   var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?ae142e691ca1dc4ccb44eae84030ae71":"https://jspassport.ssl.qhimg.com/11.0.1.js?ae142e691ca1dc4ccb44eae84030ae71";
+   var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?63d3b341e648e57dd3875f2d37b83f90":"https://jspassport.ssl.qhimg.com/11.0.1.js?63d3b341e648e57dd3875f2d37b83f90";
    document.write('<script src="' + src + '" id="sozz"><\/script>');
 })();
 </script>

@@ -11,7 +11,7 @@
 			        <img alt="${datas.title }" src="${datas.picPath }" onerror="nofind()"
 			         width="120" height="150"></a></div>
 			        <dl>
-			           <dt><a href="${base }/main/${datas.id}.html">${datas.title }</a><span>${datas.author }</span></dt>
+			           <dt><a href="${base }/main/${datas.id}.html">${datas.title }</a>${datas.statusTxt }<span>${datas.author }</span></dt>
 			           <dd>
 			           	${datas.outline }
 			           </dd>
@@ -30,7 +30,7 @@
 			<li>
 				<span class="s1">[${datas.categoryName }]</span>
 				<span class="s2">
-				<a href="${base }/main/${datas.id}.html">${datas.title }</a></span>
+				<a href="${base }/main/${datas.id}.html">${datas.title }</a>${datas.statusTxt }</span>
 				<span class="s3"><a href="${base }/detail/${datas.lastDetailId}.html" target="_blank">${datas.lastDetailTitle }</a></span>
 				<span class="s4">${datas.author }</span>
 				<span class="s5">${datas.createTime?string('MM-dd') }</span>
@@ -48,7 +48,7 @@
 			<li>
 				<span class="s1">[${datas.categoryName }]</span>
 				<span class="s2">
-				<a href="${base }/main/${datas.id}.html">${datas.title }</a></span>
+				<a href="${base }/main/${datas.id}.html">${datas.title }</a>${datas.statusTxt }</span>
 				<span class="s3"><a href="${base }/detail/${datas.lastDetailId}.html" target="_blank">${datas.lastDetailTitle }</a></span>
 				<span class="s4">${datas.author }</span>
 				<span class="s5">${datas.lastUpdate?string('MM-dd') }</span>
@@ -57,10 +57,6 @@
 		 </ul>
 		</div>
 		</div>
-		
-		
-		
-
 			
 			</div>
 			<!-- end of page content -->

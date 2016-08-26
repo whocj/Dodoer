@@ -2,11 +2,12 @@
 <!doctype html>
 <html lang="en-US">
 <head>
-<meta property="qc:admins" content="134441654767070540556375" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
-<meta name="description" content="${siteDescription }" />  
+<meta name="description" content="${siteDescription }" />
+<meta name="mobile-agent" content="format=xhtml;url=${mobileDomain }/detail/${storyDetail.id}.html">
+<meta name="mobile-agent" content="format=html5;url=${mobileDomain }/detail/${storyDetail.id}.html">
 <title>${storyDetail.title }-${storyInfo.title }|${storyInfo.author } - ${siteTitle }</title>
 </head>
 

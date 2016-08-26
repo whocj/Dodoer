@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitle }</title>
+<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -12,46 +12,6 @@
 <link rel="stylesheet" href="${resRoot}/m/css/qz_show.css">
 <#include "/m/common/include.ftl">
 <#include "/m/common/include_js.ftl">
-<style type="text/css">
-<!--
-#list {
-    padding: 2px;
-}
-#list dl {
-    float: left;
-    overflow: hidden;
-    padding-bottom: 1px;
-    margin: auto;
-    width: 100%;
-}
-#list dt {
-    background: none repeat scroll 0 0 #C3DFEA;
-    display: inline;
-    float: left;
-    font-size: 14px;
-    line-height: 28px;
-    overflow: hidden;
-    text-align: center;
-    vertical-align: middle;
-    width: 98%;
-    margin: auto auto 5px;
-    padding: 5px 10px;
-}
-#list dd {
-    border-bottom: 1px dashed #CCC;
-    display: inline;
-    float: left;
-    height: 25px;
-    line-height: 200%;
-    margin-bottom: 5px;
-    overflow: hidden;
-    text-align: left;
-    text-indent: 10px;
-    vertical-align: middle;
-    width: 100%;
-}
--->
-</style>
 </head>
 <body>
 <div id="main_body">
@@ -70,7 +30,6 @@
 <div class="img topic_txt"><p>${storyDetail.content }</p>
 </div>
 </section>
-<#include "/common/baidu_share.ftl"/>
 <div id="list">
 	<dl>
 			<#if prevStoryDetail!''>
