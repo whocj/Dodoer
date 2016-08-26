@@ -50,10 +50,16 @@ public class SpiderStoryJobController extends BaseController {
     private CrawlService crawlService;
 
     @RequestMapping("/list")
-    public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage, ModelMap model) {
+    public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "") String title, ModelMap model) {
         LOG.info("list SpiderStoryJob currentPage={}", currentPage);
-        PageModel<SpiderStoryJob> page = spiderStoryJobService.list(currentPage, WebConstants.PAGE_SIZE);
+        
+        PageModel<SpiderStoryJob> page = new PageModel<SpiderStoryJob>(currentPage, WebConstants.PAGE_SIZE);
+        page.insertQuery("title", "%" + title + "%");
+        spiderStoryJobService.list(page);
+        
         model.put("page", page);
+        model.put("title", title);
         return "spider/story/job/list.ftl";
     }
 
@@ -125,16 +131,17 @@ public class SpiderStoryJobController extends BaseController {
         while ((temp = br.readLine()) != null) {
             String[] strs = temp.split("###");
             if (strs != null && strs.length == 5) {
-                
-                SpiderStoryJob tempJob =  spiderStoryJobService.queryByUrl(strs[3]);
-                if(tempJob == null){
+
+                SpiderStoryJob tempJob = spiderStoryJobService.queryByUrl(strs[3]);
+                if (tempJob == null) {
                     SpiderStoryJob spiderStoryJob = new SpiderStoryJob();
                     spiderStoryJob.setTitle(strs[0]);
                     spiderStoryJob.setCategoryId(Integer.parseInt(strs[1]));
                     spiderStoryJob.setTemplateId(Integer.parseInt(strs[2]));
                     spiderStoryJob.setUrl(strs[3]);
                     spiderStoryJob.setQtRule(strs[4]);
-                    spiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);;
+                    spiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);
+                    ;
                     buildExtCreatorPara(request, spiderStoryJob);
                     User user = getSessionUser(request);
                     spiderStoryJob.setUserId(user.getId());
@@ -142,7 +149,7 @@ public class SpiderStoryJobController extends BaseController {
                     LOG.info("upload SpiderStoryJob {}", spiderStoryJob);
 
                     spiderStoryJobService.insert(spiderStoryJob);
-                }else{
+                } else {
                     System.out.println(strs[0] + "数据重复。");
                 }
             }
