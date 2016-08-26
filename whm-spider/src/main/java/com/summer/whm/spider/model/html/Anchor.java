@@ -1,9 +1,20 @@
 package com.summer.whm.spider.model.html;
 
 public class Anchor {
+    
+    private Integer id;
+    
     private String url;
 
     private String txt;
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUrl() {
         return url;

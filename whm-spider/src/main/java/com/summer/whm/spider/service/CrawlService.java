@@ -157,11 +157,14 @@ public class CrawlService {
     public void startStoryTemplate(Integer templateId, User user) {
         
         System.out.println("#抓取小说模版任务启动templateId=" + templateId);
-        SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(templateId + "");
+        SpiderStoryTemplate spiderStoryTemplate = null;
         List<SpiderStoryJob> spiderStoryJobList = spiderStoryJobService.queryByTempateIdAndStatus(templateId, SpiderConfigs.STORY_JOB_STATUS_INIT);
         System.out.println("#准备小说任务 " + spiderStoryJobList.size() + " 条");
         boolean isFristCrawl = false;
         for(SpiderStoryJob spiderStoryJob : spiderStoryJobList){
+            
+            spiderStoryTemplate = spiderStoryTemplateService.loadById(templateId + "");
+            
             System.out.println("#开始处理小说Job" + spiderStoryJob.getTitle());
             isFristCrawl = spiderStoryJob.getStoryId() == null;
             
@@ -195,11 +198,11 @@ public class CrawlService {
             
             try {
                 if(isFristCrawl){
-                  //等特10秒处理下一个任务
-                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME * 4);
+                  //等特50分钟处理下一个任务
+                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME * 8);
                 }else{
-                  //等特10秒处理下一个任务
-                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME / 2);
+                  //等特30秒处理下一个任务
+                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME / 6);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -1,4 +1,5 @@
-com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map.get("htmlPage");
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map
+        .get("htmlPage");
 java.util.List elementList = (java.util.List) htmlPage.getByXPath("//dl/dd/a");
 if (elementList != null && elementList.size() > 0) {
     java.util.Map anchorMap = new java.util.HashMap();

@@ -933,10 +933,27 @@ public class StringUtils {
         return input;
     }
 
-    public static void main(String[] args) {
-        System.out.println(replaceAllBrackets(
-                "“是！”应声依然整齐。←百度搜索→【ㄨ书?阅ぁ屋www.ShuYueWu.Com】整齐。←百度搜索→【ㄨ书?阅ぁ屋1www.ShuYueWu.Com】三垣四象再成阵势，虽威势不再，仍然让刚刚经历了生死",
-                ""));
+    public static String replaceZhuaji(String input, String replacement) {
+        Matcher m = null;
+        for (Pattern p : zhuajiPattern) {
+            m = p.matcher(input);
+            while (m.find()) {
+                input = input.replace(m.group(), "");
+            }
+        }
 
+        return input;
+    }
+
+    static Pattern[] zhuajiPattern = new Pattern[] {
+            Pattern.compile("([^\\s]?最[^\\s]?快[^\\s]?更[^\\s]?新[^\\s]?到[^\\s]?)"),
+            Pattern.compile("((爪|抓)[^\\s]?机[^\\s]?书[^\\s]?屋[^\\s]?)"),
+            Pattern.compile("(百镀一下[^\\s]{0,30}?最新章节第一时间免费阅读。)") };
+
+    public static void main(String[] args) {
+
+        String input = "又狠狠地瞪了他一眼转身就跑了，跑了几步还转头回来狠狠地同他比了个鬼脸。百镀一下1最新章节第一时间免费阅读。";
+
+        System.out.println(replaceZhuaji(input, ""));
     }
 }

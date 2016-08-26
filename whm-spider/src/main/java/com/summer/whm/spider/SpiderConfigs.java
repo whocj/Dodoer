@@ -67,7 +67,24 @@ public class SpiderConfigs {
     //小说任务状态，完结
     public static final String STORY_JOB_STATUS_FINISH = "3";
     
+    //小说任务状态，重复
+    public static final String STORY_JOB_STATUS_REPEAT = "98";
+    
     //小说任务状态，错误
     public static final String STORY_JOB_STATUS_ERROR = "99";
-
+    
+    //小说状态草稿
+    public static final String STORY_STATUS_INIT = "0";
+    
+    //小说状态上线
+    public static final String STORY_STATUS_ONLINE = "2";
+    
+    //小说状态完结
+    public static final String STORY_STATUS_FINISH = "3";
+    
+    //小说删除或错误
+    public static final String STORY_STATUS_ERROR = "99";
+    
+    //最大30天未更新的小说，算完结
+    public static final int MAX_DAY_FINISH = 30;
 }

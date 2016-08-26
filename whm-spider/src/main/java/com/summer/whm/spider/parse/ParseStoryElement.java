@@ -1,25 +1,41 @@
 package com.summer.whm.spider.parse;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.summer.whm.entiry.spider.SpiderStoryJob;
 import com.summer.whm.entiry.story.StoryDetail;
+import com.summer.whm.entiry.story.StoryInfo;
 
 public class ParseStoryElement {
     
-    private boolean isDetail = true;
+    private boolean detail = true;
     
-    private boolean isEnd = false;
+    private boolean seed = false;
+    
+    private boolean end = false;
 
     private HtmlPage htmlPage;
     
     private StoryDetail storyDetail;
     
+    private SpiderStoryJob spiderStoryJob;
+    
+    private StoryInfo storyInfo;
+    
+    public StoryInfo getStoryInfo() {
+        return storyInfo;
+    }
+
+    public void setStoryInfo(StoryInfo storyInfo) {
+        this.storyInfo = storyInfo;
+    }
+
     public ParseStoryElement() {
         super();
     }
 
-    public ParseStoryElement(boolean isEnd) {
+    public ParseStoryElement(boolean end) {
         super();
-        this.isEnd = isEnd;
+        this.end = end;
     }
     
     public ParseStoryElement(HtmlPage htmlPage) {
@@ -27,26 +43,34 @@ public class ParseStoryElement {
         this.htmlPage = htmlPage;
     }
     
-    public ParseStoryElement(boolean isDetail, HtmlPage htmlPage) {
+    public ParseStoryElement(boolean detail, HtmlPage htmlPage) {
         super();
         this.htmlPage = htmlPage;
-        this.isDetail = isDetail;
+        this.detail = detail;
     }
 
     public boolean isDetail() {
-        return isDetail;
+        return detail;
     }
 
-    public void setDetail(boolean isDetail) {
-        this.isDetail = isDetail;
+    public void setDetail(boolean detail) {
+        this.detail = detail;
+    }
+
+    public boolean isSeed() {
+        return seed;
+    }
+
+    public void setSeed(boolean seed) {
+        this.seed = seed;
     }
 
     public boolean isEnd() {
-        return isEnd;
+        return end;
     }
 
-    public void setEnd(boolean isEnd) {
-        this.isEnd = isEnd;
+    public void setEnd(boolean end) {
+        this.end = end;
     }
 
     public HtmlPage getHtmlPage() {
@@ -63,5 +87,13 @@ public class ParseStoryElement {
 
     public void setStoryDetail(StoryDetail storyDetail) {
         this.storyDetail = storyDetail;
+    }
+
+    public SpiderStoryJob getSpiderStoryJob() {
+        return spiderStoryJob;
+    }
+
+    public void setSpiderStoryJob(SpiderStoryJob spiderStoryJob) {
+        this.spiderStoryJob = spiderStoryJob;
     }
 }

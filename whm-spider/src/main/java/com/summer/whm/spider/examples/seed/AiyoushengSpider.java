@@ -26,13 +26,16 @@ public class AiyoushengSpider {
      */
     public static void main(String[] args) throws Exception {
 
-        String[] urls = new String[] { "http://www.aiyousheng.com/xuanhuan/2.html",
-                "http://www.aiyousheng.com/xuanhuan/3.html", "http://www.aiyousheng.com/xuanhuan/4.html",
-                "http://www.aiyousheng.com/xuanhuan/5.html", "http://www.aiyousheng.com/xuanhuan/6.html" };
-          List<StorySeed> list = new ArrayList<StorySeed>();
-        for(String url : urls){
+        String[] urls = new String[] { "http://www.aiyousheng.com/xiaoyuan/",
+                "http://www.aiyousheng.com/xiaoyuan/2.html", "http://www.aiyousheng.com/xiaoyuan/3.html",
+                "http://www.aiyousheng.com/xiaoyuan/4.html", "http://www.aiyousheng.com/xiaoyuan/5.html",
+                "http://www.aiyousheng.com/xiaoyuan/6.html", "http://www.aiyousheng.com/xiaoyuan/7.html",
+                "http://www.aiyousheng.com/xiaoyuan/8.html", "http://www.aiyousheng.com/xiaoyuan/9.html",
+                "http://www.aiyousheng.com/xiaoyuan/10.html", "http://www.aiyousheng.com/xiaoyuan/11.html" };
+        List<StorySeed> list = new ArrayList<StorySeed>();
+        for (String url : urls) {
             List<StorySeed> storySeedList = buildStorySeed(url);
-            if(storySeedList != null && storySeedList.size() > 0){
+            if (storySeedList != null && storySeedList.size() > 0) {
                 list.addAll(storySeedList);
             }
         }
@@ -59,7 +62,7 @@ public class AiyoushengSpider {
                     if (href != null) {
                         id = href.substring(href.lastIndexOf("/") + 1, href.lastIndexOf("."));
                         href = baseUrl + id + "/";
-                        seedList.add(new StorySeed(htmlAnchor.getTextContent(), "30", "3", href, "* 1 2 * * * *"));
+                        seedList.add(new StorySeed(htmlAnchor.getTextContent(), "31", "3", href, "* 1 2 * * * *"));
                     }
                 }
             }
