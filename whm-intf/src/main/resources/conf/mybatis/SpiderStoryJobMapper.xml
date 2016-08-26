@@ -48,12 +48,21 @@
 		ssj.lastUpdate
 		from spider_story_job ssj
 		left join bbs_category bc on bc.ID = ssj.categoryId
+		where 1=1
+		<if test="query.title!=null and query.title!=''">
+			and ssj.title like #{query.title}
+		</if>
+		
 		order by ssj.id desc
 	</select>
 
 	<select id="count" resultType="long">
 		select count(*) from
-		spider_story_job
+		spider_story_job ssj
+		where 1=1
+		<if test="query.title!=null and query.title!=''">
+			and ssj.title like #{query.title}
+		</if>
 	</select>
 
 	<insert id="insert" parameterType="SpiderStoryJob">
@@ -144,7 +153,7 @@
 		left join bbs_category bc on bc.ID = ssj.categoryId
 		where ssj.templateId = #{templateId}
 		and ssj.status = #{status}
-		order by ssj.lastUpdate
+		order by ssj.storyId asc, ssj.lastUpdate
 	</select>
 	
 	<select id="queryByUrl" resultType="SpiderStoryJob">

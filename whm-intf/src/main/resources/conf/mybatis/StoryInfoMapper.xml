@@ -23,6 +23,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -49,6 +50,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -90,6 +92,7 @@
 		sortIndex,
 		remark,
 		crawlUrl,
+		lastUpdateDetail,
 		creator,
 		createTime,
 		lastUpdate,
@@ -114,7 +117,7 @@
 		#{sortIndex},
 		#{remark},
 		#{crawlUrl},
-		
+		#{lastUpdateDetail},
 		#{creator},
 		#{createTime},
 		#{lastUpdate},
@@ -184,7 +187,9 @@
 		<if test="description!=null and description!=''">
 			,description=#{description}
 		</if>
-		
+		<if test="lastUpdateDetail!=null and lastUpdateDetail!=''">
+			,lastUpdateDetail=#{lastUpdateDetail}
+		</if>
 		where id=#{id}
 	</update>
 
@@ -211,6 +216,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -242,6 +248,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -273,6 +280,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -304,6 +312,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -335,6 +344,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -366,6 +376,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -398,6 +409,7 @@
 		si.sortIndex,
 		si.remark,
 		si.crawlUrl,
+		si.lastUpdateDetail,
 		si.creator,
 		si.createTime,
 		si.lastUpdate
@@ -427,4 +439,64 @@
 		replyCount = replyCount + 1
 		where id=#{id}
 	</update>
+	
+	<select id="queryIdByCount"  resultType="Integer">
+		select id from story_info  order by id desc LIMIT #{count}
+	</select>
+	
+	
+	<select id="queryLatestTopN"  resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.lastUpdateDetail,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		order by si.id desc
+		LIMIT #{topN}
+	</select>
+	
+	<select id="queryByTitleAndAuthor"  resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.lastUpdateDetail,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where si.title = #{title} and si.author = #{author}
+	</select>
 </mapper>

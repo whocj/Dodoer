@@ -1,5 +1,6 @@
 package com.summer.whm.entiry.story;
 
+import java.util.Date;
 import java.util.List;
 
 import com.summer.whm.entiry.BaseEntity;
@@ -18,6 +19,9 @@ public class StoryInfo extends BaseEntity {
     private String title;
     private String author;
     private String status;
+    
+    private String statusTxt;
+    
     private String picPath;
     private String outline;
     private Integer lastDetailId;
@@ -34,11 +38,33 @@ public class StoryInfo extends BaseEntity {
     private String keywords;
     private String description;
 
+    //明细章节最后一次更新时间
+    private Date lastUpdateDetail;
+    
     private List<StoryPart> storyPartList;
 
     private List<StoryDetail> storyDetailList;
 
     private boolean part = false;// 是否有段落
+    
+    public String getStatusTxt() {
+        if(statusTxt == null){
+            statusTxt = "3".equals(this.getStatus()) ? "<font color='red'>(完结)</font>" : "";
+        }
+        return statusTxt;
+    }
+
+    public void setStatusTxt(String statusTxt) {
+        this.statusTxt = statusTxt;
+    }
+
+    public Date getLastUpdateDetail() {
+        return lastUpdateDetail;
+    }
+
+    public void setLastUpdateDetail(Date lastUpdateDetail) {
+        this.lastUpdateDetail = lastUpdateDetail;
+    }
 
     public boolean isPart() {
         return part;

@@ -17,7 +17,9 @@ import com.summer.whm.mapper.BaseMapper;
  */
 public interface StoryDetailMapper extends BaseMapper {
     List<StoryDetail> queryByStoryId(@Param("storyId") Integer storyId);
-
+    
+    int queryCountByStoryId(@Param("storyId") Integer storyId);
+    
     List<StoryDetail> queryByPartId(@Param("partId") Integer partId);
 
     void addReadCount(@Param("id") Integer id);

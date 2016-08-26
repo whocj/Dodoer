@@ -16,6 +16,8 @@ import com.summer.whm.mapper.BaseMapper;
  */
 public interface StoryInfoMapper extends BaseMapper {
     
+    List<StoryInfo> queryByTitleAndAuthor(@Param("title") String title, @Param("author") String author);
+    
     List<StoryInfo> queryTopNByHot(@Param("categoryId") Integer categoryId, @Param("topN") Integer topN);
 
     List<StoryInfo> queryStoryInfoOrderCreateTimeTop(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
@@ -30,6 +32,10 @@ public interface StoryInfoMapper extends BaseMapper {
     
     List<StoryInfo> queryTopLike(@Param("categoryId") Integer categoryId,  @Param("topN") Integer topN);
 
+    List<StoryInfo> queryLatestTopN(@Param("topN") Integer topN);
+    
+    List<Integer> queryIdByCount(@Param("count") Integer count);
+    
     void addLike( @Param("id") Integer id);
     
     void addRead( @Param("id") Integer id);

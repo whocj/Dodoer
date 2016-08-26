@@ -7,10 +7,23 @@ import java.util.Locale;
 public class DateUtils {
 
     public static final Locale LOCALE_CHINA = Locale.CHINA;
-
+    
     private DateUtils() {
     }
 
+    //计算两个时间相差天数
+    public static long compare2Day(Date date, Date date2){
+        if(date != null && date2 != null){
+            long l = date.getTime();
+            long l2 = date2.getTime();
+            long temp = l2 - l;//毫秒
+            long t = Math.abs(temp) / 1000 / 24 / 60 / 60;
+            return t;
+        }else{
+            return -1;
+        }
+    }
+    
     public static String currentDate(String pattern) {
         return formatDate(pattern, new Date());
     }
@@ -65,4 +78,11 @@ public class DateUtils {
         return result;
     }
 
+    public static void main(String[] args){
+        Date date = new Date();
+        Date date2 = DateUtils.parse("yyyy-MM-dd", "2016-7-5");
+        
+        //System.out.println(Math.abs(compare2Day(date, date2)) / 1000 / 24 / 60 / 60);
+        System.out.println(compare2Day(date, null) > 30);
+    }
 }
