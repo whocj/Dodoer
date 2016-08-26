@@ -47,6 +47,7 @@ public class BaseController {
         if (null == session.getAttribute(Constants.JSESSION_UA)) {
             try {
                 StringBuffer url = request.getRequestURL();
+                //System.out.println("RequestURL:" + url);
                 boolean flag = CheckMobile.checkUrl(url.toString());
                 if(!flag){
                     // 获取ua，用来判断是否为移动端访问
@@ -59,6 +60,7 @@ public class BaseController {
                 // 判断是否为移动端访问
                 if (flag || isFromMobile) {
 //                    System.out.println("移动端访问");
+                    isFromMobile = true;
                     session.setAttribute(Constants.JSESSION_UA, Constants.UA_TYPE_MOBILE);
                 } else {
 //                    System.out.println("pc端访问");

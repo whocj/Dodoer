@@ -114,7 +114,12 @@ public class StoryController extends BaseController {
 
         if (id != 0) {
             StoryInfo storyInfo = storyInfoService.queryById(id);
+            if(storyInfo == null){
+                return ERROR;
+            }
             model.put("storyInfo", storyInfo);
+        }else{
+            return ERROR;
         }
 
         return getForward(request, response, "story/main/story_info_index.ftl");
@@ -126,6 +131,9 @@ public class StoryController extends BaseController {
 
         if (id != 0) {
             StoryDetail storyDetail = storyDetailService.loadById(id + "");
+            if(storyDetail == null){
+                return ERROR;
+            }
             StoryInfo storyInfo = storyInfoService.queryById(storyDetail.getStoryId());
 
             StoryDetail nextStoryDetail = storyDetailService.queryNextByStoryAndId(storyDetail.getStoryId(), id);
@@ -170,6 +178,8 @@ public class StoryController extends BaseController {
                     storyUserBookshelfService.save(storyUserBookshelf);
                 }
             }
+        }else{
+            return ERROR;
         }
 
         return getForward(request, response, "story/detail/story_detail_index.ftl");
