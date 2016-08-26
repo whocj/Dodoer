@@ -52,6 +52,19 @@ public class StoryInfoService extends BaseService {
         storyInfoMapper.addReply(id);
     }
     
+    //根据小说标题和作者判断是否存在，存在返回true,否则返回false
+    public boolean exists(String title, String author){
+        List<StoryInfo> storyInfoList = storyInfoMapper.queryByTitleAndAuthor(title, author);
+        if(storyInfoList != null && storyInfoList.size() > 0){
+            return true;
+        }
+        return false;
+    }
+    
+    public List<StoryInfo> queryByTitleAndAuthor(String title, String author){
+        return storyInfoMapper.queryByTitleAndAuthor(title, author);
+    }
+    
     public List<StoryInfo> queryTopNByHot(Integer categoryId, Integer topN){
         return storyInfoMapper.queryTopNByHot(categoryId, topN);
     }

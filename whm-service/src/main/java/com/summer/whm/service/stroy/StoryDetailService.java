@@ -66,6 +66,10 @@ public class StoryDetailService extends BaseService {
         return storyDetailMapper.queryByStoryId(storyId);
     }
 
+    public int queryCountByStoryId(Integer storyId){
+        return storyDetailMapper.queryCountByStoryId(storyId);
+    }
+    
     public List<StoryDetail> queryByPartId(Integer partId) {
         return storyDetailMapper.queryByPartId(partId);
     }
