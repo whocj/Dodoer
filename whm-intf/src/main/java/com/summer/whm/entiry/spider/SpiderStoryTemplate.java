@@ -33,6 +33,39 @@ public class SpiderStoryTemplate extends BaseEntity{
     // 过滤行
     private String filterItem;
 
+    //推荐
+    private String recommendDetailXPath;
+    
+    //目录
+    private String categoryXPath;
+    
+    //小说状态
+    private String statusXPath;
+    
+    public String getStatusXPath() {
+        return statusXPath;
+    }
+
+    public void setStatusXPath(String statusXPath) {
+        this.statusXPath = statusXPath;
+    }
+
+    public String getRecommendDetailXPath() {
+        return recommendDetailXPath;
+    }
+
+    public void setRecommendDetailXPath(String recommendDetailXPath) {
+        this.recommendDetailXPath = recommendDetailXPath;
+    }
+
+    public String getCategoryXPath() {
+        return categoryXPath;
+    }
+
+    public void setCategoryXPath(String categoryXPath) {
+        this.categoryXPath = categoryXPath;
+    }
+
     public String getName() {
         return name;
     }

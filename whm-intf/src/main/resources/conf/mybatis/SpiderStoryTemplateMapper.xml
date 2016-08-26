@@ -19,6 +19,9 @@
 		detailContentXPath,
 		nextXPath,
 		detailNextXPath,
+		recommendDetailXPath,
+		categoryXPath,
+		statusXPath,
 		execModel,
 		filterWord,
 		filterItem,
@@ -45,6 +48,9 @@
 		detailContentXPath,
 		nextXPath,
 		detailNextXPath,
+		recommendDetailXPath,
+		categoryXPath,
+		statusXPath,
 		execModel,
 		filterWord,
 		filterItem,
@@ -77,6 +83,9 @@
 		detailContentXPath,
 		nextXPath,
 		detailNextXPath,
+		recommendDetailXPath,
+		categoryXPath,
+		statusXPath,
 		execModel,
 		filterWord,
 		filterItem,
@@ -85,7 +94,8 @@
 		lastUpdate
 		)
 		values(#{name},#{userId},#{username},#{titleXPath},#{authorXPath},#{outlineXPath},#{picPathXPath},
-		#{detailXPath},#{detailTitleXPath},#{detailContentXPath},#{nextXPath},#{detailNextXPath},#{execModel},#{filterWord},
+		#{detailXPath},#{detailTitleXPath},#{detailContentXPath},#{nextXPath},#{detailNextXPath},
+		#{recommendDetailXPath},#{categoryXPath},#{statusXPath},#{execModel},#{filterWord},
 		#{filterItem},#{creator},#{createTime},#{lastUpdate})
 	</insert>
 
@@ -121,6 +131,15 @@
 		</if>
 		<if test="detailNextXPath!=null and detailNextXPath!=''">
 			,detailNextXPath=#{detailNextXPath}
+		</if>
+		<if test="recommendDetailXPath!=null and recommendDetailXPath!=''">
+			,recommendDetailXPath=#{recommendDetailXPath}
+		</if>
+		<if test="categoryXPath!=null and categoryXPath!=''">
+			,categoryXPath=#{categoryXPath}
+		</if>
+		<if test="statusXPath!=null and statusXPath!=''">
+			,statusXPath=#{statusXPath}
 		</if>
 		<if test="execModel!=null and execModel!=''">
 			,execModel=#{execModel}

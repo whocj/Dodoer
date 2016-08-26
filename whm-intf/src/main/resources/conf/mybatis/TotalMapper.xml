@@ -57,7 +57,7 @@
 			createTime,
 			lastUpdate
 		)
-		values(#{siteId},#{topicCount},#{postCount},#{userCount},#{onlineUserCount},#{sortDate},${creator},${createTime},${lastUpdate})
+		values(#{siteId},#{topicCount},#{postCount},#{userCount},#{onlineUserCount},#{sortDate},#{creator},#{createTime},#{lastUpdate})
 	</insert>
 
 	<update id="update" parameterType="Total">

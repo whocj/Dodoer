@@ -149,6 +149,13 @@
 		where storyId = #{storyId}
 	</select>
 	
+	<select id="queryCountByStoryId" resultType="int">
+		select
+		count(*)
+		from story_detail 
+		where storyId = #{storyId}
+	</select>
+	
 	<select id="queryByPartId" parameterType="PageModel" resultType="StoryDetail">
 		select
 		id,
