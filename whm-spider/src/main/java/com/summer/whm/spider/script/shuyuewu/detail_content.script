@@ -28,5 +28,6 @@ if (elementList != null && elementList.size() > 0) {
 			}
 		}
 	}
+	text = text + "<br/><br/>";
 }
 return text;

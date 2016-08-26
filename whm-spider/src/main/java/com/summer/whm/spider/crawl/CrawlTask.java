@@ -11,6 +11,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.configs.GlobalConfigHolder;
 import com.summer.whm.entiry.spider.CrawInfo;
+import com.summer.whm.entiry.spider.SpiderStoryJob;
 import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
@@ -106,6 +107,12 @@ public class CrawlTask implements Runnable {
                         } else if (CrawlType.StoryDetail.equals(crawlElement.getType())) {
                             ParseStoryElement parseStoryElement = new ParseStoryElement(true, htmlPage);
                             parseStoryElement.setStoryDetail((StoryDetail)crawlElement.getObj());
+                            parseStoryQueue.put(parseStoryElement);
+                        } else if (CrawlType.StoryJob.equals(crawlElement.getType())) {
+                            ParseStoryElement parseStoryElement = new ParseStoryElement(htmlPage);
+                            parseStoryElement.setSeed(true);
+                            parseStoryElement.setDetail(false);
+                            parseStoryElement.setSpiderStoryJob((SpiderStoryJob)crawlElement.getObj());
                             parseStoryQueue.put(parseStoryElement);
                         }
                     } else {

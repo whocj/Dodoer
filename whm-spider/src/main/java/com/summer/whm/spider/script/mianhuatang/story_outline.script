@@ -1,0 +1,20 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//p[@id='intro']");
+String ret = null;
+java.util.List tempElementList = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    
+    tempElementList = element.getByXPath("//span[@class='tags']");
+    if(tempElementList != null && tempElementList.size() > 0){
+        ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(0)).remove();
+    }
+    
+    tempElementList = element.getByXPath("//q");
+    if(tempElementList != null && tempElementList.size() > 0){
+        ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(0)).remove();
+    }
+    
+    ret = element.asText();
+}
+return ret;
