@@ -34,15 +34,20 @@ function optDelete() {
 	<div class="clear"></div>
 </div>
 <form id="pageForm" name="pageForm" method="post" action="${base }/spider/story/job/list.htm">
-<input type="hidden" name="pageNo" value="${page.pageIndex }"/>
+	
+	名称<input type="text" name="title" value="${title }"/>
+	   <input type="button" value="搜索" onclick="javascript:goPage(1)"/>
+	
+	<input type="hidden" name="pageNo" value="${page.pageIndex }"/>
 	<table class="pn-ltable" width="100%" cellspacing="1" cellpadding="0" border="0">
 		<thead class="pn-lthead">
 		<tr>
 			<th width="20px">选择</th>
-			<th width="100px">小说名称</th>
+			<th width="170px">小说名称</th>
+			<th width="30px">小说ID</th>
 			<th width="50px">分类</th>
 			<th width="100px">URL</th>
-			<th width="40px">更新时间</th>
+			<th width="70px">更新时间</th>
 			<th width="250px">操作</th>
 		</tr>
 		</thead>
@@ -53,17 +58,15 @@ function optDelete() {
 			<input type="hidden" name="wids" value="${datas.id!}"/>
 		</td>
 		<td>${datas.title}</td>
+		<td>${datas.storyId}&nbsp;</td>
 		<td>${datas.categoryName}</td>
 		<td>${datas.url}</td>
 		<td>${datas.lastUpdate?string('MM-dd HH:mm')}</td>
 		<td>
 			<a href="${base }/spider/story/job/start.htm?id=${datas.id}" class="pn-opt">开始</a> |
-			<a href="${base }/spider/story/job/pause.htm?id=${datas.id}" class="pn-opt">暂停</a> |
-			<a href="${base }/spider/story/job/stop.htm?id=${datas.id}" class="pn-opt">结束</a> |
-			<a href="${base }/spider/story/job/view.htm?id=${datas.id}" class="pn-opt">进度</a> |
-			
 			<a href="${base }/spider/story/job/edit.htm?id=${datas.id}" class="pn-opt">修改</a> |
-			<a href="${base }/spider/story/job/delete.htm?ids=${datas.id}" onclick="if(!confirm('你确定要删除吗?')) {return false;}" class="pn-opt">删除</a>
+			<a href="${base }/spider/story/job/delete.htm?ids=${datas.id}" 
+				onclick="if(!confirm('你确定要删除吗?')) {return false;}" class="pn-opt">删除</a>
 		</td>
 		</tr>
 		</#list>
