@@ -106,6 +106,10 @@ public class GlobalConfigHolder {
     
     public static String DOMAIN_URL = "http://www.whohelpme.com";
     
+    public static String DODOER_DOMAIN_URL = "http://www.dodoer.com";
+    
+    public static String DODOER_M_DOMAIN_URL = "http://m.dodoer.com";
+    
     //主题贴
     public static String BBS_TOPIC_URL = DOMAIN_URL + "/bbs/topic/batchCommit.htm";
     
@@ -152,6 +156,8 @@ public class GlobalConfigHolder {
     public static String DOMAIN_TYPE_TOPIC = "topic";
     
     public static String DOMAIN_TYPE_BLOG = "blog";
+    
+    public static String DOMAIN_TYPE_STORY = "story";
     
     //默认加载5万条记录
     public static Integer SITEMAP_COUNT = 200;
