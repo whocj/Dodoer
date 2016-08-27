@@ -130,7 +130,7 @@ public class SpiderStoryJobController extends BaseController {
         String temp = null;
         while ((temp = br.readLine()) != null) {
             String[] strs = temp.split("###");
-            if (strs != null && strs.length == 5) {
+            if (strs != null && strs.length >= 4) {
 
                 SpiderStoryJob tempJob = spiderStoryJobService.queryByUrl(strs[3]);
                 if (tempJob == null) {
@@ -139,9 +139,8 @@ public class SpiderStoryJobController extends BaseController {
                     spiderStoryJob.setCategoryId(Integer.parseInt(strs[1]));
                     spiderStoryJob.setTemplateId(Integer.parseInt(strs[2]));
                     spiderStoryJob.setUrl(strs[3]);
-                    spiderStoryJob.setQtRule(strs[4]);
                     spiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);
-                    ;
+
                     buildExtCreatorPara(request, spiderStoryJob);
                     User user = getSessionUser(request);
                     spiderStoryJob.setUserId(user.getId());
