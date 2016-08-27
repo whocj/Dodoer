@@ -20,11 +20,11 @@ public class WebClientPool {
             public WebClient makeObject() throws Exception {
                 WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3);
 
-                if (FileUtils.isWindow()) {
-                    ProxyConfig proxyConfig = new ProxyConfig();
-                    proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-                    webClient.setProxyConfig(proxyConfig);
-                }
+//                if (FileUtils.isWindow()) {
+//                    ProxyConfig proxyConfig = new ProxyConfig();
+//                    proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+//                    webClient.setProxyConfig(proxyConfig);
+//                }
 
                 webClient.setUseInsecureSSL(true);
                 webClient.setThrowExceptionOnScriptError(false);

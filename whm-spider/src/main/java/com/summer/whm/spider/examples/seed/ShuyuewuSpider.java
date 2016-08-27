@@ -13,6 +13,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.summer.whm.spider.client.WebClientPool;
 import com.summer.whm.spider.model.seed.StorySeed;
 import com.summer.whm.spider.service.StorySeedService;
 
@@ -27,42 +28,47 @@ public class ShuyuewuSpider {
      * @since [产品/模块版本](可选)
      */
     public static void main(String[] args) {
+        String[] urls = new String[] { 
+                  "http://www.shuyuewu.com/kehuan/"
+                , "http://www.shuyuewu.com/kehuan/2.html"
+                , "http://www.shuyuewu.com/kehuan/3.html"
+                , "http://www.shuyuewu.com/kehuan/4.html"
+                , "http://www.shuyuewu.com/kehuan/5.html"
+                , "http://www.shuyuewu.com/kehuan/6.html"
+                , "http://www.shuyuewu.com/kehuan/7.html"
+                , "http://www.shuyuewu.com/kehuan/8.html"
+                , "http://www.shuyuewu.com/kehuan/9.html"
+                , "http://www.shuyuewu.com/kehuan/10.html"
+                , "http://www.shuyuewu.com/kehuan/11.html"};
+        List<StorySeed> list = new ArrayList<StorySeed>();
+        for (String url : urls) {
+            List<StorySeed> storySeedList = buildStorySeed(url);
+            if (storySeedList != null && storySeedList.size() > 0) {
+                list.addAll(storySeedList);
+            }
+        }
+
+        StorySeedService.saveFile(list);
+    }
+    
+    public static List<StorySeed> buildStorySeed(String url) {
         try {
-            // final WebClient webclient = new WebClient(BrowserVersion.FIREFOX_2, "10.19.110.31", 8080);
-            final WebClient webclient = new WebClient(BrowserVersion.FIREFOX_2);
-            ProxyConfig proxyConfig = new ProxyConfig();
-            proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-            webclient.setProxyConfig(proxyConfig);
 
-            // final WebClient webclient = new WebClient(BrowserVersion.FIREFOX_2, "192.168.71.33", 8080);
-
-            webclient.setThrowExceptionOnScriptError(false);
-            webclient.setThrowExceptionOnFailingStatusCode(false);
-            webclient.setJavaScriptEnabled(false);
-            webclient.setActiveXNative(false);
-            webclient.setCssEnabled(false);
-            webclient.setThrowExceptionOnScriptError(false);
-            webclient.setTimeout(3000);
-
-            final HtmlPage htmlpage = webclient.getPage("http://www.shuyuewu.com/kehuan/");
-
-            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//li/span[@class='s2']/a");
+            WebClientPool webClientPool = new WebClientPool();
+            final HtmlPage htmlpage = webClientPool.borrowWebClient().getPage(url);
             List<StorySeed> seedList = new ArrayList<StorySeed>();
+            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//div[@class='l']/ul/li/span[1]/a");
             if (anchorList != null && anchorList.size() > 0) {
                 for (HtmlAnchor htmlAnchor : anchorList) {
                     System.out.println(htmlAnchor.getTextContent() + " url=" + htmlAnchor.getAttribute("href"));
                     if (htmlAnchor.getAttribute("href") != null) {
                         seedList.add(new StorySeed(htmlAnchor.getTextContent(), "25", "1", htmlAnchor
-                                .getAttribute("href"), "* 1 2 * * * *"));
+                                .getAttribute("href"), ""));
                     }
                 }
             }
-            StorySeedService.saveFile(seedList);
-            System.out.println("========");
-            System.out.println(htmlpage.getTitleText());
-            System.out.println("========");
-
-            webclient.closeAllWindows();
+            
+            return seedList;
         } catch (FailingHttpStatusCodeException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -71,7 +77,10 @@ public class ShuyuewuSpider {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
 }
