@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.story.StoryTopicDetailMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="StoryTopicDetail">
+		select 
+		std.id,
+		std.storyId,
+		std.topicId,
+		std.sortIndex,
+		std.creator,
+		std.createTime,
+		std.lastUpdate,
+		si.title,
+		si.author,
+		si.categoryId,
+	    si.categoryName,
+	    si.lastDetailId,
+	    si.lastUpdateDetail,
+	    si.picPath,
+	    si.outline,
+	    si.readCount,
+	    si.replyCount,
+    	si.likeCount
+		from story_topic_detail std 
+		left join story_info si on  std.storyId = si.id where std.id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="StoryTopicDetail">
+		select 
+		std.id,
+		std.storyId,
+		std.topicId,
+		std.sortIndex,
+		std.creator,
+		std.createTime,
+		std.lastUpdate,
+		si.title,
+		si.author,
+		si.categoryId,
+	    si.categoryName,
+	    si.lastDetailId,
+	    si.lastUpdateDetail,
+	    si.picPath,
+	    si.outline,
+	    si.readCount,
+	    si.replyCount,
+    	si.likeCount
+		from story_topic_detail std 
+		left join story_info si on  std.storyId = si.id 
+		where 1=1
+		<if test="query.topicId!=null and query.topicId!=''">
+			,std.topicId = #{query.topicId}
+		</if>
+		order by std.id desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from story_topic_detail
+	</select>
+
+	<insert id="insert" parameterType="StoryTopicDetail">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into story_topic_detail(
+			storyId,
+			topicId,
+			sortIndex,
+			creator,
+			createTime,
+			lastUpdate
+		 )
+		values(
+		#{storyId},
+		#{topicId},
+		#{sortIndex},
+		#{creator},
+		#{createTime},
+		#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="StoryTopicDetail">
+		update story_topic_detail set
+		id=#{id}
+		<if test="storyId!=null and storyId!=''">
+			,storyId=#{storyId}
+		</if>
+		<if test="sortIndex!=null and sortIndex!=''">
+			,sortIndex=#{sortIndex}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from story_topic_detail where id = #{id}
+	</delete>
+
+	<delete id="cleanByTopicId">
+		delete from story_topic_detail where topicId = #{topicId}
+	</delete>
+
+	<select id="queryByTopicId" resultType="StoryTopicDetail">
+		select 
+		std.id,
+		std.storyId,
+		std.topicId,
+		std.sortIndex,
+		std.creator,
+		std.createTime,
+		std.lastUpdate,
+		si.title,
+		si.author,
+		si.categoryId,
+	    si.categoryName,
+	    si.lastDetailId,
+	    si.lastUpdateDetail,
+	    si.picPath,
+	    si.outline,
+	    si.readCount,
+	    si.replyCount,
+    	si.likeCount
+		from story_topic_detail std 
+		left join story_info si on  std.storyId = si.id where std.topicId = #{topicId}
+		order by std.sortIndex desc, std.id desc
+	</select>
+</mapper>

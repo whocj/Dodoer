@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.story.StoryTopicMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="StoryTopic">
+		select 
+		id,
+		categoryId,
+		title,
+		keywords,
+		description,
+		picPath,
+		status,
+		sortIndex,
+		count,
+		creator,
+		createTime,
+		lastUpdate
+		from story_topic where id =
+		#{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="StoryTopic">
+		select
+		id,
+		categoryId,
+		title,
+		keywords,
+		description,
+		picPath,
+		status,
+		sortIndex,
+		count,
+		creator,
+		createTime,
+		lastUpdate
+		from story_topic
+		order by sortIndex desc, id desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from story_detail
+	</select>
+
+	<insert id="insert" parameterType="StoryTopic">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into story_topic(
+		categoryId,
+		title,
+		keywords,
+		description,
+		picPath,
+		status,
+		sortIndex,
+		count,
+		creator,
+		createTime,
+		lastUpdate
+		 )
+		values(#{categoryId},#{title},#{keywords},#{description},#{picPath},#{status},
+		#{sortIndex},#{count},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="StoryTopic">
+		update story_topic set
+		id=#{id}
+		<if test="categoryId!=null and categoryId!=''">
+			,categoryId=#{categoryId}
+		</if>
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		<if test="picPath!=null and picPath!=''">
+			,picPath=#{picPath}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		<if test="sortIndex!=null and sortIndex!=''">
+			,sortIndex=#{sortIndex}
+		</if>
+		<if test="count!=null and count!=''">
+			,count=#{count}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from story_topic where id = #{id}
+	</delete>
+	
+	<select id="queryByStatus" resultType="StoryTopic">
+		select
+		id,
+		categoryId,
+		title,
+		keywords,
+		description,
+		picPath,
+		status,
+		sortIndex,
+		count,
+		creator,
+		createTime,
+		lastUpdate
+		from story_topic
+		where status = #{status}
+		order by sortIndex desc, id desc
+	</select>
+
+</mapper>
