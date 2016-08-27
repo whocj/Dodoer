@@ -5,13 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.summer.whm.entiry.search.SearchPost;
 import com.summer.whm.entiry.story.StoryDetail;
-import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.mapper.BaseMapper;
 import com.summer.whm.mapper.story.StoryDetailMapper;
 import com.summer.whm.service.BaseService;
-import com.summer.whm.service.search.model.PostType;
 
 /**
  * 
