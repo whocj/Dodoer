@@ -102,12 +102,13 @@ function changeSite(siteId) {
         <td><img src="${resRoot}/jeecms/img/admin/top_07.jpg"></td>
         <td background="${resRoot}/jeecms/img/admin/nav_bg.jpg">
 		   <ul class="menu">
-			<li class="current" id="tb_11" onclick="HoverLi(1,1,6);"><a href="${base}/index/main.htm" target="mainFrame">首页</a></li>
-			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,6);"><a href="${base}/category/main.htm" target="mainFrame">分区</a></li>
-			<li class="sep"></li><li id="tb_13" onclick="HoverLi(1,3,6);"><a href="${base}/ask/main.htm" target="mainFrame">问答</a></li>
-			<li class="sep"></li><li id="tb_14" onclick="HoverLi(1,4,6);"><a href="${base}/user/user/main.htm" target="mainFrame">会员</a></li>
-			<li class="sep"></li><li id="tb_15" onclick="HoverLi(1,5,6);"><a href="${base}/spider/main.htm" target="mainFrame">爬虫</a></li>
-			<li class="sep"></li><li id="tb_16" onclick="HoverLi(1,6,6);"><a href="${base}/sys/main.htm" target="mainFrame">维护</a></li>
+			<li class="current" id="tb_11" onclick="HoverLi(1,1,7);"><a href="${base}/index/main.htm" target="mainFrame">首页</a></li>
+			<li class="sep"></li><li id="tb_12" onclick="HoverLi(1,2,7);"><a href="${base}/category/main.htm" target="mainFrame">分区</a></li>
+			<li class="sep"></li><li id="tb_13" onclick="HoverLi(1,3,7);"><a href="${base}/ask/main.htm" target="mainFrame">问答</a></li>
+			<li class="sep"></li><li id="tb_14" onclick="HoverLi(1,4,7);"><a href="${base}/user/user/main.htm" target="mainFrame">会员</a></li>
+			<li class="sep"></li><li id="tb_15" onclick="HoverLi(1,5,7);"><a href="${base}/spider/main.htm" target="mainFrame">爬虫</a></li>
+			<li class="sep"></li><li id="tb_15" onclick="HoverLi(1,6,7);"><a href="${base}/story/main.htm" target="mainFrame">小说</a></li>
+			<li class="sep"></li><li id="tb_16" onclick="HoverLi(1,7,7);"><a href="${base}/sys/main.htm" target="mainFrame">维护</a></li>
 			</ul>
 		</td>
       </tr>
