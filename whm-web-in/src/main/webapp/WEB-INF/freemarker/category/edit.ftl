@@ -55,6 +55,7 @@ function addUser(){
 					<option value="1" <#if category.siteId == '1'>selected="true"</#if>>BBS</option>
 					<option value="2" <#if category.siteId == '2'>selected="true"</#if>>Ask</option>
 					<option value="3" <#if category.siteId == '3'>selected="true"</#if>>Blog</option>
+					<option value="4" <#if category.siteId == '4'>selected="true"</#if>>Story</option>
 				</select>
 			</td>
 		</tr>
