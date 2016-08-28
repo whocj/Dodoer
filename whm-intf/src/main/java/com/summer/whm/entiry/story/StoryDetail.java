@@ -15,24 +15,21 @@ public class StoryDetail extends BaseEntity {
 
     private String title;
     private String content;
+    private String contentTxt;
     private Integer partId;
     private String partTitle;
     private String status;
-    private String statusTxt;
     private String picPath;
     private int readCount;
     private int replyCount;
     private String crawlUrl;
-
-    public String getStatusTxt() {
-        if (statusTxt == null) {
-            statusTxt = "3".equals(this.getStatus()) ? "<font color='red'>(完结)</font>" : "";
-        }
-        return statusTxt;
+    
+    public String getContentTxt() {
+        return contentTxt;
     }
 
-    public void setStatusTxt(String statusTxt) {
-        this.statusTxt = statusTxt;
+    public void setContentTxt(String contentTxt) {
+        this.contentTxt = contentTxt;
     }
 
     public Integer getStoryId() {
@@ -115,4 +112,12 @@ public class StoryDetail extends BaseEntity {
         this.crawlUrl = crawlUrl;
     }
 
+    @Override
+    public String toString() {
+        return "StoryDetail [storyId=" + storyId + ", title=" + title + ", content=" + content + ", contentTxt="
+                + contentTxt + ", partId=" + partId + ", partTitle=" + partTitle + ", status=" + status + ", picPath="
+                + picPath + ", readCount=" + readCount + ", replyCount=" + replyCount + ", crawlUrl=" + crawlUrl + "]";
+    }
+
+    
 }
