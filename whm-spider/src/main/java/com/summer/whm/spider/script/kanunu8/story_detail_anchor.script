@@ -1,0 +1,22 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map.get("htmlPage");
+String parentUrl = htmlPage.getWebResponse().getRequestSettings().getUrl().toString();
+String url = parentUrl.substring(0, parentUrl.lastIndexOf("/") + 1);
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//tr[@bgcolor='#ffffff']/td/a");
+if (elementList != null && elementList.size() > 0) {
+	String hrefTxt = "";
+	String href = "";
+    java.util.List list = new java.util.ArrayList();
+    for (int i = 0; i < elementList.size(); i++) {
+        com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList
+                .get(i);
+        hrefTxt = element.getTextContent();
+        hrefTxt = hrefTxt.trim();
+        
+        href = element.getAttribute("href");
+        
+        list.add(new com.summer.whm.spider.model.html.Anchor(url + href, hrefTxt));
+    }
+    return list;
+}
+
+return null;
