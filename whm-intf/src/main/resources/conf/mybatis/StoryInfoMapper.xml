@@ -55,7 +55,7 @@
 		si.createTime,
 		si.lastUpdate
 		from story_info si
-		where 1=1
+		where 1=1 AND si.status != '99'
 		<if test="query.categoryId!=null and query.categoryId!=''">
 			and si.categoryId=#{query.categoryId}
 		</if>
@@ -225,6 +225,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
+		AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -257,6 +258,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
+		AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -289,6 +291,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
+		AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -321,6 +324,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
+		AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -353,6 +357,7 @@
 		si.lastUpdate
 		from story_info si
 		where 1=1
+		AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -384,7 +389,7 @@
 		si.createTime,
 		si.lastUpdate
 		from story_info si
-		where 1=1
+		where 1=1 AND si.status != '99'
 		<if test="categoryId!=null and categoryId!=''">
 			and si.categoryId = #{categoryId}
 		</if>
@@ -472,6 +477,7 @@
 		si.createTime,
 		si.lastUpdate
 		from story_info si
+		where si.status != '99'
 		order by si.id desc
 		LIMIT #{topN}
 	</select>
