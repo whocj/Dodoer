@@ -81,8 +81,8 @@ public class XMLServlet extends AbstractBaseServlet {
                         if(scount != null){
                             try{
                                 count = Integer.parseInt(scount);
-                                if(count > 5000){
-                                    count = 5000;
+                                if(count > 500){
+                                    count = 500;
                                 }
                             }catch(Exception e){
                                 log.error("XML文件操作失败,scount" + scount , e);
