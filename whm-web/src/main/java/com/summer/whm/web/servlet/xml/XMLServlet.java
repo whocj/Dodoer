@@ -70,7 +70,7 @@ public class XMLServlet extends AbstractBaseServlet {
                     SitemapService sitemapService = SpringContainer.getBean(SitemapService.class);
                     XMLWriter xmlWriter = null;
                     try {
-                        Document sitemap = sitemapService.buildXMLDoc(GlobalConfigHolder.SITEMAP_COUNT);
+                        Document sitemap = sitemapService.buildXMLDoc(100);
                         xmlWriter = new XMLWriter(resp.getWriter());
                         xmlWriter.write(sitemap);
                     } catch (Exception e) {
@@ -87,7 +87,7 @@ public class XMLServlet extends AbstractBaseServlet {
                 if (uri.endsWith("allsitemap.xml")) {
                     SitemapService sitemapService = SpringContainer.getBean(SitemapService.class);
                     XMLWriter xmlWriter = null;
-                    int count = Integer.parseInt(req.getParameter("count"));
+                    int count = 100;
                     try {
                         Document sitemap = sitemapService.buildXMLDoc(count);
                         FileOutputStream fos = new FileOutputStream(file);
@@ -128,7 +128,7 @@ public class XMLServlet extends AbstractBaseServlet {
                             .getBean(BaiduZhanneiSitemapService.class);
                     XMLWriter xmlWriter = null;
                     try {
-                        int count = Integer.parseInt(req.getParameter("count"));
+                        int count = 200;
                         String save = req.getParameter("save");
                         Document sitemap = baiduZhanneiSitemapService.buildBaiduZNTopicXMLDoc(count);
                         if("1".equals(save)){
