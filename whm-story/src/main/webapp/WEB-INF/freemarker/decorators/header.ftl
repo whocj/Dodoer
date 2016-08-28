@@ -1,5 +1,3 @@
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101344928" 
-data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></script>
 <script type="text/javascript">
 <!--
 	function goLogin(){
@@ -21,7 +19,7 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
 		    area: ['500px', '450px'],
 		    content: '${base}/login/indexDialog.html',
 		    end : function(){
-		    	//document.location.reload();
+		    	document.location.reload();
 	    	}
 		});
 	}
@@ -30,12 +28,12 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
 		location.href = url;
 	}
 	
-	if(QC.Login.check()){
+	//if(QC.Login.check()){
    		//QC.Login.signOut();
-    }
+    //}
 
 	 //插入按钮的节点qqLoginBtn id
-	 QC.Login({btnId:"qqLoginBtn",size: "B_M"});
+	 //QC.Login({btnId:"qqLoginBtn",size: "B_M"});
 	//-->
 </script>
 
@@ -63,17 +61,15 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
 						<#if sessionUser != null>
 						<li><a href="${base }/user/bookshelf/list.html">我的书架</a></li>
 						<li>
-							<span id="qqLoginBtn"></span>
-<!-- 							<img class="question_avatar" src="${sessionUser.userLogo }"/> --!>
-<!-- 							<a href="javascript:void(0)">${sessionUser.nickname }</a> --!>
-<!-- 							<ul class="sub-menu"> -->
-<!-- 								<li onclick="logout('${base }/logout.htm')"><a href="javascript:logout('${base }/logout.htm')">登出</a></li> --!>
-<!-- 							</ul> -->
+<!-- 						<span id="qqLoginBtn"></span> -->
+ 							<img class="question_avatar" src="${sessionUser.userLogo }"/>
+							<a href="${base }/user/bookshelf/list.html">${sessionUser.nickname }</a>
+							<a href="javascript:logout('${base }/logout.htm')">登出</a>
 						</li>
 						</#if>
 						<#if sessionUser == null>
-<!-- 							<li ><a id="loginMsg" href="javascript:openLoginDiv()">登录</a></li> -->
-								<li ><span id="qqLoginBtn"></span></li>
+							<li ><a id="loginMsg" href="javascript:openLoginDiv()">登录</a></li>
+<!-- 								<li ><span id="qqLoginBtn"></span></li> -->
 						</#if>
 					</ul>
 				</div>
