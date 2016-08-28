@@ -48,8 +48,8 @@ public class BaiduZhanneiSitemapService {
     public Map<String, List<BaiduZhannei>> buildSitemap() {
         Map<String, List<BaiduZhannei>> map = new HashMap<String, List<BaiduZhannei>>();
         map.put(GlobalConfigHolder.DOMAIN_TYPE_QUESTION, buildQuestion());
-        map.put(GlobalConfigHolder.DOMAIN_TYPE_TOPIC, buildTopic(GlobalConfigHolder.SITEMAP_COUNT));
-        map.put(GlobalConfigHolder.DOMAIN_TYPE_BLOG, buildBlog());
+//        map.put(GlobalConfigHolder.DOMAIN_TYPE_TOPIC, buildTopic(GlobalConfigHolder.SITEMAP_COUNT));
+//        map.put(GlobalConfigHolder.DOMAIN_TYPE_BLOG, buildBlog());
 
         return map;
     }
@@ -166,20 +166,18 @@ public class BaiduZhanneiSitemapService {
     public Document buildBaiduZNTopicXMLDoc(int index) throws IOException {
         log.info("百度产内搜索的xml");
         XMLWriter xmlWriter = null;
-        for(int i = 1; i < index; i++){
-            Document document = DocumentHelper.createDocument();
-            Element rootElement = document.addElement("urlset");
-            List<BaiduZhannei> baiduZhanneiList =  buildTopic(i, 500);
-            for (BaiduZhannei zhannei : baiduZhanneiList) {
-                writerElement(rootElement, zhannei);
-            }
-            String file = GlobalConfigHolder.BASE_STATIC_PATH + "/baiduzn/" + i + ".xml";
-            FileOutputStream fos = new FileOutputStream(file);
-            xmlWriter = new XMLWriter(fos);
-            xmlWriter.write(document);
-            xmlWriter.close();
-            xmlWriter = null;
+        Document document = DocumentHelper.createDocument();
+        Element rootElement = document.addElement("urlset");
+        List<BaiduZhannei> baiduZhanneiList =  buildTopic(0, GlobalConfigHolder.SITEMAP_COUNT);
+        for (BaiduZhannei zhannei : baiduZhanneiList) {
+            writerElement(rootElement, zhannei);
         }
+        String file = GlobalConfigHolder.BASE_STATIC_PATH + "/baiduzn.xml";
+        FileOutputStream fos = new FileOutputStream(file);
+        xmlWriter = new XMLWriter(fos);
+        xmlWriter.write(document);
+        xmlWriter.close();
+        xmlWriter = null;
         return null;
     }
 
