@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="application-name" content="多多儿小说-Dodoer" />
-<title>用户登陆 - 多多儿小说-Dodoer</title>
+<title>用户登陆 - 多多儿小说网-Dodoer</title>
 <#include "/common/global_include.ftl">
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>
 <script type='text/javascript' src='${resRoot}/js/jquery.form.js'></script>
@@ -49,14 +49,15 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
 	}
 
 	function submitRegister(){
+		checkUsername();
+		checkPasswordSame();
+		
 		var formData = $('#nameregform').formSerialize();
 		$.ajax({
 			   type: "POST",
 			   url: "${base }/register.html",
 			   data: formData,
 			   success: function(msg){
-				   //parent.layer.close(index);
-				   //alert(1);
 				   if(msg == "S"){
 					   $(".lr-reg").hide();
 					   $(".lr-success").show();
@@ -73,9 +74,35 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
 
 	 //插入按钮的节点qqLoginBtn id
 	 QC.Login({btnId:"qqLoginBtn",size: "B_M"});
-	 
-	function checkUsername(u){
+
+	 function checkPassword(u){
 		var un = $(u).val();
+		if(un.length < 5){
+			layer.tips('密码至少6个字符.', '#regpassword', {time: 4000,tips:[1]});
+			return false;
+		}
+		checkPasswordSame();
+	 }
+
+	 function checkPasswordSame(){
+		var p =  $("#regpassword").val();
+		var p1 =  $("#regpassword1").val();
+		if(p.length > 0 && p1.length > 0){
+			if(p != p1){
+				layer.tips('两次输入密码不一致', '#regpassword', {time: 4000,tips:[1]});
+				return false;
+			}
+			
+			return true;
+		}
+		return false;
+	 }
+	 
+	function checkUsername(){
+		var un = $("#regusername").val();
+		if(un.length < 4){
+			layer.tips('用户名至少5个字符.', '#regusername', {time: 4000,tips:[1]});	
+		}
 		if(!(/^[a-zA-Z0-9_]+$/).test(un)){
 			layer.tips('用户名只能包含字母数字和下划线.', '#regusername', {time: 4000,tips:[1]});
 			$("#regusername").focus();
@@ -140,13 +167,15 @@ data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></sc
             <ul>
                 <li class="list-name">
                     <input name="username" id="regusername" maxlength="30" class="text-input" type="text" 
-                    placeholder="只能包含字母数字和下划线" tabindex="5" onblur="checkUsername(this)">
+                    placeholder="只能包含字母数字和下划线，至少5个字符" tabindex="5" onblur="checkUsername()">
                 </li>
                 <li class="list-pass">
-                    <input name="password" maxlength="30" class="text-input" type="password" placeholder="创建密码" tabindex="6">
+                    <input id="regpassword" name="password" maxlength="30" class="text-input" type="password"
+                     placeholder="创建密码，至少6个字符" tabindex="6" onblur="checkPassword(this)">
                 </li>
                 <li class="list-repass">
-                    <input name="password1" maxlength="30" class="text-input" type="password" placeholder="确认密码" tabindex="7">
+                    <input id="regpassword1" name="password1" maxlength="30" class="text-input" type="password" 
+                    placeholder="确认密码，至少6个字符" tabindex="7" onblur="checkPassword(this)">
                 </li>
                 <li class="list-check"></li>
                 <li class="list-text">
