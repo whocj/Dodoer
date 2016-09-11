@@ -119,7 +119,8 @@ public class CrawlService {
 
         SpiderStoryJob spiderStoryJob = spiderStoryJobService.loadById(jobId + "");
 
-        SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(spiderStoryJob.getTemplateId() + "");
+        SpiderStoryTemplate spiderStoryTemplate = spiderStoryTemplateService.loadById(spiderStoryJob.getTemplateId()
+                + "");
 
         CrawLog crawLog = new CrawLog();
         crawLog.setBeginTime(new Date());
@@ -143,31 +144,41 @@ public class CrawlService {
         Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService, storyPartService,
                 storyDetailService, spiderStoryJobService);
         crawl.startStory();
-        
+
         SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
-        
+
         tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
         tempSpiderStoryJob.setId(spiderStoryJob.getId());
         spiderStoryJobService.update(tempSpiderStoryJob);
-        
+
         crawlMap.put(SpiderConfigs.DOMAIN_TYPE_STORY + "@" + jobId, crawl);
     }
 
-    //启动批量小说抓取任务
+    // 启动批量小说抓取任务
     public void startStoryTemplate(Integer templateId, User user) {
-        
         System.out.println("#抓取小说模版任务启动templateId=" + templateId);
         SpiderStoryTemplate spiderStoryTemplate = null;
-        List<SpiderStoryJob> spiderStoryJobList = spiderStoryJobService.queryByTempateIdAndStatus(templateId, SpiderConfigs.STORY_JOB_STATUS_INIT);
-        System.out.println("#准备小说任务 " + spiderStoryJobList.size() + " 条");
+        System.out.println("#准备小说任务");
+
         boolean isFristCrawl = false;
-        for(SpiderStoryJob spiderStoryJob : spiderStoryJobList){
-            
+        while (true) {
             spiderStoryTemplate = spiderStoryTemplateService.loadById(templateId + "");
+            SpiderStoryJob spiderStoryJob = spiderStoryJobService.queryByTempateIdAndStatusTop1(templateId,
+                    SpiderConfigs.STORY_JOB_STATUS_INIT);
+            if (spiderStoryJob == null) {
+                System.out.println("#处理小说Job结束.");
+                return;
+            }
+
+            SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
+            tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
+            tempSpiderStoryJob.setId(spiderStoryJob.getId());
+            tempSpiderStoryJob.setLastUpdate(new Date());
+            spiderStoryJobService.update(tempSpiderStoryJob);
             
             System.out.println("#开始处理小说Job" + spiderStoryJob.getTitle());
             isFristCrawl = spiderStoryJob.getStoryId() == null;
-            
+
             CrawLog crawLog = new CrawLog();
             crawLog.setBeginTime(new Date());
             crawLog.setCreator(user.getUsername());
@@ -182,44 +193,29 @@ public class CrawlService {
                 StringFilter sf = new StringFilter(spiderStoryTemplate.getFilterWord());
                 spiderContext.setStringFilter(sf);
             }
-            
+
             spiderContext.setCrawLog(crawLog);
             spiderContext.setSpiderStoryJob(spiderStoryJob);
             spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
 
-            Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService, storyPartService,
-                    storyDetailService, spiderStoryJobService);
+            Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService,
+                    storyPartService, storyDetailService, spiderStoryJobService);
             crawl.startStory();
-            
-            SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
-            tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_RUN);
-            tempSpiderStoryJob.setId(spiderStoryJob.getId());
-            spiderStoryJobService.update(tempSpiderStoryJob);
-            
+
             try {
-                if(isFristCrawl){
-                  //等特50分钟处理下一个任务
-                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME * 8);
-                }else{
-                  //等特30秒处理下一个任务
-                  Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME / 6);
+                if (isFristCrawl) {
+                    // 等特50分钟处理下一个任务
+                    Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME * 8);
+                } else {
+                    // 等特30秒处理下一个任务
+                    Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME / 6);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //crawlMap.put(SpiderConfigs.DOMAIN_TYPE_STORY + "@" + spiderStoryJob.getId(), crawl);
-        }
-        System.out.println("#结束小说任务,共处理  " + spiderStoryJobList.size() + " 条");
-        try {
-            //等特180秒处理下一个任务
-            System.out.println("#等30分钟继续抓取数据。");
-            Thread.sleep(1800000);
-            startStoryTemplate(templateId, user);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
-    
+
     public void pause(Integer crawTemplateId, String type, User user) {
         Crawl crawl = crawlMap.get(type + "@" + crawTemplateId);
         if (crawl != null) {

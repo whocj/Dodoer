@@ -39,6 +39,9 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gargoylesoftware.htmlunit.ProxyConfig;
+import com.summer.whm.common.configs.GlobalSystemConfig;
+import com.summer.whm.plugin.ApplicationContextUtil;
 import com.summer.whm.spider.SpiderConfigs;
 
 public class CustomerHttpClient {
@@ -92,10 +95,15 @@ public class CustomerHttpClient {
         pccm.setMaxTotal(clientParam.getMaxTotalConnections());
         HttpClient client = new DefaultHttpClient(pccm, params);
         if (clientParam.isProxy) {
-            HttpHost proxy = new HttpHost(clientParam.getProxyDomain(),
-                    clientParam.getProxyPort());
-            client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-                    proxy);
+            if (FileUtils.isWindow()) {
+                GlobalSystemConfig systemConfig = ApplicationContextUtil.getBean(GlobalSystemConfig.class);
+                if(systemConfig != null && GlobalSystemConfig.EVN_NAME_DEV.equals(systemConfig.getEnvName())){
+                    HttpHost proxy = new HttpHost(clientParam.getProxyDomain(),
+                            clientParam.getProxyPort());
+                    client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+                            proxy);
+                }
+            }
         }
         // HttpClient client = null;
         clientMap.put(clientName, client);
@@ -161,9 +169,12 @@ public class CustomerHttpClient {
                         SpiderConfigs.SUNING_DOMAIN_SO_TIMEOUT,
                         SpiderConfigs.SUNING_DOMAIN_MAX_ROUTE_CONNECTIONS,
                         SpiderConfigs.SUNING_DOMAIN_MAX_TOTAL_CONNECTIONS);
-                param.setProxy(true);
-                param.setProxyDomain("10.19.110.31");
-                param.setProxyPort(8080);
+                
+                if (FileUtils.isWindow()) {
+                    param.setProxy(true);
+                    param.setProxyDomain("10.19.110.55");
+                    param.setProxyPort(8080);
+                }
                 break;
             default:
                 param = new ClientParam(SpiderConfigs.HTTP_POOL_TIMEOUT, SpiderConfigs.HTTP_CONNECT_TIMEOUT,

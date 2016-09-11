@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.utils.DateUtils;
 import com.summer.whm.entiry.spider.DetailTemplate;
@@ -90,7 +89,7 @@ public class ParseStoryScriptTask implements Runnable {
                             SpiderStoryJob tempJob = new SpiderStoryJob();
                             tempJob.setId(spiderStoryJob.getId());
                             tempJob.setSpiderStatus(SpiderConfigs.STATUS_STOP);
-                            spiderStoryJobService.update(spiderStoryJob);
+                            spiderStoryJobService.update(tempJob);
                             return;
                         }
 
@@ -211,6 +210,7 @@ public class ParseStoryScriptTask implements Runnable {
                 storyInfo.setCreateTime(new Date());
                 storyInfo.setCreator(SpiderConfigs.SPIDER);
                 storyInfo.setStatus(SpiderConfigs.STORY_STATUS_ONLINE);//上架
+                storyInfo.setLastUpdateDetail(new Date());
                 // 保存小说基本信息
                 storyInfoService.save(storyInfo);
                 spiderStoryJob.setStoryId(storyInfo.getId());
@@ -231,7 +231,7 @@ public class ParseStoryScriptTask implements Runnable {
             } else {
                 //多次处理，判断图片是否有值，如果为空则继续下载，否则退出
                 storyInfo = storyInfoService.loadById(spiderStoryJob.getStoryId() + "");
-                if (storyInfo.getPicPath() == null) {
+                if (storyInfo.getPicPath() == null || "/RES/images/default_120_150.jpg".equals(storyInfo.getPicPath())) {
                     String picPath = (String)ScriptManager.getInstance().run(template.getPicPathXPath(), map);//处理图片
                     if(picPath != null){
                         Image image = ImageService.downloadImgByUrl(picPath);
@@ -435,9 +435,15 @@ public class ParseStoryScriptTask implements Runnable {
 
         String content = (String)ScriptManager.getInstance().run(template.getDetailContentXPath(), map);//处理图片
         storyDetail.setContent(content);
-
+        
         //更新小说内容
         storyDetail.setId(parseStoryElement.getStoryDetail().getId());
+        storyDetail.setStoryId(parseStoryElement.getStoryDetail().getStoryId());
+        
+        if(storyDetail.getId() == null || storyDetail.getStoryId() == null){
+            throw new ParseException("解析小说章节明细出错，Id或StoryId为空。");
+        }
+        
         saveDB(storyDetail);
         
         StoryInfo storyInfo = new StoryInfo();
