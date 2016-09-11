@@ -67,7 +67,8 @@
 	<typeAlias alias="StoryTopic" type="com.summer.whm.entiry.story.StoryTopic" />
 	<typeAlias alias="StoryTopicDetail" type="com.summer.whm.entiry.story.StoryTopicDetail" />
 	
-	
+	<typeAlias alias="Author" type="com.summer.whm.entiry.author.Author" />
+	<typeAlias alias="AuthorDetail" type="com.summer.whm.entiry.author.AuthorDetail" />
 	<!-- 小说爬虫 -->
 	<typeAlias alias="SpiderStoryTemplate" type="com.summer.whm.entiry.spider.SpiderStoryTemplate" />
 	<typeAlias alias="SpiderStoryJob" type="com.summer.whm.entiry.spider.SpiderStoryJob" />
@@ -131,6 +132,9 @@
 	<mapper resource="conf/mybatis/StoryUserReadMapper.xml" />
 	<mapper resource="conf/mybatis/StoryTopicMapper.xml" />
 	<mapper resource="conf/mybatis/StoryTopicDetailMapper.xml" />
+
+	<mapper resource="conf/mybatis/AuthorMapper.xml" />
+	<mapper resource="conf/mybatis/AuthorDetailMapper.xml" />
 
 	<mapper resource="conf/mybatis/SpiderStoryTemplateMapper.xml" />
 	<mapper resource="conf/mybatis/SpiderStoryJobMapper.xml" />

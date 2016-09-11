@@ -19,8 +19,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * MD5加密工具
- * 
- * @author 郭华亮 2012-7-2
  */
 public class MD5 {
     /**

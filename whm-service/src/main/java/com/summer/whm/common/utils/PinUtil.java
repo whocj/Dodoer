@@ -31,7 +31,7 @@ public class PinUtil {
     final static Logger log = LoggerFactory.getLogger(PinUtil.class);
 
     private static Map<String, List<String>> pinyinMap = new HashMap<String, List<String>>();
-    private static String fileName = "/opt/whp/configs/duoyinzi.dic";
+    private static String fileName = "/opt/whm/story/configs/duoyinzi.dic";
     private static boolean isLoadDouyinzi = false;
 
     /**
@@ -209,36 +209,37 @@ public class PinUtil {
         InputStream file = null;
         try {
             file = new FileInputStream(fileName);
-        } catch (FileNotFoundException e1) {
+        } catch (Exception e1) {
             log.error(e1.getMessage());
         }
+        if(file != null){
+            BufferedReader br = new BufferedReader(new InputStreamReader(file));
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(file));
+            String s = null;
+            try {
+                while ((s = br.readLine()) != null) {
 
-        String s = null;
-        try {
-            while ((s = br.readLine()) != null) {
+                    if (s != null) {
+                        String[] arr = s.split("#");
+                        String pinyin = arr[0];
+                        String chinese = arr[1];
 
-                if (s != null) {
-                    String[] arr = s.split("#");
-                    String pinyin = arr[0];
-                    String chinese = arr[1];
-
-                    if (chinese != null) {
-                        String[] strs = chinese.split(" ");
-                        List<String> list = Arrays.asList(strs);
-                        pinyinMap.put(pinyin, list);
+                        if (chinese != null) {
+                            String[] strs = chinese.split(" ");
+                            List<String> list = Arrays.asList(strs);
+                            pinyinMap.put(pinyin, list);
+                        }
                     }
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

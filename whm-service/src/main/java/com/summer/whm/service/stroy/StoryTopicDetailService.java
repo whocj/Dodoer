@@ -23,8 +23,8 @@ public class StoryTopicDetailService extends BaseService {
     @Autowired
     private StoryTopicDetailMapper storyTopicDetailMapper;
 
-    public List<StoryTopicDetail> queryByTopicId(Integer topicId) {
-        return storyTopicDetailMapper.queryByTopicId(topicId);
+    public List<StoryTopicDetail> queryByTopicId(Integer topicId, Integer topN) {
+        return storyTopicDetailMapper.queryByTopicId(topicId, topN);
     }
 
     public void cleanByTopicId(Integer topicId) {

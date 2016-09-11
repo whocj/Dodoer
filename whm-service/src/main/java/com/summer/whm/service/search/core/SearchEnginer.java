@@ -43,7 +43,6 @@ import org.apache.lucene.util.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.MapContainer;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.common.utils.StringUtils;
@@ -68,7 +67,7 @@ public final class SearchEnginer {
 
     private SearchEnginer(String indexDir) {
         try {
-            Directory directory = FSDirectory.open(new File(WebConstants.INDEX_PATH));
+            Directory directory = FSDirectory.open(new File(indexDir));
             // Directory directory = initDirectory(new
             // File(WebConstants.APPLICATION_PATH,indexDir));
             /* 默认使用最细粒度分词 */
@@ -445,7 +444,7 @@ public final class SearchEnginer {
     }
 
     private static final class SearchEnginerHolder {
-        static SearchEnginer POST = new SearchEnginer("/opt/whm/index/post");
+        static SearchEnginer POST = new SearchEnginer("/opt/whm/index/story");
     }
 
     public static SearchEnginer postEnginer() {
