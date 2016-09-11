@@ -55,8 +55,17 @@
 	<filter-mapping>
 		<filter-name>SecurityFilter</filter-name>
 		<servlet-name>whm-story</servlet-name>
+	</filter-mapping> 
+
+	<filter>
+		<filter-name>CacheFilter</filter-name>
+		<filter-class>com.summer.whm.web.common.filter.CacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CacheFilter</filter-name>
+		<servlet-name>whm-story</servlet-name>
 	</filter-mapping>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -121,5 +130,9 @@
 	<error-page>
 		<error-code>403</error-code>
 		<location>/error/500.html</location>
+	</error-page>
+	<error-page>
+		<error-code>400</error-code>
+		<location>/error/400.html</location>
 	</error-page>
 </web-app>

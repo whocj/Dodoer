@@ -5,9 +5,7 @@
 *
 * */
 jQuery(document).ready(function(e) {
-
 	$ = jQuery;
-
     /*-----------------------------------------------------------------------------------*/
     /*	Menu Dropdown Control
      /*-----------------------------------------------------------------------------------*/
@@ -48,8 +46,20 @@ function nofind(){
 	img.onerror=null; //控制不要一直跳动
 }
 
+function goLogin(){
+	location.href = "/login/index.html";
+}
 
-
-
-
-
+function openLoginDiv(){
+	layer.open({
+	    type: 2,
+	    title: '用户登录',
+	    shadeClose: true,
+	    shade: 0.2,
+	    area: ['500px', '450px'],
+	    content: '/login/indexDialog.html',
+	    end : function(){
+	    	document.location.reload();
+    	}
+	});
+}

@@ -303,3 +303,97 @@
 #pagination{
 	padding-left: 30px;
 }
+
+.boy .channel_center {
+    border-left: 1px solid #E6E6E6;
+}
+.p10 {
+    padding: 10px 0 0 20px;
+}
+.ileft, .iright {
+    display: block;
+    width: 50%;
+}
+.ileft, .iright {
+    display: block;
+    width: 50%;
+}
+.hot_cover_mini, .hot_cover_mini2, .hot_info, .ileft, .iright, .threeTab span, .twoTab span {
+    float: left;
+}
+.hot_info {
+    margin: 2px 0 0 15px;
+}
+
+.hot_info li {
+    color: #666;
+    height: 26px;
+    line-height: 26px;
+    width: 220px;
+}
+.c9 {
+    color: #999;
+}
+.hot_desc {
+    height: 80px;
+    line-height: 20px;
+    width: 205px;
+    overflow: hidden;
+}
+a.c834216 {
+    color: #A20606;
+}
+.clearfix {
+    clear: both;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.hot_box {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.hot_more li {
+    height: 24px;
+    overflow: hidden;
+    line-height: 24px;
+    float: left;
+    width: 345px;
+}
+#main_list {
+    padding: 2px;
+}
+#main_list dl {
+    float: left;
+    overflow: hidden;
+    padding-bottom: 1px;
+    margin: auto;
+    width: 100%;
+}
+#main_list dt {
+    background: none repeat scroll 0 0 #C3DFEA;
+    display: inline;
+    float: left;
+    font-size: 14px;
+    line-height: 28px;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    width: 98%;
+    margin: auto auto 5px;
+    padding: 5px 10px;
+}
+#main_list dd {
+    border-bottom: 1px dashed #CCC;
+    display: inline;
+    float: left;
+    height: 25px;
+    line-height: 200%;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-align: left;
+    text-indent: 10px;
+    vertical-align: middle;
+    width: 32%;
+}
