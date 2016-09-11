@@ -19,7 +19,7 @@ import com.summer.whm.service.BaseService;
  * @since [产品/模块版本] （可选）
  */
 @Service
-public class StoryDetailService extends BaseService {
+public class StoryDetailExtService extends BaseService {
 
     public static final String DEFAULT_TABLE = "story_detail";
     
@@ -34,11 +34,6 @@ public class StoryDetailService extends BaseService {
         return storyDetailMapper;
     }
 
-    public StoryDetail queryById(Integer id, Integer storyId){
-        List<StoryDetail> list = storyDetailMapper.queryById(id, getTable(storyId));
-        return list != null && list.size() > 0 ? list.get(0) : null;
-    }
-    
     public String getTable(Integer storyId){
         if(storyId != null){
             int val = storyId / HASH_VAL;
@@ -93,6 +88,5 @@ public class StoryDetailService extends BaseService {
     public List<StoryDetail> queryByPartId(Integer partId, Integer storyId) {
         return storyDetailMapper.queryByPartId(partId, getTable(storyId));
     }
-
 
 }

@@ -24,10 +24,10 @@ public class StoryUserBookshelfService extends BaseService {
     @Autowired
     private StoryUserBookshelfMapper storyUserBookshelfMapper;
 
-    public List<StoryUserBookshelf> queryByUsername(String username) {
-        return storyUserBookshelfMapper.queryByUsername(username);
+    public List<StoryUserBookshelf> queryByUserId(Integer username) {
+        return storyUserBookshelfMapper.queryByUserId(username);
     }
-
+    
     public  StoryUserBookshelf queryByUserIdAndStoryId(Integer userId, Integer storyId){
         return storyUserBookshelfMapper.queryByUserIdAndStoryId(userId, storyId);
     }

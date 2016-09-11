@@ -3,6 +3,7 @@ package com.summer.whm.service.stroy;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.summer.whm.common.model.PageModel;
@@ -11,7 +12,6 @@ import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.entiry.story.StoryPart;
 import com.summer.whm.mapper.BaseMapper;
-import com.summer.whm.mapper.story.StoryDetailMapper;
 import com.summer.whm.mapper.story.StoryInfoMapper;
 import com.summer.whm.mapper.story.StoryPartMapper;
 import com.summer.whm.service.BaseService;
@@ -35,7 +35,7 @@ public class StoryInfoService extends BaseService {
     private StoryPartMapper storyPartMapper;
 
     @Autowired
-    private StoryDetailMapper storyDetailMapper;
+    private StoryDetailService storyDetailService;
 
     @Autowired
     private SearchPostService searchPostService;
@@ -65,30 +65,37 @@ public class StoryInfoService extends BaseService {
         return storyInfoMapper.queryByTitleAndAuthor(title, author);
     }
     
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryTopNByHot'")
     public List<StoryInfo> queryTopNByHot(Integer categoryId, Integer topN){
         return storyInfoMapper.queryTopNByHot(categoryId, topN);
     }
     
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryStoryInfoOrderCreateTimeTop'")
     public List<StoryInfo> queryStoryInfoOrderCreateTimeTop(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryStoryInfoOrderCreateTimeTop(categoryId, topN);
     }
 
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryStoryInfoOrderlastUpdateTop'")
     public List<StoryInfo> queryStoryInfoOrderlastUpdateTop(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryStoryInfoOrderlastUpdateTop(categoryId, topN);
     }
 
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryStoryInfoOrderSortIndexTop'")
     public List<StoryInfo> queryStoryInfoOrderSortIndexTop(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryStoryInfoOrderSortIndexTop(categoryId, topN);
     }
 
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryTopReply'")
     public List<StoryInfo> queryTopReply(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryTopReply(categoryId, topN);
     }
 
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryTopHot'")
     public List<StoryInfo> queryTopHot(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryTopHot(categoryId, topN);
     }
 
+    @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryTopLike'")
     public List<StoryInfo> queryTopLike(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryTopLike(categoryId, topN);
     }
@@ -99,13 +106,13 @@ public class StoryInfoService extends BaseService {
             List<StoryPart> storyPartList = storyPartMapper.queryByStoryId(storyId);
             if (storyPartList != null && storyPartList.size() > 0) {
                 for (StoryPart storyPart : storyPartList) {
-                    List<StoryDetail> storyDetailList = storyDetailMapper.queryByPartId(storyPart.getId());
+                    List<StoryDetail> storyDetailList = storyDetailService.queryByPartId(storyPart.getId(), storyPart.getStoryId());
                     storyPart.setStoryDetailList(storyDetailList);
                 }
                 storyInfo.setStoryPartList(storyPartList);
                 storyInfo.setPart(true);
             } else {
-                List<StoryDetail> storyDetailList = storyDetailMapper.queryByStoryId(storyId);
+                List<StoryDetail> storyDetailList = storyDetailService.queryByStoryId(storyId);
                 storyInfo.setStoryDetailList(storyDetailList);
             }
         }

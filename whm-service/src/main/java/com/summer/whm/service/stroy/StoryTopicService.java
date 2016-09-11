@@ -5,11 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
-import com.summer.whm.entiry.spider.CrawTemplate;
-import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.entiry.story.StoryTopic;
+import com.summer.whm.entiry.story.StoryTopicDetail;
 import com.summer.whm.mapper.BaseMapper;
 import com.summer.whm.mapper.story.StoryTopicMapper;
 import com.summer.whm.service.BaseService;
@@ -39,22 +37,18 @@ public class StoryTopicService extends BaseService {
     public StoryTopic queryById(Integer id) {
         StoryTopic storyTopic = storyTopicMapper.loadById(id + "");
         if (storyTopic != null) {
-            PageModel<StoryInfo> page = new PageModel<StoryInfo>(1, WebConstants.PAGE_SIZE);
-            page.insertQuery("topic", id);
-            storyTopicDetailService.list(page);
-            storyTopic.setStoryInfoPage(page);
+            List<StoryTopicDetail> detailList = storyTopicDetailService.queryByTopicId(id, 100);
+            storyTopic.setTopicDetailList(detailList);
         }
         return storyTopic;
     }
 
-    public List<StoryTopic> queryByStatus(String status) {
+    public List<StoryTopic> queryByStatus(String status, Integer topN) {
         List<StoryTopic> storyTopicList = storyTopicMapper.queryByStatus(status);
         if (storyTopicList != null && storyTopicList.size() > 0) {
             for (StoryTopic storyTopic : storyTopicList) {
-                PageModel<StoryInfo> page = new PageModel<StoryInfo>(1, WebConstants.PAGE_SIZE);
-                page.insertQuery("topic", storyTopic.getId());
-                storyTopicDetailService.list(page);
-                storyTopic.setStoryInfoPage(page);
+                List<StoryTopicDetail>  topicDetailList = storyTopicDetailService.queryByTopicId(storyTopic.getId(), topN);
+                storyTopic.setTopicDetailList(topicDetailList);
             }
         }
 
