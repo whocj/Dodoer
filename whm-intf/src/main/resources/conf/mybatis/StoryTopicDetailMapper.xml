@@ -123,11 +123,13 @@
 	    si.lastUpdateDetail,
 	    si.picPath,
 	    si.outline,
+	    si.status,
 	    si.readCount,
 	    si.replyCount,
     	si.likeCount
 		from story_topic_detail std 
 		left join story_info si on  std.storyId = si.id where std.topicId = #{topicId}
 		order by std.sortIndex desc, std.id desc
+		limit #{topN}
 	</select>
 </mapper>

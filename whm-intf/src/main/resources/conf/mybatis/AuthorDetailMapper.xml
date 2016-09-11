@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.author.AuthorDetailMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="AuthorDetail">
+		select
+		id,
+		authorId,
+		storyId,
+		title,
+		outline,
+		createDate,
+		creator,
+		createTime,
+		lastUpdate
+		from story_author_detail si
+		where si.id = #{id}
+	</select>
+
+	<insert id="insert" parameterType="AuthorDetail">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into story_author_detail(
+		authorId,
+		storyId,
+		title,
+		outline,
+		createDate,
+		creator,
+		createTime,
+		lastUpdate
+		)
+		values(#{authorId},#{storyId},#{title},#{outline},#{createDate},#{creator},#{createTime},#{lastUpdate}
+		)
+	</insert>
+
+	<update id="update" parameterType="AuthorDetail">
+		update story_author_detail set
+		id=#{id}
+		<if test="storyId!=null and storyId!=''">
+			,storyId=#{storyId}
+		</if>
+		<if test="title!=null and title!=''">
+			,title=#{title}
+		</if>
+		<if test="outline!=null and outline!=''">
+			,outline=#{outline}
+		</if>
+		<if test="createDate!=null and createDate!=''">
+			,createDate=#{createDate}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from story_author_detail where id = #{id}
+	</delete>
+	
+	<select id="queryByAuthorId" resultType="AuthorDetail">
+		select
+		sad.id,
+		sad.authorId,
+		sad.storyId,
+		sad.title,
+		sad.createDate,
+		si.picPath,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.status as storyStatus
+		from story_author_detail sad
+		left join story_info si on si.id = sad.storyId
+		where sad.authorId = #{authorId}
+		order by sad.id desc
+	</select>
+	
+</mapper>

@@ -156,6 +156,32 @@
 		order by ssj.storyId asc, ssj.lastUpdate
 	</select>
 	
+	<select id="queryByTempateIdAndStatusTop1" resultType="SpiderStoryJob">
+		select
+		ssj.id,
+		ssj.templateId,
+		ssj.storyId,
+		ssj.categoryId,
+		bc.TITLE as categoryName,
+		ssj.userId,
+		ssj.username,
+		ssj.name,
+		ssj.url,
+		ssj.title,
+		ssj.status,
+		ssj.spiderStatus,
+		ssj.qtRule,
+		ssj.creator,
+		ssj.createTime,
+		ssj.lastUpdate
+		from spider_story_job ssj
+		left join bbs_category bc on bc.ID = ssj.categoryId
+		where ssj.templateId = #{templateId}
+		and ssj.status = #{status}
+		order by ssj.lastUpdate
+		LIMIT 1
+	</select>
+	
 	<select id="queryByUrl" resultType="SpiderStoryJob">
 		select
 		ssj.id,
