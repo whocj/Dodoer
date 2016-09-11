@@ -128,6 +128,38 @@
 		order by sub.id desc
 	</select>
 	
+	<select id="queryByUserId" resultType="StoryUserBookshelf">
+		select
+		sub.id,
+		sub.storyId,
+		sub.title,
+		si.picPath,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.status as storyStatus,
+		sub.userId,
+		sub.username,
+		sub.readDetailId,
+		sub.readDetailTitle,
+		sub.status,
+		sub.creator,
+		sub.createTime,
+		sub.lastUpdate 
+		from story_user_bookshelf sub
+		left join story_info si on si.id = sub.storyId
+		where sub.userId = #{userId}
+		order by sub.id desc
+	</select>
+	
 	<select id="queryByUserIdAndStoryId" resultType="StoryUserBookshelf">
 		select
 		id,

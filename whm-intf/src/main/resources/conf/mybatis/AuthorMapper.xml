@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.summer.whm.mapper.author.AuthorMapper">
+	<select id="loadById" parameterType="java.lang.String"
+		resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where sa.id = #{id}
+	</select>
+
+	<select id="list" parameterType="PageModel" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where 1=1
+		<if test="query.name!=null and query.name!=''">
+			and sa.name like #{query.name}
+		</if>
+		order by sa.id desc
+	</select>
+
+	<select id="queryByName" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where sa.name=#{name} or sa.namezh=#{name} or sa.nameen=#{name}
+		order by sa.sortIndex desc
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from story_author
+		<if test="query.name!=null and query.name!=''">
+			and name like #{query.name}
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="Author">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into story_author(
+			name,
+			categoryId,
+			namezh,
+			nameen,
+			profession,
+			country,
+			homeplace,
+			birthday,
+			keywords,
+			outline,
+			status,
+			sortIndex,
+			hot,
+			description,
+			creator,
+			createTime,
+			lastUpdate
+		)
+		values(#{name},#{categoryId},#{namezh},#{nameen},#{profession},#{country},#{homeplace},#{birthday},
+			#{keywords},#{outline},#{status},#{sortIndex},#{hot},#{description},#{creator},#{createTime},#{lastUpdate})
+	</insert>
+
+	<update id="update" parameterType="Author">
+		update story_author set
+		id=#{id}
+		<if test="name!=null and name!=''">
+			,name=#{name}
+		</if>
+		<if test="categoryId!=null and categoryId!=''">
+			,categoryId=#{categoryId}
+		</if>
+		<if test="namezh!=null and namezh!=''">
+			,namezh=#{namezh}
+		</if>
+		
+		<if test="nameen!=null and nameen!=''">
+			,nameen=#{nameen}
+		</if>
+		
+		<if test="profession!=null and profession!=''">
+			,profession=#{profession}
+		</if>
+		
+		<if test="homeplace!=null and homeplace!=''">
+			,homeplace=#{homeplace}
+		</if>
+		
+		<if test="country!=null and country!=''">
+			,country=#{country}
+		</if>
+		
+		<if test="birthday!=null and birthday!=''">
+			,birthday=#{birthday}
+		</if>
+		
+		<if test="keywords!=null and keywords!=''">
+			,keywords=#{keywords}
+		</if>
+		
+		<if test="outline!=null and outline!=''">
+			,outline=#{outline}
+		</if>
+		<if test="status!=null and status!=''">
+			,status=#{status}
+		</if>
+		<if test="hot!=null and hot!=''">
+			,hot=#{hot}
+		</if>
+		<if test="sortIndex!=null and sortIndex!=''">
+			,sortIndex=#{sortIndex}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+		<if test="lastUpdate!=null and lastUpdate!=''">
+			,lastUpdate=#{lastUpdate}
+		</if>
+
+		where id=#{id}
+	</update>
+
+	<delete id="deleteById">
+		delete from story_author where id = #{id}
+	</delete>
+	
+		
+	<update id="addLike">
+		update story_author set
+		likeCount = likeCount + 1
+		where id=#{id}
+	</update>
+	
+	<update id="addRead">
+		update story_author set
+		readCount = readCount + 1
+		where id=#{id}
+	</update>
+	
+	<update id="addReply">
+		update story_author set
+		replyCount = replyCount + 1
+		where id=#{id}
+	</update>
+	
+	<select id="queryTopHot" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where 1=1 AND sa.status != '99'
+		<if test="categoryId!=null and categoryId!=''">
+			and sa.categoryId = #{categoryId}
+		</if>
+		order by sa.sortIndex desc
+	</select>
+
+	<select id="queryAll" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where 1=1 and sa.status != '99'
+		<if test="categoryId!=null and categoryId!=''">
+			and sa.categoryId = #{categoryId}
+		</if>
+		order by sa.sortIndex desc, sa.nameen asc
+	</select>
+
+</mapper>
