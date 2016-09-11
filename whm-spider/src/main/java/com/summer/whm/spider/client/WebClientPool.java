@@ -10,20 +10,27 @@ import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.ProxyConfig;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.summer.whm.common.configs.GlobalConfigHolder;
+import com.summer.whm.common.configs.GlobalSystemConfig;
+import com.summer.whm.plugin.ApplicationContextUtil;
 import com.summer.whm.spider.utils.FileUtils;
 
 public class WebClientPool {
     private final GenericObjectPool<WebClient> internalPool;
-
+    private GlobalSystemConfig systemConfig = null;
     public WebClientPool() {
         this.internalPool = new GenericObjectPool<WebClient>(new BasePoolableObjectFactory<WebClient>() {
             public WebClient makeObject() throws Exception {
                 WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3);
-
+//                if(systemConfig == null){
+//                    systemConfig = ApplicationContextUtil.getBean(GlobalSystemConfig.class);
+//                }
+                
 //                if (FileUtils.isWindow()) {
-//                    ProxyConfig proxyConfig = new ProxyConfig();
-//                    proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-//                    webClient.setProxyConfig(proxyConfig);
+//                    if(systemConfig != null && GlobalSystemConfig.EVN_NAME_DEV.equals(systemConfig.getEnvName())){
+//                        ProxyConfig proxyConfig = new ProxyConfig();
+//                        proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+//                        webClient.setProxyConfig(proxyConfig);
+//                    }
 //                }
 
                 webClient.setUseInsecureSSL(true);

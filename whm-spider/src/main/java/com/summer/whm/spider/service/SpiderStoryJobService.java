@@ -24,7 +24,18 @@ public class SpiderStoryJobService extends BaseService {
     public List<SpiderStoryJob> queryByTempateIdAndStatus(Integer templateId, String status) {
         return spiderStoryJobMapper.queryByTempateIdAndStatus(templateId, status);
     }
+    
+    public SpiderStoryJob queryByTempateIdAndStatusTop1(Integer templateId, String status) {
+        List<SpiderStoryJob> list = spiderStoryJobMapper.queryByTempateIdAndStatusTop1(templateId, status);
+        if(list != null){
+            return list.get(0);
+        }
+        
+        return null;
+    }
 
+    
+    
     @Override
     protected BaseMapper getMapper() {
         return spiderStoryJobMapper;

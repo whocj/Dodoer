@@ -26,6 +26,12 @@ public class TestSubstring {
 
         id = a.substring(0, a.lastIndexOf("/") + 1);
         System.out.println(id);
+        
+        a = "作者：萧鼎   类别：玄幻仙侠   状态：连载中";
+        id = a.substring(3, a.indexOf("类别："));
+        System.out.println(id.trim());
+        id = a.substring(a.lastIndexOf("状态："));
+        System.out.println(id.replace("状态：", "").trim());
     }
 
 }
