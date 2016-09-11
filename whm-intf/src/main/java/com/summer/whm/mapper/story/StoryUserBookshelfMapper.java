@@ -18,5 +18,7 @@ import com.summer.whm.mapper.BaseMapper;
 public interface StoryUserBookshelfMapper extends BaseMapper {
     List<StoryUserBookshelf> queryByUsername(@Param("username") String username);
 
+    List<StoryUserBookshelf> queryByUserId(@Param("userId") Integer userId);
+    
     StoryUserBookshelf queryByUserIdAndStoryId(@Param("userId") Integer userId, @Param("storyId") Integer storyId);
 }

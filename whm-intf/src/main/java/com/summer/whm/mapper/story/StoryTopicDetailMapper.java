@@ -15,7 +15,7 @@ import com.summer.whm.mapper.BaseMapper;
  * @since [产品/模块版本] （可选）
  */
 public interface StoryTopicDetailMapper extends BaseMapper {
-    List<StoryTopicDetail> queryByTopicId(@Param("topicId") Integer topicId);
+    List<StoryTopicDetail> queryByTopicId(@Param("topicId") Integer topicId, @Param("topN") Integer topN);
 
     void cleanByTopicId(@Param("topicId") Integer topicId);
 }
