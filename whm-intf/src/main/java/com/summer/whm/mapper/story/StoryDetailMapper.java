@@ -16,19 +16,28 @@ import com.summer.whm.mapper.BaseMapper;
  * @since [产品/模块版本] （可选）
  */
 public interface StoryDetailMapper extends BaseMapper {
-    List<StoryDetail> queryByStoryId(@Param("storyId") Integer storyId);
     
-    int queryCountByStoryId(@Param("storyId") Integer storyId);
+    List<StoryDetail> queryById(@Param("id") Integer id, @Param("table") String table);
     
-    List<StoryDetail> queryByPartId(@Param("partId") Integer partId);
-
-    void addReadCount(@Param("id") Integer id);
-
-    void addReplyCount(@Param("id") Integer id);
-
-    StoryDetail queryNextByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id);
-
-    StoryDetail queryPrevByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id);
+    public int insert(@Param("storyDetail") StoryDetail storyDetail,  @Param("table") String table);
     
-    List<StoryDetail> queryByStoryIdAndContentIsNull(@Param("storyId") Integer storyId);
+    public int update(@Param("storyDetail") StoryDetail storyDetail,  @Param("table") String table);
+    
+    List<StoryDetail> queryByStoryId(@Param("storyId") Integer storyId, @Param("table") String table);
+
+    int queryCountByStoryId(@Param("storyId") Integer storyId, @Param("table") String table);
+
+    List<StoryDetail> queryByPartId(@Param("partId") Integer partId, @Param("table") String table);
+
+    void addReadCount(@Param("id") Integer id, @Param("table") String table);
+
+    void addReplyCount(@Param("id") Integer id, @Param("table") String table);
+
+    StoryDetail queryNextByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id,
+            @Param("table") String table);
+
+    StoryDetail queryPrevByStoryAndId(@Param("storyId") Integer storyId, @Param("id") Integer id,
+            @Param("table") String table);
+
+    List<StoryDetail> queryByStoryIdAndContentIsNull(@Param("storyId") Integer storyId, @Param("table") String table);
 }

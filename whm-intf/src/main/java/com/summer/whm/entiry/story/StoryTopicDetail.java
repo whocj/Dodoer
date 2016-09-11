@@ -25,6 +25,33 @@ public class StoryTopicDetail extends BaseEntity {
     private String lastDetailTitle;
 
     private Integer sortIndex;
+    private int likeCount;
+    private int readCount;
+    private int replyCount;
+    
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public int getReadCount() {
+        return readCount;
+    }
+
+    public void setReadCount(int readCount) {
+        this.readCount = readCount;
+    }
+
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
+    }
 
     public String getCategoryId() {
         return categoryId;
@@ -83,6 +110,9 @@ public class StoryTopicDetail extends BaseEntity {
     }
 
     public String getStatusTxt() {
+        if(statusTxt == null){
+            statusTxt = "3".equals(this.getStatus()) ? "<font color='red'>(完结)</font>" : "";
+        }
         return statusTxt;
     }
 

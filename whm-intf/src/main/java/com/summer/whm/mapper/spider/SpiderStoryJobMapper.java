@@ -11,5 +11,8 @@ public interface SpiderStoryJobMapper extends BaseMapper {
     List<SpiderStoryJob> queryByTempateIdAndStatus(@Param("templateId") Integer templateId,
             @Param("status") String status);
 
+    List<SpiderStoryJob> queryByTempateIdAndStatusTop1(@Param("templateId") Integer templateId,
+            @Param("status") String status);
+    
     SpiderStoryJob queryByUrl(@Param("url") String url);
 }

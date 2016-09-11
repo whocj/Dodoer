@@ -1,5 +1,7 @@
 package com.summer.whm.entiry.story;
 
+import java.util.List;
+
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.BaseEntity;
 
@@ -19,23 +21,23 @@ public class StoryTopic extends BaseEntity {
     private String picPath;
     private Integer sortIndex;
     private Integer count;
-
-    private PageModel<StoryInfo> storyInfoPage;
     
+    private List<StoryTopicDetail> topicDetailList;
+
+    public List<StoryTopicDetail> getTopicDetailList() {
+        return topicDetailList;
+    }
+
+    public void setTopicDetailList(List<StoryTopicDetail> topicDetailList) {
+        this.topicDetailList = topicDetailList;
+    }
+
     public String getKeywords() {
         return keywords;
     }
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
-    }
-
-    public PageModel<StoryInfo> getStoryInfoPage() {
-        return storyInfoPage;
-    }
-
-    public void setStoryInfoPage(PageModel<StoryInfo> storyInfoPage) {
-        this.storyInfoPage = storyInfoPage;
     }
 
     public String getStatus() {
