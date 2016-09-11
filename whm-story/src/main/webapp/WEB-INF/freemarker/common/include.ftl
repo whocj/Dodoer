@@ -10,6 +10,4 @@
 <!-- script -->
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>
 <script type='text/javascript' src='${resRoot}/js/layer/layer.js'></script>
-<script type='text/javascript' src='${resRoot}/js/jquery.form.js'></script>
-<script type='text/javascript' src='${resRoot}/js/base64.js'></script>
 <script type='text/javascript' src='${resRoot}/js/custom412.js'></script>

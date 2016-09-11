@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitleMobile }</title>
+<title>${storyInfo.title}_${storyInfo.author}_${storyInfo.categoryName}_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -34,12 +34,12 @@
 	<dl>
 			<#if prevStoryDetail!''>
 			<dd>
-				<a href="${base }/detail/${prevStoryDetail.id}.html">←上一章:${prevStoryDetail.title }</a>
+				<a href="${base }/detail/${storyDetail.storyId }/${prevStoryDetail.id}.html">←上一章:${prevStoryDetail.title }</a>
 			</dd>
 			</#if>
 			<#if nextStoryDetail!''>
 			<dd>
-				<a href="${base }/detail/${nextStoryDetail.id}.html">→下一章:${nextStoryDetail.title }</a>
+				<a href="${base }/detail/${storyDetail.storyId }/${nextStoryDetail.id}.html">→下一章:${nextStoryDetail.title }</a>
 			</dd>
 			</#if>
 			<dd>

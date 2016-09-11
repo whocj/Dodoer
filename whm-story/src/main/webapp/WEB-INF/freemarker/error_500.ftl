@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>500 Server Error - 多多儿小说-Dodoer</title>
+<title>500 Server Error - ${siteTitle }</title>
 <style type="text/css">
 #login{width:450px;margin:0px auto;margin-top: 100px;}
 #loginform{background-color:#fff;border: 1px solid #e5e5e5;font-weight: normal;padding:24px;
@@ -45,7 +45,7 @@
 										<div class="space"></div>
 
 										<div class="center">
-											<a href="${domain}" class="btn btn-grey">
+											<a href="${domain}/index.html" class="btn btn-grey">
 												<i class="icon-arrow-left"></i>
 												返回首页
 											</a>

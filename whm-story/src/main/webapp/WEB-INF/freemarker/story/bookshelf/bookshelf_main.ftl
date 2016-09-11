@@ -20,7 +20,7 @@
 					<span class="s1">[${datas.categoryName}]</span>
 					<span class="s2">
 					<a href="${base }/main/${datas.storyId}.html">${datas.title }</a>${datas.statusTxt }</span>
-					<span class="s3"><a href="${base }/detail/${datas.readDetailId}.html">${datas.readDetailTitle }</a></span>
+					<span class="s3"><a href="${base }/detail/${datas.storyId }/${datas.readDetailId}.html">${datas.readDetailTitle }</a></span>
 					<span class="s5">${datas.lastUpdate?string('MM-dd HH:mm') }</span>
 				</li>
 			</#list>

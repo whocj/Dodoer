@@ -4,15 +4,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>登录  - 多多儿小说-Dodoer</title>
+<title>登录_多多儿小说_Dodoer</title>
 <style type="text/css">
 #login{width:450px;margin:0px auto;margin-top: 100px;}
 #loginform{background-color:#fff;border: 1px solid #e5e5e5;font-weight: normal;padding:24px;
     box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);}
 .message{background-color: #ffffe0;border:1px solid #e6db55; border-radius: 3px;text-align: center;margin-bottom: 10px;}
 </style>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101344928" 
+data-redirecturi="http://www.dodoer.com/login/QQLogin.html" charset="utf-8"></script>
 <script type="text/javascript">
-
 $(function() {
 	$("#loginButton").click(function(event){
 		event.preventDefault(); //阻止默认事件
@@ -23,6 +24,13 @@ $(function() {
 function login(){
 	$("#loginform").submit();
 }
+
+if(QC.Login.check()){
+	 QC.Login.signOut();
+}
+
+//插入按钮的节点qqLoginBtn id
+QC.Login({btnId:"qqLoginBtn",size: "B_M"});
 </script>
 </head>
 <body>
@@ -47,6 +55,10 @@ function login(){
 				<label><input type="checkbox" name="remeber" value="true" /> 记住我的登录信息</label> 
 					<input class="btn" name="loginButton" type="button" id="loginButton" value="登录">
 					<input type="hidden" name="url" value="${url }">
+			</div>
+			<div>
+				<label for="qqLoginBtn">第三方登录 </label>
+				<span id="qqLoginBtn"></span>
 			</div>
 		</form>
 	</div>
