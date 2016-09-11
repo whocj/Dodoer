@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>${category.title }_${siteTitleMobile }</title>
+<title>我的书架_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -20,7 +20,7 @@
 				<span>首页</span>
 			</a>
 			<span id="more">导航</span>
-			<span style="font-size: 1.4rem">${category.title }</span>
+			<span style="font-size: 1.4rem">我的书架</span>
 		</nav>
 	</header>
 	
@@ -40,9 +40,9 @@
 
 <section class="s_moreread">
 	<div class="list_box">
-<#list page.content as datas>
+<#list bookshelfList as datas>
 	<dl>
-		<a href="${base }/main/${datas.id}.html">
+		<a href="${base }/main/${datas.storyId}.html">
 			<dt><img src="${datas.picPath }" alt="${datas.title }" onerror="nofind()" width="90" height="120"></dt>
 			<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
 			<dd style="height:70px;">${datas.outline }</dd>
@@ -51,51 +51,18 @@
 	</dl>
 </#list>
 	</div>
-	<div class="load_more">
-		查看更多
-	</div>
+
 </section>
 
 </div>
-
 <script type="text/javascript">
-$('a[name=index]').attr('href', '').attr('class', 'aactive');
 $('#more').click(function(){  
-	if($('#toplist').css('display')!='none')
-	{
+	if($('#toplist').css('display')!='none') {
 		$('#toplist').hide();
-	}
-	else
-	{
+	} else {
 		$('#toplist').show();
 	}
 });
-
-var curr_page=1, nomore=false, islock=false;
-function load_more() {
-	if(nomore) {
-		return;
-	}
-	if(islock) {
-		return;
-	}
-	islock = true;
-	curr_page++;
- 	$(".load_more").html('加载中...');
-    $.get('${base}/more/${category.id}/'+curr_page + ".html",function(data){
-    	islock = false;
-    	if($.trim(data).length > 0){
-			$('.list_box').append(data);
-			$(".load_more").html('查看更多');
-		}else{
-			$(".load_more").remove();
-			nomore=true;
-		}
-    });
-}
-$(".load_more").click(load_more);
-
-
 </script>
 <#include "/m/common/spider_include.ftl"/>
 </body>

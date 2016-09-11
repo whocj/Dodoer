@@ -1,15 +1,5 @@
 <script type="text/javascript">
 <!--
-	function goLogin(){
-		var currentUrl = location.href;
-		var url = new Base64().encodes(currentUrl);
-		if(currentUrl != ""){
-			location.href = "${base }/login/index.htm?url=" + url;
-		}else{
-			location.href = "${base }/login/index.htm";
-		}
-	}
-	
 	function openLoginDiv(){
 		layer.open({
 		    type: 2,

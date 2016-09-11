@@ -2,12 +2,11 @@
 <!doctype html>
 <html lang="en-US">
 <head>
-<meta property="qc:admins" content="134441654767070540556375" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
-<meta name="description" content="${siteDescription }" />  
-<title>我的书架 - ${siteTitle }</title>
+<meta name="description" content="${siteDescription }" />
+<title>${author.name }_${author.namezh }_${author.nameen }_${author.categoryName}_${siteTitle }</title>
 </head>
 
 <body>
@@ -19,7 +18,7 @@
 	<!-- End of Search Wrapper -->
 
 	<!-- Start of Page Container -->
-	<#include "/story/bookshelf/bookshelf_main.ftl"/>
+	<#include "/story/author/info/author_info_main.ftl"/>
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->
@@ -27,5 +26,6 @@
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->
+<#include "/common/spider_include.ftl"/>
 </body>
 </html>

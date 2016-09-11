@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
 <meta name="description" content="${siteDescription }" />  
-<title>我的书架 - ${siteTitle }</title>
+<title>我的书架_${siteTitle }</title>
 </head>
 
 <body>
@@ -27,5 +27,6 @@
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->
+<#include "/common/spider_include.ftl"/>
 </body>
 </html>

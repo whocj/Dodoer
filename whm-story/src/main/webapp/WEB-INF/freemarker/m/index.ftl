@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8"> 
-<title>首页 - ${siteTitleMobile }</title>
+<title>首页_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -19,7 +19,7 @@
 	
 	<section class="s_moreread">
 		<div class="module-t">
-			<h3><a href="liebiao.html">热门小说</a></h3>
+			<h3><a href="javascript:void(0)">热门小说</a></h3>
 		</div>
 		<div class="list_box">
 			<ul>
@@ -38,9 +38,35 @@
 	<#include "/m/common/notice.ftl">
 	<!-- Start of notice -->
 
+	<!-- start of topic content -->
+		
+	<#list storyTopicList as topic>
 	<section class="s_moreread">
 		<div class="module-t">
-			<h3><a href="">最近上架小说</a></h3>
+			<h3><a href="">${topic.title }</a></h3>
+		</div>
+		<div class="list_box">
+		<#list topic.topicDetailList as datas>
+			<#if datas_index == 0>
+			<dl>
+			<a href="${base }/main/${datas.storyId}.html">
+				<dt><img src="${datas.picPath }"  width="90" height="120" onerror="nofind()" alt="${datas.title }" ></dt>
+				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+				<dd>${datas.outline }</dd>
+				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
+				</a>
+			</dl>
+			<#elseif datas_index &lt; 10>
+				<a href="${base }/main/${datas.storyId}.html" class="item">[${datas.categoryName }]${datas.title }${datas.statusTxt }</a>
+			</#if>
+		</#list>
+		</div>
+	</section>
+	</#list>
+	<!-- end of topic content -->
+	<section class="s_moreread">
+		<div class="module-t">
+			<h3><a href="javascript:void(0)">最近上架小说</a></h3>
 		</div>
 		<div class="list_box">
 		<#list newStoryList as datas>
@@ -62,7 +88,7 @@
 	
 	<section class="s_moreread">
 		<div class="module-t">
-			<h3><a href="">阅读人数最多小说</a></h3>
+			<h3><a href="javascript:void(0)">阅读人数最多小说</a></h3>
 		</div>
 		<div class="list_box">
 		<#list readStoryList as datas>
@@ -84,7 +110,7 @@
 	
 	<section class="s_moreread">
 		<div class="module-t">
-			<h3><a href="">喜爱人数最多小说</a></h3>
+			<h3><a href="javascript:void(0)">喜爱人数最多小说</a></h3>
 		</div>
 		<div class="list_box">
 		<#list likeStoryList as datas>
@@ -106,7 +132,7 @@
 	
 	<section class="s_moreread">
 		<div class="module-t">
-			<h3><a href="">吐槽人数小说</a></h3>
+			<h3><a href="javascript:void(0)">吐槽人数最多小说</a></h3>
 		</div>
 		<div class="list_box">
 		<#list replyStoryList as datas>
@@ -125,11 +151,6 @@
 		</#list>
 		</div>
 	</section>
-
-	
-	
-	
-
 
 	<#include "/m/common/copyright.ftl">
 

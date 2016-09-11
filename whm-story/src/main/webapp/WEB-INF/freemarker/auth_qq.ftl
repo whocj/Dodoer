@@ -21,10 +21,13 @@ data-redirecturi="http://www.whohelpme.com/login/QQLogin.html" charset="utf-8"><
 				 token:accessToken
 				}, function(data) {
 					try{
-						//opener.window.closeWin(data.user.username, "登录成功！");
+						opener.window.closeWin(data.user.username, "登录成功！");
+						//opener.window.location.reload(true);
 						opener.window.location.reload(true);
-		//				window.close();
-					}catch(e){}
+					}catch(e){
+						opener.window.location.href = "${mobileDomain}/index.html";
+						window.close();
+					}
 				}, "json");
 
 		})

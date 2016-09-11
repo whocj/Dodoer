@@ -2,12 +2,11 @@
 <!doctype html>
 <html lang="en-US">
 <head>
-<meta property="qc:admins" content="134441654767070540556375" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
-<meta name="description" content="${siteDescription }" />  
-<title>我的阅读记录_${siteTitle }</title>
+<meta name="description" content="${siteDescription }" />
+<title>全部作者_作者大全_作者排行榜_作者排名_${siteTitle }</title>
 </head>
 
 <body>
@@ -15,11 +14,8 @@
 	<#include "/decorators/header.ftl"/>
 	<!-- End of Header -->
 
-	<!-- Start of Search Wrapper -->
-	<!-- End of Search Wrapper -->
-
 	<!-- Start of Page Container -->
-	<#include "/story/record/record_main.ftl"/>
+	<#include "/story/author/list/author_list_main.ftl"/>
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->

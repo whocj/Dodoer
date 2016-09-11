@@ -14,9 +14,9 @@
 <meta property="og:novel:click_cnt" content="${storyInfo.readCount }"/>
 <meta property="og:novel:update_time" content="${storyInfo.lastUpdateDetail?string('yyyy-MM-dd HH:mm') }"/>
 <meta property="og:novel:latest_chapter_name" content="${storyInfo.lastDetailTitle }"/>
-<meta property="og:novel:latest_chapter_url" content="${mobileDomain }/detail/${storyInfo.lastDetailId }.html"/>
+<meta property="og:novel:latest_chapter_url" content="${mobileDomain }/detail/${storyInfo.id }/${storyInfo.lastDetailId }.html"/>
 
-<title>${storyInfo.title}|${storyInfo.author}|${storyInfo.categoryName} - ${siteTitleMobile }</title>
+<title>${storyInfo.title}_${storyInfo.author}_${storyInfo.categoryName}_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
 <meta name="description" content="${siteDescription }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
@@ -64,7 +64,7 @@
 	<dl>
 	<#list storyInfo.storyDetailList as datas>
 	<dd>
-		<a href="${base }/detail/${datas.id }.html">${datas.title }</a>
+		<a href="${base }/detail/${datas.storyId }/${datas.id }.html">${datas.title }</a>
 		</dd>
 		</#list>
 		&nbsp;&nbsp;
