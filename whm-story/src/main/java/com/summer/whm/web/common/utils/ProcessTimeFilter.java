@@ -50,7 +50,7 @@ public class ProcessTimeFilter implements Filter {
 	public void init(FilterConfig config) throws ServletException {
 	    config.getServletContext().setAttribute(Configs.APP_CONFIGS, ConfigUpdater.currentConfigs(Configs.class));
 	    CategoryService categoryService = SpringContainer.getBean(CategoryService.class);
-	    List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY);
+	    List<Category> categoryList = categoryService.queryBySite(WebConstants.SITE_ID_STORY);
         config.getServletContext().setAttribute(Configs.CATEGORY_LIST, categoryList);
 	}
 }

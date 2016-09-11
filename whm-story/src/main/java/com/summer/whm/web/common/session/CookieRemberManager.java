@@ -11,6 +11,7 @@ import com.summer.whm.plugin.ApplicationContextUtil;
 import com.summer.whm.service.user.UserService;
 import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.common.utils.CookieUtils;
+import com.summer.whm.web.common.utils.WebConstants;
 
 /**
  * 基于cookie的会话管理器
@@ -22,7 +23,7 @@ public class CookieRemberManager {
 
     public static User extractValidRememberMeCookieUser(HttpServletRequest request, HttpServletResponse response) {
         CookieUtils cookieUtil = new CookieUtils(request, response);
-        String token = cookieUtil.getCookie(Constants.COOKIE_CONTEXT_ID);
+        String token = cookieUtil.getCookie(WebConstants.COOKIE_CONTEXT_ID);
         if (StringUtils.isBlank(token)) {
             return null;
         }
@@ -70,9 +71,9 @@ public class CookieRemberManager {
         String cookieValue = userid + ":" + tokenExpiryTime + ":"
                 + makeTokenSignature(userid, tokenExpiryTime, password);
         if (remeber) {
-            cookieUtil.setCookie(Constants.COOKIE_CONTEXT_ID, cookieValue, true, 7 * 24 * 3600 * 1000);
+            cookieUtil.setCookie(WebConstants.COOKIE_CONTEXT_ID, cookieValue, true, 7 * 24 * 3600 * 1000);
         } else {
-            cookieUtil.setCookie(Constants.COOKIE_CONTEXT_ID, cookieValue, true);
+            cookieUtil.setCookie(WebConstants.COOKIE_CONTEXT_ID, cookieValue, true);
         }
     }
 
@@ -83,7 +84,7 @@ public class CookieRemberManager {
 
     public static void logout(HttpServletRequest request, HttpServletResponse response) {
         CookieUtils cookieUtil = new CookieUtils(request, response);
-        cookieUtil.removeCokie(Constants.COOKIE_CONTEXT_ID);
+        cookieUtil.removeCokie(WebConstants.COOKIE_CONTEXT_ID);
     }
 
     /**

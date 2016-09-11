@@ -83,7 +83,30 @@ public class ErrorController {
         }
         
         request.setAttribute("error", error);
-        return "error_404.ftl";
+        return "error_500.ftl";
+    }
+    
+    @RequestMapping("/400")
+    public String do400(HttpServletRequest request, HttpServletResponse response) {
+        String code = request.getParameter("code");
+        String userAgent = request.getHeader("User-Agent");
+        String uri = (String) request.getAttribute("javax.servlet.error.request_uri");
+        if (uri == null) {
+            uri = request.getRequestURI();
+        }
+        HashMap<String, Object> error = new HashMap<String, Object>();
+        
+        error.put("code", code);
+        error.put("url", uri);
+        error.put("userAgent", userAgent);
+        Exception ex = (Exception) request.getAttribute("exception");
+        if (ex != null) {
+            error.put("class", ex.getClass().getName());
+            error.put("message", ex.getMessage());
+        }
+        
+        request.setAttribute("error", error);
+        return "error_400.ftl";
     }
     
     @RequestMapping("/exception")

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.story.StoryDetail;
@@ -27,6 +26,7 @@ import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryUserBookshelfService;
 import com.summer.whm.service.stroy.StoryUserReadService;
 import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 import com.summer.whm.web.controller.model.AjaxModel;
 
@@ -128,9 +128,22 @@ public class StoryController extends BaseController {
     @RequestMapping("/detail/{id}")
     public String detail(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") int id,
             ModelMap model) {
-
         if (id != 0) {
-            StoryDetail storyDetail = storyDetailService.loadById(id + "");
+            return detail(request, response, 0, id, model);
+        }else{
+            return ERROR;
+        }
+
+//        return getForward(request, response, "story/detail/story_detail_index.ftl");
+    }
+    
+    
+    @RequestMapping("/detail/{storyId}/{id}")
+    public String detail(HttpServletRequest request, HttpServletResponse response, 
+            @PathVariable("storyId") int storyId, @PathVariable("id") int id,
+            ModelMap model) {
+        if (id != 0 ) {
+            StoryDetail storyDetail = storyDetailService.queryById(id, storyId);
             if(storyDetail == null){
                 return ERROR;
             }
@@ -190,10 +203,10 @@ public class StoryController extends BaseController {
             ModelMap model) {
         if (id != 0) {
             storyInfoService.addLike(id);
-            AjaxModel ajaxModel = new AjaxModel(Constants.RESP_STATUS_SUCC, "添加成功。");
+            AjaxModel ajaxModel = new AjaxModel(WebConstants.RESP_STATUS_SUCC, "推荐成功。");
             this.ajaxJson(response, JSONObject.toJSONString(ajaxModel));
         } else {
-            AjaxModel ajaxModel = new AjaxModel(Constants.RESP_STATUS_ERR_PARM, "传入参数有误。");
+            AjaxModel ajaxModel = new AjaxModel(WebConstants.RESP_STATUS_ERR_PARM, "传入参数有误。");
             this.ajaxJson(response, JSONObject.toJSONString(ajaxModel));
         }
     }

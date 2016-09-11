@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.web.common.session.CookieRemberManager;
 import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
@@ -23,7 +23,7 @@ public class LogoutController extends BaseController {
             request.getSession().invalidate();
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
-                if (Constants.COOKIE_CONTEXT_ID.equalsIgnoreCase(cookie.getName())) {
+                if (WebConstants.COOKIE_CONTEXT_ID.equalsIgnoreCase(cookie.getName())) {
                     cookie.setValue("");
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
@@ -35,7 +35,7 @@ public class LogoutController extends BaseController {
         } else {
             request.setAttribute(WebConstants.MESSAGE_TXT, "未登陆系统！");
         }
-        return "redirect:index.htm";
+        return "redirect:index.html";
     }
 
 }

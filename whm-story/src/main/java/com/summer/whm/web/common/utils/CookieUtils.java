@@ -38,14 +38,14 @@ public class CookieUtils {
 
     private HttpServletRequest request;
     private HttpServletResponse response;
-    private String domain;
+    private String domain = "dodoer.com";
 
     static {
         setHttpOnlyMethod = ReflectionUtils.findMethod(Cookie.class, "setHttpOnly", boolean.class);
     }
 
     public CookieUtils(final HttpServletRequest request, final HttpServletResponse response) {
-        this(request, response, null);
+        this(request, response, "dodoer.com");
     }
 
     public CookieUtils(final HttpServletRequest request, final HttpServletResponse response, final String domain) {
@@ -127,7 +127,7 @@ public class CookieUtils {
 
     private String decode(String value) {
         try {
-            return value == null ? null : new String(Base64Codec.decode(value), Constants.UTF8);
+            return value == null ? null : new String(Base64Codec.decode(value), WebConstants.UTF8);
         } catch (UnsupportedEncodingException e) {
             return null;
         }
