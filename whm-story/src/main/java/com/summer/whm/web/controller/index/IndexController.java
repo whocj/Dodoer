@@ -10,16 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.summer.whm.Constants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.story.StoryInfo;
+import com.summer.whm.entiry.story.StoryTopic;
 import com.summer.whm.entiry.sys.FriendLink;
 import com.summer.whm.entiry.sys.Notice;
 import com.summer.whm.entiry.sys.Tag;
 import com.summer.whm.service.stroy.StoryInfoService;
+import com.summer.whm.service.stroy.StoryTopicService;
 import com.summer.whm.service.sys.FriendLinkService;
 import com.summer.whm.service.sys.NoticeService;
 import com.summer.whm.service.sys.TagService;
-import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
@@ -40,6 +42,9 @@ public class IndexController extends BaseController {
     
     @Autowired
     private NoticeService noticeService;
+    
+    @Autowired
+    private StoryTopicService storyTopicService;
     
     @RequestMapping("/index")
     public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
@@ -65,6 +70,10 @@ public class IndexController extends BaseController {
         List<StoryInfo> likeStoryList =  storyInfoService.queryTopLike(null, TOP_10);
         //评论最多
         List<StoryInfo> replyStoryList =  storyInfoService.queryTopReply(null, TOP_10);
+        
+        List<StoryTopic> storyTopicList = storyTopicService.queryByStatus("2", 12);
+        
+        model.put("storyTopicList", storyTopicList);
         
         model.put("replyStoryList", replyStoryList);
         model.put("readStoryList", readStoryList);

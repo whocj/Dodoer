@@ -19,7 +19,7 @@ public class CheckMobile {
     //判断是否是m.dodoer.com域名访问
     public static boolean checkUrl(String url) {
         if(url != null){
-            if(url.indexOf(Constants.MOBILE_DO_MAIN) != -1){
+            if(url.indexOf(WebConstants.MOBILE_DO_MAIN) != -1){
                 return true;
             }
         }

@@ -9,7 +9,7 @@ import com.summer.whm.common.utils.PropertiesUtil;
 
 public class Configs {
     static final Logger log = LoggerFactory.getLogger(Configs.class);
-    public static final String CONFIG_FILE = "/opt/search/whm/whm_configs.properties";
+    public static final String CONFIG_FILE = "/opt/dodoer/configs/dodoer_configs.properties";
 
     public static Properties p = new Properties();
 
@@ -25,6 +25,10 @@ public class Configs {
     public static boolean SITE_ASK_ENABLE = false;
 
     public static boolean SITE_CHART_ENABLE = false;
+    
+    public static boolean BAIDU_JIASHU = true;
+    
+    public static String CACHE_CONTROL = "max-age=1800";
     
     public static String TEST = "1";
 

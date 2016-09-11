@@ -10,11 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.summer.whm.Constants;
 import com.summer.whm.entiry.ask.Answer;
 import com.summer.whm.entiry.category.Category;
 import com.summer.whm.service.ask.AnswerService;
 import com.summer.whm.service.category.CategoryService;
-import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
@@ -36,7 +37,7 @@ public class ContactController extends BaseController {
 
         model.put("categoryList", categoryList);
         model.put("answerList", answerList);
-        model.put(Constants.CURRENT_MENU_CODE, Constants.MENU_MORE_CODE);
+        model.put(WebConstants.CURRENT_MENU_CODE, WebConstants.MENU_MORE_CODE);
         return "about/contact/contact_index.ftl";
     }
     

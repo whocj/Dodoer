@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.summer.whm.Constants;
 import com.summer.whm.common.model.MapContainer;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.blog.BlogPost;
@@ -24,7 +25,6 @@ import com.summer.whm.service.post.TopicService;
 import com.summer.whm.service.search.SearchService;
 import com.summer.whm.service.sys.TagService;
 import com.summer.whm.web.common.utils.Configs;
-import com.summer.whm.web.common.utils.Constants;
 
 @Controller
 public class SearchController {

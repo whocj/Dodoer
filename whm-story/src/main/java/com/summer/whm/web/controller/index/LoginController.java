@@ -17,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.configs.GlobalSystemConfig;
 import com.summer.whm.common.utils.PinUtil;
 import com.summer.whm.entiry.user.User;
@@ -28,6 +27,7 @@ import com.summer.whm.web.common.session.CookieRemberManager;
 import com.summer.whm.web.common.utils.Base64ForJavascript;
 import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.common.utils.CookieUtils;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 import com.summer.whm.web.model.auth.QQUserinfo;
 
@@ -47,7 +47,7 @@ public class LoginController extends BaseController {
     public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
         String url = request.getParameter("url");
         model.put("url", url);
-        return "login.ftl";
+        return this.getForward(request, response, "login.ftl");
     }
 
     @RequestMapping("/indexDialog")
@@ -76,8 +76,9 @@ public class LoginController extends BaseController {
                 }
 
                 CookieUtils cookieUtil = new CookieUtils(request, response);
-                cookieUtil.setCookie(Constants.COOKIE_USER_NAME, username, false, 7 * 24 * 3600);
+                cookieUtil.setCookie(WebConstants.COOKIE_USER_NAME, username, false, 7 * 24 * 3600);
                 boolean isRemeber = Boolean.parseBoolean(remeber);
+                isRemeber = true;
                 CookieRemberManager.loginSuccess(request, response, user.getId() + "", user.getPassword(), isRemeber);
 
                 request.getSession().setAttribute(WebConstants.SESSION_USER, user);
@@ -109,7 +110,7 @@ public class LoginController extends BaseController {
             }
 
             CookieUtils cookieUtil = new CookieUtils(request, response);
-            cookieUtil.setCookie(Constants.COOKIE_USER_NAME, username, false, 7 * 24 * 3600);
+            cookieUtil.setCookie(WebConstants.COOKIE_USER_NAME, username, false, 7 * 24 * 3600);
             boolean isRemeber = Boolean.parseBoolean(remeber);
             CookieRemberManager.loginSuccess(request, response, user.getId() + "", user.getPassword(), isRemeber);
 
@@ -126,7 +127,7 @@ public class LoginController extends BaseController {
             }
         }
 
-        return "redirect:index.htm";
+        return "redirect:index.html";
     }
 
     @RequestMapping("/QQLogin")
@@ -204,6 +205,11 @@ public class LoginController extends BaseController {
             map.put("user", user);
             map.put("succ", "S");
         }
+        
+        CookieUtils cookieUtil = new CookieUtils(request, response);
+        cookieUtil.setCookie(WebConstants.COOKIE_USER_NAME, user.getUsername(), false, 7 * 24 * 3600);
+        CookieRemberManager.loginSuccess(request, response, user.getId() + "", user.getPassword(), true);
+        
         response.getOutputStream().println(JSON.toJSONString(map));
     }
 

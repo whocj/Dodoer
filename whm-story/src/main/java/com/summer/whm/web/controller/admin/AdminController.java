@@ -67,9 +67,9 @@ public class AdminController extends BaseController {
      * @see [相关类/方法](可选)
      * @since [产品/模块版本](可选)
      */
-    @RequestMapping("/reloadConfig")
+    @RequestMapping("/updateConfig")
     public void reloadConfig(HttpServletRequest request, HttpServletResponse respone) {
-        JSONObject jsonObject = JSON.parseObject(request.getParameter("config.properties"));
+        JSONObject jsonObject = JSON.parseObject(request.getParameter("configs.properties"));
         if (jsonObject != null) {
             GlobalConfigHolder.updateConfigByTemplate(jsonObject, true);
         }
@@ -227,7 +227,7 @@ public class AdminController extends BaseController {
         }
     }
 
-    @RequestMapping("/reloadConfigs")
+    @RequestMapping("/updateConfigs")
     public void reloadConfigs(HttpServletRequest request, HttpServletResponse response) {
         LOG.info("reloadConfigs");
         try {

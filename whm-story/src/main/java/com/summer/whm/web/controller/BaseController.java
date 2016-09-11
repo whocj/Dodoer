@@ -11,11 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.entiry.BaseEntity;
 import com.summer.whm.entiry.user.User;
 import com.summer.whm.web.common.utils.CheckMobile;
-import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.common.ForwardManager;
 
 public class BaseController {
@@ -44,7 +43,7 @@ public class BaseController {
 
         HttpSession session = request.getSession();
         // 检查是否已经记录访问方式（移动端或pc端）
-        if (null == session.getAttribute(Constants.JSESSION_UA)) {
+        if (null == session.getAttribute(WebConstants.JSESSION_UA)) {
             try {
                 StringBuffer url = request.getRequestURL();
                 //System.out.println("RequestURL:" + url);
@@ -61,15 +60,15 @@ public class BaseController {
                 if (flag || isFromMobile) {
 //                    System.out.println("移动端访问");
                     isFromMobile = true;
-                    session.setAttribute(Constants.JSESSION_UA, Constants.UA_TYPE_MOBILE);
+                    session.setAttribute(WebConstants.JSESSION_UA, WebConstants.UA_TYPE_MOBILE);
                 } else {
 //                    System.out.println("pc端访问");
-                    session.setAttribute(Constants.JSESSION_UA, Constants.UA_TYPE_PC);
+                    session.setAttribute(WebConstants.JSESSION_UA, WebConstants.UA_TYPE_PC);
                 }
             } catch (Exception e) {
             }
         } else {
-            isFromMobile = session.getAttribute(Constants.JSESSION_UA).equals(Constants.UA_TYPE_MOBILE);
+            isFromMobile = session.getAttribute(WebConstants.JSESSION_UA).equals(WebConstants.UA_TYPE_MOBILE);
         }
 
         return isFromMobile;
