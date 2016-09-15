@@ -25,7 +25,6 @@ import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryUserBookshelfService;
 import com.summer.whm.service.stroy.StoryUserReadService;
-import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 import com.summer.whm.web.controller.model.AjaxModel;
@@ -211,4 +210,35 @@ public class StoryController extends BaseController {
         }
     }
 
+    @RequestMapping("/finish/{cid}/{cp}")
+    public String finish(HttpServletRequest request, HttpServletResponse response,
+                    @PathVariable("cp") int cp, @PathVariable("cid") int cid, ModelMap model) {
+        if(cp < 1){
+            cp = 1;
+        }
+        PageModel<StoryInfo> page = new PageModel<StoryInfo>(cp, WebConstants.PAGE_SIZE * 2);
+        if (cid != 0) {
+            page.insertQuery("categoryId", cid);
+        } else {
+            page.insertQuery("categoryId", null);
+        }
+        page.insertQuery("status", "3");
+        storyInfoService.list(page);
+        model.put("page", page);
+        
+        //热门推荐的
+        List<StoryInfo> hotList = storyInfoService.queryTopNByHot(null, 3);
+        model.put("hotList", hotList);
+        
+        //阅读最多的
+        List<StoryInfo> readStoryList = storyInfoService.queryTopHot(null, TOP_10);
+
+        //用户最喜欢
+        List<StoryInfo> likeStoryList =  storyInfoService.queryTopLike(null, TOP_10);
+
+        model.put("readStoryList", readStoryList);
+        model.put("likeStoryList", likeStoryList);
+        
+        return getForward(request, response, "story/finish/list_index.ftl");
+    }
 }

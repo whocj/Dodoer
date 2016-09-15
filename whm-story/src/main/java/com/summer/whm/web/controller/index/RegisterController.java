@@ -18,6 +18,7 @@ import com.summer.whm.common.configs.GlobalConfigHolder;
 import com.summer.whm.common.configs.GlobalSystemConfig;
 import com.summer.whm.common.utils.MD5;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.entiry.user.UserConstants;
 import com.summer.whm.service.user.UserService;
 import com.summer.whm.web.controller.BaseController;
 
@@ -64,6 +65,7 @@ public class RegisterController extends BaseController {
         user.setCreator(username);
         user.setNickname(username);
         user.setLastUpdate(new Date());
+        user.setRole(UserConstants.USER_ROLE_CONTRIBUTOR);
         user.setStatus("1");
         user.setUserLogo(globalSystemConfig.getImgDomain() + GlobalConfigHolder.DEFAULT_USER_PIC);
         user.setUserLogo50(globalSystemConfig.getImgDomain() + GlobalConfigHolder.DEFAULT_USER_PIC);
