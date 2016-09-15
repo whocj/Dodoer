@@ -68,7 +68,6 @@
 		sad.id,
 		sad.authorId,
 		sad.storyId,
-		sad.title,
 		sad.createDate,
 		si.picPath,
 		si.categoryId,
@@ -88,5 +87,37 @@
 		where sad.authorId = #{authorId}
 		order by sad.id desc
 	</select>
+	
+	<select id="queryByAuthorIdAndStoryId" resultType="AuthorDetail">
+		select
+		sad.id,
+		sad.authorId,
+		sad.storyId,
+		sad.createDate,
+		si.picPath,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.status as storyStatus
+		from story_author_detail sad
+		left join story_info si on si.id = sad.storyId
+		where sad.authorId = #{authorId}
+		and sad.storyId = #{storyId}
+	</select>
+	
+	<delete id="deleteByAuthorIdAndStoryId">
+		delete from story_author_detail where 
+		 authorId = #{authorId}
+		 and 
+		 storyId = #{storyId}
+	</delete>
 	
 </mapper>

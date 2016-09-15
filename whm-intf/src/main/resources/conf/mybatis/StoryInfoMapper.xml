@@ -59,6 +59,9 @@
 		<if test="query.categoryId!=null and query.categoryId!=''">
 			and si.categoryId=#{query.categoryId}
 		</if>
+		<if test="query.status!=null and query.status!=''">
+			and si.status=#{query.status}
+		</if>
 		<if test="query.title!=null and query.title!=''">
 			and si.title like #{query.title}
 		</if>

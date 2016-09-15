@@ -9,6 +9,11 @@ public final class Constants {
     public static final String IS_STR_TRUE = "1";
 
     public static final String IS_STR_FALSE = "0";
+    
+    public static final Integer IS_INT_TRUE = 1;
+
+    public static final Integer IS_INT_FALSE = 0;
+    
     /**
      * 程序默认字符集
      */

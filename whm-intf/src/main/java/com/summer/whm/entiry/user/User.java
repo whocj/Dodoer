@@ -11,8 +11,8 @@ public class User extends BaseEntity {
     private String password;
     private String email;
     /* 用户账号状态 */
-    private String status = UserConstants.USER_STATUS_NORMAL;
-    private String role = UserConstants.USER_ROLE_CONTRIBUTOR;
+    private String status;
+    private String role;
     private String description;
 
     private String thirdAuthType;
