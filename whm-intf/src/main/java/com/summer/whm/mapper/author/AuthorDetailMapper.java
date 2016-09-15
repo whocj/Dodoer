@@ -17,4 +17,8 @@ import com.summer.whm.mapper.BaseMapper;
  */
 public interface AuthorDetailMapper extends BaseMapper {
     List<AuthorDetail> queryByAuthorId(@Param("authorId") Integer authorId);
+    
+    List<AuthorDetail> queryByAuthorIdAndStoryId(@Param("authorId") Integer authorId, @Param("storyId")  Integer storyId);
+    
+    void deleteByAuthorIdAndStoryId(@Param("authorId") Integer authorId, @Param("storyId")  Integer storyId);
 }
