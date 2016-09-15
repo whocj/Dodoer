@@ -31,7 +31,7 @@ public class PinUtil {
     final static Logger log = LoggerFactory.getLogger(PinUtil.class);
 
     private static Map<String, List<String>> pinyinMap = new HashMap<String, List<String>>();
-    private static String fileName = "/opt/whm/story/configs/duoyinzi.dic";
+    private static String fileName = "/opt/dodoer/configs/duoyinzi.dic";
     private static boolean isLoadDouyinzi = false;
 
     /**
