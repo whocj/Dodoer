@@ -59,7 +59,7 @@ public class AuthorEditController extends BaseController {
             return LOGIN_URL;
         }
         
-        if(checkRole(user)){
+        if(!checkRole(user)){
             return ERROR_ROLE;
         }
         
@@ -78,7 +78,7 @@ public class AuthorEditController extends BaseController {
             return LOGIN_URL;
         }
         
-        if(checkRole(user)){
+        if(!checkRole(user)){
             return ERROR_ROLE;
         }
 
@@ -97,7 +97,7 @@ public class AuthorEditController extends BaseController {
         if (user == null) {
             return ;
         }
-        if(checkRole(user)){
+        if(!checkRole(user)){
             return ;
         }
         
@@ -106,6 +106,8 @@ public class AuthorEditController extends BaseController {
                 author.setNameen(PinUtil.getPyByCn(author.getName()));
             }
             author.setStatus("0");
+            author.setOutline(author.getOutline().trim());
+            author.setDescription(author.getDescription().trim());
         }
 
         Integer authorId = authorService.save(author);
