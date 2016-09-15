@@ -18,8 +18,13 @@ jQuery(document).ready(function(e) {
     $('.sub-menu li').click(function(){
         window.location = $(this).children('a').attr('href');
     });
-
 });
+
+if (!String.prototype.trim) {
+	  String.prototype.trim = function () {
+	    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+	  };
+	}
 
 function gotoUrl(url){
 	window.location.href = url;
@@ -63,3 +68,4 @@ function openLoginDiv(){
     	}
 	});
 }
+
