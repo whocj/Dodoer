@@ -23,8 +23,12 @@ public class BaseController {
     public final static String SUCCESS_STR = "Success";
 
     public final static String FAILURE_STR = "Failure";
+    
+    public final static String MESSAGE_STR = "message";
 
     public final static String ERROR = "error_404.ftl";
+    
+    public static final String ERROR_ROLE = "error_role.html";
 
     public static final String LOGIN_URL = "redirect:/login/index.html";
 

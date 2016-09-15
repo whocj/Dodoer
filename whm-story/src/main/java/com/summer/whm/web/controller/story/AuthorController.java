@@ -1,6 +1,7 @@
 package com.summer.whm.web.controller.story;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,18 +32,25 @@ public class AuthorController extends BaseController {
     @RequestMapping("/list/{cid}")
     public String list(HttpServletRequest request, HttpServletResponse response, @PathVariable("cid") int cid,
             ModelMap model) {
-        List<Author> authorList = null;
+        Map<String, List<Author>> authorMap = null;
+        Category category = new Category();
         if (cid == 0) {
-            authorList = authorService.queryAll(null);
+            authorMap =  authorService.queryAllByGroupNamePrefix(null);
         } else {
-            authorList = authorService.queryAll(cid);
+             category = categoryService.loadById(cid + "");
+            if(category == null){
+                authorMap =  authorService.queryAllByGroupNamePrefix(null);
+            }else{
+                authorMap = authorService.queryAllByGroupNamePrefix(cid);
+            }
         }
         String[] abcArr = Constants.ABC_ARRAY;
         List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY_AUTHOR);
         
+        model.put("category", category);
         model.put("abcArr", abcArr);
         model.put("categoryList", categoryList);
-        model.put("authorList", authorList);
+        model.put("authorMap", authorMap);
         categoryService.queryBySite(Constants.SITE_ID_STORY_AUTHOR);
         return getForward(request, response, "story/author/list/author_list_index.ftl");
     }
@@ -54,4 +62,5 @@ public class AuthorController extends BaseController {
         model.put("author", author);
         return getForward(request, response, "story/author/info/author_info_index.ftl");
     }
+    
 }
