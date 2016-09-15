@@ -4,9 +4,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="${siteKeywords },${author.namezh }" />
+<meta name="keywords" content="${siteKeywords }" />
 <meta name="description" content="${siteDescription }" />
-<title>${author.name }_${author.nameen }_小说全集_${author.categoryName}_${siteTitle }</title>
+<title>作家词条编辑_${siteTitle }</title>
 <link rel='stylesheet' href='${resRoot}/css/story_author.css' type='text/css' media='all' />
 </head>
 
@@ -19,7 +19,7 @@
 	<!-- End of Search Wrapper -->
 
 	<!-- Start of Page Container -->
-	<#include "/story/author/info/author_info_main.ftl"/>
+	<#include "/story/author/edit/author_info_edit_main.ftl"/>
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->

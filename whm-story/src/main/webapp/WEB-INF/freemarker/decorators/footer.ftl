@@ -2,42 +2,48 @@
 		<div id="footer" class="container">
 			<div class="row">
 
-				<div class="span3">
+				<div class="span3" style="width:270px;">
 					<section class="widget">
 						<h3 class="title">理念</h3>
 						<div class="textwidget">
-							<p>在这里能找到你的问题及答案.</p>
+							<p>&nbsp;&nbsp;&nbsp;&nbsp;本站所有小说为转载作品，所有章节均由网友上传，版权归原作者， 转载至本站只是为了宣传本书让更多读者欣赏。</p>
 						</div>
 					</section>
 				</div>
 
-				<div class="span3">
+				<div class="span3" style="width:270px;">
 					<section class="widget">
 						<h3 class="title">频道</h3>
 						<ul>
-							<li><a href="${base }/q/list.htm">问题</a></li>
-							<li><a href="${base }/bbs/index.htm">论坛</a></li>
-							<li><a href="${base }/blog/index.htm">博客</a></li>
+							<li><a target="_blank" href="${base }/author/list/0.html">作家排行</a></li>
+							<li><a target="_blank" href="${base }/finish/0/1.html">完结小说</a></li>
+							<li><a target="_blank" href="javascript:void(0)" tle="功能暂未上线，请将小说标题及作者名发给站长。">申请收录</a></li>
 						</ul>
 					</section>
 				</div>
 
-				<div class="span3">
+				<div class="span3" style="width:270px;">
 					<section class="widget">
 						<h3 class="title">热点</h3>
-						<div id="twitter_update_list">
+						<div id="title">
 							<ul>
-								<li>No loaded !</li>
+								<li>宝宝心里苦</li>
+								<li>但宝宝不说</li>
+								<li>加油！加油！加油！</li>
 							</ul>
 						</div>
 
 					</section>
 				</div>
 
-				<div class="span3">
+				<div class="span3" style="width:270px;">
 					<section class="widget">
-						<h3 class="title">状态</h3>
-						<div class="flickr-photos" id="basicuse"></div>
+						<h3 class="title">联系我们</h3>
+						<div class="flickr-photos" id="basicuse">
+							<ul>
+								<li><a target="_blank" href="http://weibo.com/whohelome?is_all=1" title="博客">站长博客</a></li>
+							</ul>
+						</div>
 					</section>
 				</div>
 

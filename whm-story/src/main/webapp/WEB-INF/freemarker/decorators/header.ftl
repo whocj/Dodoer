@@ -5,11 +5,11 @@
 				<!-- Website Logo -->
 				<a href="${base }/index.html">
 				<span class="tag-line" style="color:#FFF;font-size:18px;">
-				多多儿小说网Dodoer
+				多多儿Dodoer
 				</span>
 				</a>
 				&nbsp;&nbsp;
-				<span class="tag-line">多多儿小说网</span>
+				<span class="tag-line">看小说，上多多儿小说网！</span>
 			</div>
 			
 			<!-- Start of Main Navigation -->
