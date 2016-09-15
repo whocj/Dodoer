@@ -108,7 +108,9 @@
 			u:      [],
 			ul:     ['class', 'style'],
 			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
-		}
+		},
+		elementPathEnabled:false,
+		wordCount:false
     };
 
     function getUEBasePath(docUrl, confUrl) {
