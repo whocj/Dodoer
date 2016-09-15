@@ -20,7 +20,7 @@ import com.summer.whm.service.BaseService;
  */
 @Service
 public class AuthorDetailService extends BaseService {
-    
+
     @Autowired
     private AuthorDetailMapper authorDetailMapper;
 
@@ -28,9 +28,21 @@ public class AuthorDetailService extends BaseService {
     protected BaseMapper getMapper() {
         return authorDetailMapper;
     }
-    
-    
+
     public List<AuthorDetail> queryByAuthorId(Integer authorId) {
         return authorDetailMapper.queryByAuthorId(authorId);
+    }
+
+    public AuthorDetail queryByAuthorIdAndStoryId(Integer authorId, Integer storyId) {
+        List<AuthorDetail> list = authorDetailMapper.queryByAuthorIdAndStoryId(authorId, storyId);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        }
+        
+        return null;
+    }
+    
+    public void deleteByAuthorIdAndStoryId(Integer authorId, Integer storyId){
+        authorDetailMapper.deleteByAuthorIdAndStoryId(authorId, storyId);
     }
 }
