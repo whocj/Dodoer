@@ -28,7 +28,7 @@ public class BaseController {
 
     public final static String ERROR = "error_404.ftl";
     
-    public static final String ERROR_ROLE = "error_role.html";
+    public static final String ERROR_ROLE = "error_role.ftl";
 
     public static final String LOGIN_URL = "redirect:/login/index.html";
 

@@ -59,6 +59,9 @@ public class AuthorController extends BaseController {
     public String info(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") int id,
             ModelMap model) {
         Author author = authorService.queryById(id);
+        if(author == null){
+            return ERROR;
+        }
         model.put("author", author);
         return getForward(request, response, "story/author/info/author_info_index.ftl");
     }
