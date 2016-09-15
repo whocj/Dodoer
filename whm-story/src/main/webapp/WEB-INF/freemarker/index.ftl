@@ -24,7 +24,7 @@
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->
-	<#include "/decorators/copyright.ftl"/>
+	<#include "/decorators/footer.ftl"/>
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->

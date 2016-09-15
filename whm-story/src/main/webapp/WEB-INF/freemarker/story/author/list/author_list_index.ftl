@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="keywords" content="${siteKeywords }" />
 <meta name="description" content="${siteDescription }" />
-<title>全部作者_作者大全_作者排行榜_作者排名_${siteTitle }</title>
+<title>全部作家_作家大全_作家排行榜_${category.title}_${siteTitle }</title>
+<link rel='stylesheet' href='${resRoot}/css/story_author.css' type='text/css' media='all' />
 </head>
 
 <body>

@@ -2,12 +2,12 @@
 <!doctype html>
 <html lang="en-US">
 <head>
+<meta property="qc:admins" content="134441654767070540556375" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="${siteKeywords },${author.namezh }" />
-<meta name="description" content="${siteDescription }" />
-<title>${author.name }_${author.nameen }_小说全集_${author.categoryName}_${siteTitle }</title>
-<link rel='stylesheet' href='${resRoot}/css/story_author.css' type='text/css' media='all' />
+<meta name="keywords" content="${siteKeywords }" />
+<meta name="description" content="${siteDescription }" />  
+<title>完结小说_全本小说_${siteTitle }</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 	<!-- End of Search Wrapper -->
 
 	<!-- Start of Page Container -->
-	<#include "/story/author/info/author_info_main.ftl"/>
+	<#include "/story/finish/list_main.ftl"/>
 	<!-- End of Page Container -->
 
 	<!-- Start of Footer -->
