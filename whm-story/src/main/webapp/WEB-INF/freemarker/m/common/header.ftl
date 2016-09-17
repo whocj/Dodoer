@@ -1,12 +1,6 @@
-<script type="text/javascript">
-<!--
-
-//-->
-</script>
-
 <header class="s_header">
 	<nav>
-		<span class="navt qq">多多儿小说网Dodoer</span>
+		<span class="navt qq">多多儿Dodoer</span>
 		<span class="userspan">
 		
 		<#if sessionUser != null>

@@ -42,7 +42,7 @@
         		<ul class="clearfix">
 				<#list authorMap[key] as datas>
    					<li>
-                       <a href="${base }/author/info/${datas.id }.html" title="${datas.name }">${datas.name }</a>
+                       <a href="${base }/author/info/${datas.id }.html" title="${datas.name }" target="_blank">${datas.name }</a>
        				</li>
    				</#list>
    				</ul>

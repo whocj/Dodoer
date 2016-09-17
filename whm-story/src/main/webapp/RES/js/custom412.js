@@ -69,3 +69,16 @@ function openLoginDiv(){
 	});
 }
 
+function openStoryRegisterDiv(){
+	layer.open({
+	    type: 2,
+	    title: '小说收录申请',
+	    shadeClose: true,
+	    shade: 0.2,
+	    area: ['500px', '350px'],
+	    content: '/story/register/add.html',
+	    end : function(){
+	    	//document.location.reload();
+    	}
+	});
+}

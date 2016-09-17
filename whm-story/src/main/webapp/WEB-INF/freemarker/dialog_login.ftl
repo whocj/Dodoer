@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="application-name" content="多多儿小说-Dodoer" />
-<title>用户登陆 - 多多儿小说网-Dodoer</title>
+<title>用户登陆 _${siteTitle }</title>
 <#include "/common/global_include.ftl">
 <script type='text/javascript' src='${resRoot}/js/jquery-1.7.2.min.js'></script>
 <script type='text/javascript' src='${resRoot}/js/jquery.form.js'></script>
