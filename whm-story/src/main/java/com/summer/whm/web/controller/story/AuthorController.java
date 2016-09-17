@@ -39,6 +39,7 @@ public class AuthorController extends BaseController {
         } else {
              category = categoryService.loadById(cid + "");
             if(category == null){
+                category = new Category();
                 authorMap =  authorService.queryAllByGroupNamePrefix(null);
             }else{
                 authorMap = authorService.queryAllByGroupNamePrefix(cid);
