@@ -17,7 +17,10 @@
 						<ul>
 							<li><a target="_blank" href="${base }/author/list/0.html">作家排行</a></li>
 							<li><a target="_blank" href="${base }/finish/0/1.html">完结小说</a></li>
-							<li><a target="_blank" href="javascript:void(0)" tle="功能暂未上线，请将小说标题及作者名发给站长。">申请收录</a></li>
+							<li><a target="_blank" href="${base }/story/register/list/0.html">收录列表</a></li>
+							<#if sessionUser != null>
+								<li><a target="_blank" href="javascript:openStoryRegisterDiv()">申请收录</a></li>
+							</#if>
 						</ul>
 					</section>
 				</div>

@@ -59,7 +59,7 @@ var duoshuoQuery = {short_name:"dodoer"};
 <!-- 多说公共JS代码 end -->
 	
 	<!-- Start of Footer -->
-	<#include "/decorators/copyright.ftl"/>
+	<#include "/decorators/footer.ftl"/>
 	<!-- End of Footer -->
 
 <!-- 	<a href="#top" id="scroll-top"></a> -->

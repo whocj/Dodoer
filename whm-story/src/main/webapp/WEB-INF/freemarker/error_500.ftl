@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>500 Server Error - ${siteTitle }</title>
+<title>500 Server Error _${siteTitle }</title>
 <style type="text/css">
 #login{width:450px;margin:0px auto;margin-top: 100px;}
 #loginform{background-color:#fff;border: 1px solid #e5e5e5;font-weight: normal;padding:24px;
