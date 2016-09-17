@@ -32,7 +32,7 @@ public class BaseController {
 
     public static final String LOGIN_URL = "redirect:/login/index.html";
 
-    
+    public static final Integer TOP_10 = 10;
     
     /**
      * 检查访问方式是否为移动端
