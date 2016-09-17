@@ -67,6 +67,8 @@
 	<typeAlias alias="StoryTopic" type="com.summer.whm.entiry.story.StoryTopic" />
 	<typeAlias alias="StoryTopicDetail" type="com.summer.whm.entiry.story.StoryTopicDetail" />
 	
+	<typeAlias alias="StoryRegister" type="com.summer.whm.entiry.story.StoryRegister" />
+	
 	<typeAlias alias="Author" type="com.summer.whm.entiry.author.Author" />
 	<typeAlias alias="AuthorDetail" type="com.summer.whm.entiry.author.AuthorDetail" />
 	<!-- 小说爬虫 -->
@@ -132,6 +134,7 @@
 	<mapper resource="conf/mybatis/StoryUserReadMapper.xml" />
 	<mapper resource="conf/mybatis/StoryTopicMapper.xml" />
 	<mapper resource="conf/mybatis/StoryTopicDetailMapper.xml" />
+	<mapper resource="conf/mybatis/StoryRegisterMapper.xml" />
 
 	<mapper resource="conf/mybatis/AuthorMapper.xml" />
 	<mapper resource="conf/mybatis/AuthorDetailMapper.xml" />
