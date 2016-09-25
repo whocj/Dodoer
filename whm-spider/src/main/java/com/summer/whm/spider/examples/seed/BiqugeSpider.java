@@ -17,7 +17,7 @@ import com.summer.whm.spider.client.WebClientPool;
 import com.summer.whm.spider.model.seed.StorySeed;
 import com.summer.whm.spider.service.StorySeedService;
 
-public class ShuyuewuSpider {
+public class BiqugeSpider {
 
     /**
      * 功能描述: <br>
@@ -29,8 +29,17 @@ public class ShuyuewuSpider {
      */
     public static void main(String[] args) {
         String[] urls = new String[] { 
-                  "http://www.biquge.tw/quanben/"
-              };
+                  "http://www.shuyuewu.com/kehuan/"
+                , "http://www.shuyuewu.com/kehuan/2.html"
+                , "http://www.shuyuewu.com/kehuan/3.html"
+                , "http://www.shuyuewu.com/kehuan/4.html"
+                , "http://www.shuyuewu.com/kehuan/5.html"
+                , "http://www.shuyuewu.com/kehuan/6.html"
+                , "http://www.shuyuewu.com/kehuan/7.html"
+                , "http://www.shuyuewu.com/kehuan/8.html"
+                , "http://www.shuyuewu.com/kehuan/9.html"
+                , "http://www.shuyuewu.com/kehuan/10.html"
+                , "http://www.shuyuewu.com/kehuan/11.html"};
         List<StorySeed> list = new ArrayList<StorySeed>();
         for (String url : urls) {
             List<StorySeed> storySeedList = buildStorySeed(url);
@@ -39,7 +48,7 @@ public class ShuyuewuSpider {
             }
         }
 
-       StorySeedService.saveFile(list);
+        StorySeedService.saveFile(list);
     }
     
     public static List<StorySeed> buildStorySeed(String url) {
@@ -48,32 +57,13 @@ public class ShuyuewuSpider {
             WebClientPool webClientPool = new WebClientPool();
             final HtmlPage htmlpage = webClientPool.borrowWebClient().getPage(url);
             List<StorySeed> seedList = new ArrayList<StorySeed>();
-            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//div[@class='topbooks']/ul/li/a");
+            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//div[@class='l']/ul/li/span[1]/a");
             if (anchorList != null && anchorList.size() > 0) {
-                int i = 0;
                 for (HtmlAnchor htmlAnchor : anchorList) {
                     System.out.println(htmlAnchor.getTextContent() + " url=" + htmlAnchor.getAttribute("href"));
-                    i++;
-                    String dirId = null;
                     if (htmlAnchor.getAttribute("href") != null) {
-                        if(i / 45 == 0){
-                            dirId = "30";
-                        }else if(i / 45 == 1){
-                            dirId = "29";
-                        }else if(i / 45 == 2){
-                            dirId = "28";
-                        }else if(i / 45 == 3){
-                            dirId = "27";
-                        }else if(i / 45 == 4){
-                            dirId = "25";
-                        }else if(i / 45 == 5){
-                            dirId = "26";
-                        }else if(i / 45 == 6){
-                            dirId = "28";
-                        }
-                        if(dirId != null){
-                            seedList.add(new StorySeed(htmlAnchor.getTextContent(), dirId, "1", "http://www.biquge.tw"+htmlAnchor.getAttribute("href"), ""));     
-                        }
+                        seedList.add(new StorySeed(htmlAnchor.getTextContent(), "25", "1", htmlAnchor
+                                .getAttribute("href"), ""));
                     }
                 }
             }
