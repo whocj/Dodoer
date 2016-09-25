@@ -50,6 +50,8 @@ public abstract class Constants {
     public static final Integer SITE_ID_ASK = 2;
     public static final Integer SITE_ID_BLOG = 3;
     public static final Integer SITE_ID_STORY = 4;
+    
+    public static final Integer SITE_ID_STORY_AUTHOR = 100;
 
     public static final String IS_STR_TRUE = "1";
 
