@@ -63,9 +63,9 @@ function optDelete() {
 		<td>
 			<a href="${base }/story/info/detail.htm?storyId=${datas.id}" class="pn-opt">章节明细</a> |
 			<a href="${base }/story/info/updateStatus.htm?status=2&id=${datas.id}" onclick="if(!confirm('你确定要上架吗?')) {return false;}" class="pn-opt">上架</a> |
-			<a href="${base }/story/info/updateStatus.htm?status=3&id=${datas.id}" onclick="if(!confirm('你确定要下架吗?')) {return false;}" class="pn-opt">下架</a> |
-			<a href="${base }/story/info/edit.htm?id=${datas.id}" class="pn-opt">修改</a> |
-			
+			<a href="${base }/story/info/updateStatus.htm?status=99&id=${datas.id}" onclick="if(!confirm('你确定要下架吗?')) {return false;}" class="pn-opt">下架</a> |
+			<a href="${base }/story/info/updateStatus.htm?status=3&id=${datas.id}" onclick="if(!confirm('你确定要完结吗?')) {return false;}" class="pn-opt">完结</a> |
+			<a href="${base }/story/info/edit.htm?id=${datas.id}" class="pn-opt">修改</a>
 		</td>
 		</tr>
 		</#list>
