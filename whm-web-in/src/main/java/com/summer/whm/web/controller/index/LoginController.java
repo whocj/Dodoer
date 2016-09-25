@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.entiry.user.User;
 import com.summer.whm.service.user.UserService;
+import com.summer.whm.web.common.utils.WebConstants;
 
 @Controller
 public class LoginController {

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
@@ -30,6 +29,7 @@ import com.summer.whm.spider.service.CrawlService;
 import com.summer.whm.spider.service.SpiderStoryJobService;
 import com.summer.whm.spider.service.SpiderStoryTemplateService;
 import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller

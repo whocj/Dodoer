@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.entiry.BaseEntity;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.web.common.utils.WebConstants;
 
 public class BaseController {
     static Logger log = LoggerFactory.getLogger(BaseController.class);

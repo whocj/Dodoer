@@ -11,7 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.forum.Forum;
 import com.summer.whm.entiry.spider.CrawTemplate;
@@ -19,6 +18,7 @@ import com.summer.whm.service.forum.ForumService;
 import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.service.CrawTemplateService;
 import com.summer.whm.spider.service.CrawlService;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
