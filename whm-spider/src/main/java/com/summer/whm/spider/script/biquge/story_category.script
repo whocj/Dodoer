@@ -1,0 +1,28 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map
+        .get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='con_top']/a");
+java.lang.Integer ret = null; 
+if (elementList != null && elementList.size() > 1) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList.get(1);
+    
+    String categoryName = element.asText();
+    categoryName = categoryName.trim();
+    if("玄幻奇幻".equals(categoryName)){
+    	ret = 30;
+    }else if("武侠仙侠".equals(categoryName)){
+    	ret = 29;
+    }else if("历史军事".equals(categoryName)){
+    	ret = 27;
+    }else if("都市言情".equals(categoryName)){
+    	ret = 28;
+    }else if("网游竞技".equals(categoryName)){
+    	ret = 26;
+    }else if("科幻灵异".equals(categoryName)){
+    	ret = 25;
+    }else if("女生频道".equals(categoryName)){
+    	ret = 28;
+    }
+    return ret;
+}
+
+return ret;

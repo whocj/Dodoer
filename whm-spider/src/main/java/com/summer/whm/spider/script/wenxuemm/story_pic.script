@@ -1,0 +1,6 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+String url = htmlPage.getWebResponse().getRequestSettings().getUrl().toString();
+String[] strs = url.split("/");
+String ret = "http://www.wenxuemm.com/files/article/image/" + strs[4] + "/" + strs[5] + "/" + strs[5] + "s.jpg";
+
+return ret;
