@@ -16,11 +16,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.summer.whm.WebConstants;
+import com.summer.whm.plugin.ApplicationContextUtil;
+import com.summer.whm.web.common.utils.WebConstants;
 
 public class SecurityFilter implements Filter {
 
+    ApplicationContext atx = null;
+    
     public final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
@@ -30,7 +35,8 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        
+        atx = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
+        ApplicationContextUtil.setApplicationContext(atx);
     }
 
     @Override
