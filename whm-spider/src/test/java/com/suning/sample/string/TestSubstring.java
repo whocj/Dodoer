@@ -32,6 +32,17 @@ public class TestSubstring {
         System.out.println(id.trim());
         id = a.substring(a.lastIndexOf("状态："));
         System.out.println(id.replace("状态：", "").trim());
+        
+        a = "《三国演义》作者:罗贯中";
+        id = a.substring(1, a.indexOf("》"));
+        System.out.println(id.trim());
+        
+        id = a.substring(a.indexOf("作者:") + 3);
+        System.out.println(id.trim());
+        
+        a = "http://www.wenxuemm.com/book/38/38629/index.html";
+        id = a.substring(0, a.lastIndexOf("/") + 1);
+        System.out.println(id.trim());
     }
 
 }
