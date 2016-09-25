@@ -18,7 +18,7 @@
 
 <title>${storyInfo.title}_${storyInfo.author}_${storyInfo.categoryName}_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">
-<meta name="description" content="${siteDescription }">
+<meta name="description" content="${storyInfo.outline }">
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"> 
 <meta content="yes" name="apple-mobile-web-app-capable"> 
 <meta content="black" name="apple-mobile-web-app-status-bar-style"> 

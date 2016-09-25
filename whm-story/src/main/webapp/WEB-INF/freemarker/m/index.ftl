@@ -51,7 +51,7 @@
 			<dl>
 			<a href="${base }/main/${datas.storyId}.html">
 				<dt><img src="${datas.picPath }"  width="90" height="120" onerror="nofind()" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+				<dd><h3>[${datas.categoryName }]《${datas.title }》${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
@@ -74,7 +74,7 @@
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
 				<dt><img src="${datas.picPath }"  width="90" height="120" onerror="nofind()" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+				<dd><h3>[${datas.categoryName }]《${datas.title }》${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
@@ -96,7 +96,7 @@
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
 				<dt><img src="${datas.picPath }" onerror="nofind()"  width="90"  height="120" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+				<dd><h3>[${datas.categoryName }]《${datas.title }》${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
@@ -118,7 +118,7 @@
 			<dl>
 			<a href="${base }/main/${datas.id}.html">
 				<dt><img src="${datas.picPath }" onerror="nofind()"   width="90" height="120" alt="${datas.title }" ></dt>
-				<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+				<dd><h3>[${datas.categoryName }]《${datas.title }》${datas.statusTxt }</h3></dd>
 				<dd>${datas.outline }</dd>
 				<dd><span>阅读：${datas.readCount }</span>点攒：${datas.likeCount }</dd>
 				</a>
