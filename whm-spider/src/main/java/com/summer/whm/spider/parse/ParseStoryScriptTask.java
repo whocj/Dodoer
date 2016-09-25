@@ -269,7 +269,7 @@ public class ParseStoryScriptTask implements Runnable {
             }
             
             
-          //处理推荐小说，小说种子处理
+            //处理推荐小说，小说种子处理
             if(StringUtils.isNotEmpty(template.getRecommendDetailXPath())){
                 // 小说种子明细
                 Object anchorObj = ScriptManager.getInstance().run(template.getRecommendDetailXPath(), map);//处理明细URL
@@ -372,10 +372,12 @@ public class ParseStoryScriptTask implements Runnable {
             if (htmlPage.getWebResponse().getRequestSettings().getUrl().toString().endsWith("/")) {
                 url = htmlPage.getWebResponse().getRequestSettings().getUrl() + href;
             } else {
-                url = htmlPage.getWebResponse().getRequestSettings().getUrl() + "/" + href;
+                url = htmlPage.getWebResponse().getRequestSettings().getUrl() + "";
+                url = url.substring(0, url.lastIndexOf("/") + 1);
+                url = url + href;
             }
         }
-        
+
         return url;
     }
     
