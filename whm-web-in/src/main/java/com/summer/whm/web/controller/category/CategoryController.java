@@ -14,12 +14,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.category.CategoryUser;
 import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.category.CategoryUserService;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller

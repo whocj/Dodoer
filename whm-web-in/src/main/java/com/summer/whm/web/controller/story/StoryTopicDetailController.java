@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.summer.whm.WebConstants;
-import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.story.StoryTopicDetail;
 import com.summer.whm.service.stroy.StoryTopicDetailService;
 import com.summer.whm.web.controller.BaseController;
@@ -30,7 +27,7 @@ public class StoryTopicDetailController extends BaseController {
 
     @RequestMapping("/list")
     public String list(HttpServletRequest request, @RequestParam(value = "topicId") int topicId, ModelMap model) {
-        List<StoryTopicDetail> detailList = storyTopicDetailService.queryByTopicId(topicId);
+        List<StoryTopicDetail> detailList = storyTopicDetailService.queryByTopicId(topicId, 100);
         model.put("detailList", detailList);
         model.put("topicId", topicId);
         return "story/topic/detailList.ftl";

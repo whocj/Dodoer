@@ -15,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.forum.Forum;
@@ -26,6 +25,7 @@ import com.summer.whm.service.forum.ForumGroupOptService;
 import com.summer.whm.service.forum.ForumService;
 import com.summer.whm.service.forum.ForumUserService;
 import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
