@@ -3,6 +3,10 @@ java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='in
 String ret = null;
 if (elementList != null && elementList.size() > 0) {
     com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement)elementList.get(0);
-    ret = element.asText().replace("作  者：", "");
+    ret = element.asText().replace(" ", "");
+    ret = ret.replace("作者：", "");
+    ret = ret.replace("作者:", "");
+
 }
+
 return ret;
