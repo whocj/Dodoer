@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta name="google-site-verification" content="c1osjSKHNZsIcu0YTloNLOy_DfEj96N6fYUQZVem5Q0" />
 <meta charset="UTF-8"> 
 <title>首页_${siteTitleMobile }</title>
 <meta name="keywords" content="${siteKeywords }">

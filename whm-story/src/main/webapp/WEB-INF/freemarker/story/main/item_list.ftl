@@ -14,4 +14,10 @@
 
 		</dl>
 	</div>
+	<div id="listtj">
+	&nbsp;新书推荐：
+	<#list recNewStoryList as datas>
+		<a target="_blank" href="${base }/main/${datas.id}.html" title="${datas.title }">${datas.title }</a>
+	</#list>
+	</div>
 </div>

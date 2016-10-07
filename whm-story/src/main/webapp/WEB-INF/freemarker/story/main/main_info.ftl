@@ -24,7 +24,11 @@
 				width="120" height="150">
 		</div>
 	</div>
-<!-- 	<div id="listtj"> -->
-<!-- 		&nbsp;推荐阅读：<a target="_blank" href="/" title="活人禁地">活人禁地</a><a -->
-<!-- 	</div> -->
+	<div id="listtj">
+		&nbsp;热门推荐：
+		<#list recHotStoryList as datas>
+			<a target="_blank" href="${base }/main/${datas.id}.html" title="${datas.title }">${datas.title }</a>
+		</#list>
+	</div>
+
 </div>

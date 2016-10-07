@@ -16,8 +16,11 @@
 				<a href="javascript:ajaxGetForLayer('${base }/user/bookshelf/add/${storyInfo.id }.html')" >加入书签</a>
 		</div>
 		
-		<div class="lm">
-<!-- 			&nbsp;推荐阅读：<a target="_blank" href="/kan_61/" title="末日之城">末日之城</a><a -->
+		<div id="listtj">
+			&nbsp;热门推荐：
+			<#list recHotStoryList as datas>
+				<a target="_blank" href="${base }/main/${datas.id}.html" title="${datas.title }">${datas.title }</a>
+			</#list>
 		</div>
 	</div>
 		<div id="content">
@@ -33,5 +36,11 @@
 				<a href="${base }/detail/${storyDetail.storyId}/${nextStoryDetail.id}.html">→下一章</a>
 			</#if>
 			<a href="javascript:ajaxGetForLayer('${base }/user/bookshelf/add/${storyInfo.id }.html')" >加入书签</a>
+	</div>
+	<div id="listtj">
+	&nbsp;新书推荐：
+	<#list recNewStoryList as datas>
+		<a target="_blank" href="${base }/main/${datas.id}.html" title="${datas.title }">${datas.title }</a>
+	</#list>
 	</div>
 </div>
