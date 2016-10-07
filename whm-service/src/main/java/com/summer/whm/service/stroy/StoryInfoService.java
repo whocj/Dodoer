@@ -40,36 +40,36 @@ public class StoryInfoService extends BaseService {
     @Autowired
     private SearchPostService searchPostService;
 
-    public  void addLike(Integer id){
+    public void addLike(Integer id) {
         storyInfoMapper.addLike(id);
     }
-    
-    public  void addRead(Integer id){
+
+    public void addRead(Integer id) {
         storyInfoMapper.addRead(id);
     }
-    
-    public  void addReply(Integer id){
+
+    public void addReply(Integer id) {
         storyInfoMapper.addReply(id);
     }
-    
-    //根据小说标题和作者判断是否存在，存在返回true,否则返回false
-    public boolean exists(String title, String author){
+
+    // 根据小说标题和作者判断是否存在，存在返回true,否则返回false
+    public boolean exists(String title, String author) {
         List<StoryInfo> storyInfoList = storyInfoMapper.queryByTitleAndAuthor(title, author);
-        if(storyInfoList != null && storyInfoList.size() > 0){
+        if (storyInfoList != null && storyInfoList.size() > 0) {
             return true;
         }
         return false;
     }
-    
-    public List<StoryInfo> queryByTitleAndAuthor(String title, String author){
+
+    public List<StoryInfo> queryByTitleAndAuthor(String title, String author) {
         return storyInfoMapper.queryByTitleAndAuthor(title, author);
     }
-    
+
     @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryTopNByHot'")
-    public List<StoryInfo> queryTopNByHot(Integer categoryId, Integer topN){
+    public List<StoryInfo> queryTopNByHot(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryTopNByHot(categoryId, topN);
     }
-    
+
     @Cacheable(value = "webCache", key = "#categoryId + '@' + #topN + 'StoryInfoService.queryStoryInfoOrderCreateTimeTop'")
     public List<StoryInfo> queryStoryInfoOrderCreateTimeTop(Integer categoryId, Integer topN) {
         return storyInfoMapper.queryStoryInfoOrderCreateTimeTop(categoryId, topN);
@@ -106,7 +106,8 @@ public class StoryInfoService extends BaseService {
             List<StoryPart> storyPartList = storyPartMapper.queryByStoryId(storyId);
             if (storyPartList != null && storyPartList.size() > 0) {
                 for (StoryPart storyPart : storyPartList) {
-                    List<StoryDetail> storyDetailList = storyDetailService.queryByPartId(storyPart.getId(), storyPart.getStoryId());
+                    List<StoryDetail> storyDetailList = storyDetailService.queryByPartId(storyPart.getId(),
+                            storyPart.getStoryId());
                     storyPart.setStoryDetailList(storyDetailList);
                 }
                 storyInfo.setStoryPartList(storyPartList);
@@ -130,6 +131,15 @@ public class StoryInfoService extends BaseService {
         }
 
         return storyInfo.getId();
+    }
+
+    //查询大于此ID的所有作者名
+    public List<String> queryAllAuthorByGTId(Integer id) {
+        return storyInfoMapper.queryAllAuthorByGTId(id);
+    }
+
+    public List<StoryInfo> queryByAuthorName(String author) {
+        return storyInfoMapper.queryByAuthorName(author);
     }
 
     @Override

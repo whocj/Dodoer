@@ -48,8 +48,8 @@ public class AuthorService extends BaseService {
         return author.getId();
     }
 
-    public List<Author> queryByName(String name) {
-        List<Author> authorList = authorMapper.queryByName(name);
+    public List<Author> queryByAllName(String name) {
+        List<Author> authorList = authorMapper.queryByAllName(name);
         if (authorList != null && authorList.size() > 0) {
             Author author = authorList.get(0);
             List<AuthorDetail> detailList = authorDetailMapper.queryByAuthorId(author.getId());
@@ -101,6 +101,11 @@ public class AuthorService extends BaseService {
         return map;
     }
 
+    public List<Author> queryByName(String name){
+        List<Author> authorList = authorMapper.queryByName(name);
+        return authorList;
+    }
+    
     public List<Author> queryTopHot(Integer categoryId, Integer topN) {
         return authorMapper.queryTopHot(categoryId, topN);
     }
