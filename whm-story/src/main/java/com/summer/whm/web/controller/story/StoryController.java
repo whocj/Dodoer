@@ -23,6 +23,7 @@ import com.summer.whm.entiry.user.User;
 import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
+import com.summer.whm.service.stroy.StoryRecommendService;
 import com.summer.whm.service.stroy.StoryUserBookshelfService;
 import com.summer.whm.service.stroy.StoryUserReadService;
 import com.summer.whm.web.common.utils.WebConstants;
@@ -49,6 +50,9 @@ public class StoryController extends BaseController {
 
     @Autowired
     private CategoryService categoryService;
+    
+    @Autowired
+    private StoryRecommendService storyRecommendService;
     
     @RequestMapping("/list/{cid}/{cp}")
     public String list(HttpServletRequest request, HttpServletResponse response,
@@ -113,6 +117,13 @@ public class StoryController extends BaseController {
 
         if (id != 0) {
             StoryInfo storyInfo = storyInfoService.queryById(id);
+            
+            List<StoryInfo> recHotStoryList = storyRecommendService.queryHotByCategoryId(null);
+            List<StoryInfo> recNewStoryList =storyRecommendService.queryNewByCategoryId(null);
+            
+            model.put("recHotStoryList", recHotStoryList);
+            model.put("recNewStoryList", recNewStoryList);
+            
             if(storyInfo == null){
                 return ERROR;
             }
@@ -151,11 +162,18 @@ public class StoryController extends BaseController {
             StoryDetail nextStoryDetail = storyDetailService.queryNextByStoryAndId(storyDetail.getStoryId(), id);
             StoryDetail prevStoryDetail = storyDetailService.queryPrevByStoryAndId(storyDetail.getStoryId(), id);
 
+            List<StoryInfo> recHotStoryList = storyRecommendService.queryHotByCategoryId(null);
+            List<StoryInfo> recNewStoryList =storyRecommendService.queryNewByCategoryId(null);
+            
+            model.put("recHotStoryList", recHotStoryList);
+            model.put("recNewStoryList", recNewStoryList);
+            
             model.put("nextStoryDetail", nextStoryDetail);
             model.put("prevStoryDetail", prevStoryDetail);
             model.put("storyInfo", storyInfo);
             model.put("storyDetail", storyDetail);
-
+            
+            
             storyInfoService.addRead(storyInfo.getId());
             
             // 处理阅读记录

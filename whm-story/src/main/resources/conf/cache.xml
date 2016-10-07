@@ -429,13 +429,14 @@ Cache
 	
 	<cache name="webCache" maxElementsInMemory="10000"
 		eternal="false" overflowToDisk="true"
-		timeToIdleSeconds="10" timeToLiveSeconds="20" 
+		timeToIdleSeconds="300" timeToLiveSeconds="300" 
 		memoryStoreEvictionPolicy="LFU">
 	</cache>
 	
 	<!-- 长期存活，内存最大1000个对象，多于的存磁盘 -->
 	<cache name="eternalCache" maxElementsInMemory="500"
-		eternal="true" overflowToDisk="true"
+		eternal="false" overflowToDisk="true"
+		timeToIdleSeconds="3600" timeToLiveSeconds="36000"
 		memoryStoreEvictionPolicy="FIFO">
 	</cache>
 
