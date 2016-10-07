@@ -5,7 +5,7 @@
 				<li>
 				<#list categoryList as datas>
 					<a href="${base }/list/${datas.id}/1.html">${datas.title }</a>
-					<#if datas_index + 1 == 4>
+					<#if datas_index + 1 == 5>
 						</li>
 						<li style="margin-top: -10px;">
 					</#if>

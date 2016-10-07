@@ -115,7 +115,7 @@ body {
 .s_nav span:nth-of-type(1) i{-webkit-transform:rotate(-135deg);margin:0 0 0 5px;}
 .s_nav span.active{display:none;}
 #nav li{height:39px;display:inline-table;width:100%;}
-#nav li a{display:table-cell;color:#000;font-size:120%;width:25%;}
+#nav li a{display:table-cell;color:#000;font-size:120%;width:20%;}
 /*幻灯片*/
 .roll div{position:relative;width:300px;margin:0 auto;}
 .roll{position:relative;display:table-cell;}

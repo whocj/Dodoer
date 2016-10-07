@@ -91,7 +91,7 @@ ${author.namezh?html }
 						<dl>
 							<a href="${base }/main/${datas.storyId}.html">
 								<dt><img src="${datas.picPath }" alt="${datas.title }" onerror="nofind()" width="90" height="120"></dt>
-								<dd><h3>[${datas.categoryName }]${datas.title }${datas.statusTxt }</h3></dd>
+								<dd><h3>[${datas.categoryName }]《${datas.title }》${datas.statusTxt }</h3></dd>
 								<dd style="height:70px;">&nbsp;&nbsp;&nbsp;&nbsp;${datas.outline }</dd>
 							</a>
 							<dd>浏览：${datas.readCount }&nbsp;&nbsp;点攒：${datas.likeCount }</dd>
