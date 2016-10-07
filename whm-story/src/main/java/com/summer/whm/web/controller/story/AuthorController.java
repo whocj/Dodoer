@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.summer.whm.Constants;
 import com.summer.whm.entiry.author.Author;
 import com.summer.whm.entiry.category.Category;
+import com.summer.whm.service.author.AuthorInitService;
 import com.summer.whm.service.author.AuthorService;
 import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.web.controller.BaseController;
@@ -29,25 +30,28 @@ public class AuthorController extends BaseController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private AuthorInitService authorInitService;
+
     @RequestMapping("/list/{cid}")
     public String list(HttpServletRequest request, HttpServletResponse response, @PathVariable("cid") int cid,
             ModelMap model) {
         Map<String, List<Author>> authorMap = null;
         Category category = new Category();
         if (cid == 0) {
-            authorMap =  authorService.queryAllByGroupNamePrefix(null);
+            authorMap = authorService.queryAllByGroupNamePrefix(null);
         } else {
-             category = categoryService.loadById(cid + "");
-            if(category == null){
+            category = categoryService.loadById(cid + "");
+            if (category == null) {
                 category = new Category();
-                authorMap =  authorService.queryAllByGroupNamePrefix(null);
-            }else{
+                authorMap = authorService.queryAllByGroupNamePrefix(null);
+            } else {
                 authorMap = authorService.queryAllByGroupNamePrefix(cid);
             }
         }
         String[] abcArr = Constants.ABC_ARRAY;
         List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY_AUTHOR);
-        
+
         model.put("category", category);
         model.put("abcArr", abcArr);
         model.put("categoryList", categoryList);
@@ -60,11 +64,18 @@ public class AuthorController extends BaseController {
     public String info(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") int id,
             ModelMap model) {
         Author author = authorService.queryById(id);
-        if(author == null){
+        if (author == null) {
             return ERROR;
         }
         model.put("author", author);
         return getForward(request, response, "story/author/info/author_info_index.ftl");
     }
-    
+
+    @RequestMapping("/initAuthor/{id}")
+    public void initAuthor(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") int id,
+            ModelMap model) {
+        authorInitService.initAuthor(id);
+        this.ajaxHtml(response, "ok");
+    }
+
 }
