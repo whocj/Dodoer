@@ -25,13 +25,13 @@ public class WebClientPool {
 //                    systemConfig = ApplicationContextUtil.getBean(GlobalSystemConfig.class);
 //                }
                 
-                if (FileUtils.isWindow()) {
+//                if (FileUtils.isWindow()) {
 //                    if(systemConfig != null && GlobalSystemConfig.EVN_NAME_DEV.equals(systemConfig.getEnvName())){
-                        ProxyConfig proxyConfig = new ProxyConfig();
-                        proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-                        webClient.setProxyConfig(proxyConfig);
+//                        ProxyConfig proxyConfig = new ProxyConfig();
+//                        proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+//                        webClient.setProxyConfig(proxyConfig);
 //                    }
-                }
+//                }
 
                 webClient.setUseInsecureSSL(true);
                 webClient.setThrowExceptionOnScriptError(false);
