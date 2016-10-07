@@ -17,6 +17,9 @@ public class TestReplace {
         System.out.println(a.replaceAll("【\\?书\\?阅☆屋\\?www.shuyuewu.com】", "【多多儿#www.dodoer.com】"));
         System.out.println(a2.replaceAll("m.shuyuewu.com", "m.dodoer.com"));
         
+        System.out.println("作  者：".replace(" ", ""));
+        System.out.println("作   者:".replace(" ", ""));
+        
         
     }
 
