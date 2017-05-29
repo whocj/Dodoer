@@ -3,6 +3,7 @@ package com.summer.whm.service.sys;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.summer.whm.common.model.PageModel;
@@ -22,6 +23,7 @@ public class NoticeService extends BaseService {
         return this.noticeMapper;
     }
     
+    @Cacheable(value = "webCache", key = "#pageIndex + '@' + #pageSize + 'NoticeService.list'")
     public PageModel<Notice> list(int pageIndex, int pageSize) {
         PageModel<Notice> page = new PageModel<Notice>(pageIndex, pageSize);
         super.list(page);

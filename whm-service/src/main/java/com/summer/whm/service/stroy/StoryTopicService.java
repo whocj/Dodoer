@@ -3,6 +3,7 @@ package com.summer.whm.service.stroy;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.summer.whm.common.model.PageModel;
@@ -43,6 +44,7 @@ public class StoryTopicService extends BaseService {
         return storyTopic;
     }
 
+    @Cacheable(value = "webCache", key = "#status + '@' + #topN + 'StoryTopicService.queryByStatus'")
     public List<StoryTopic> queryByStatus(String status, Integer topN) {
         List<StoryTopic> storyTopicList = storyTopicMapper.queryByStatus(status);
         if (storyTopicList != null && storyTopicList.size() > 0) {
