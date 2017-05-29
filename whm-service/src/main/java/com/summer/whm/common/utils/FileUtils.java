@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -208,5 +209,22 @@ public class FileUtils {
         dateF.setTimeZone(timeZoneChina);
         Date td = new Date();
         return dateF.format(td);
+    }
+    
+    // 将MultipartFile 转换为File
+    public static void saveFileFromInputStream(InputStream stream, String path, String savefile) throws IOException {
+        FileOutputStream fs = new FileOutputStream(path + "/" + savefile);
+        LOG.info("saveFileFromInputStream#" + path + "/" + savefile);
+        byte[] buffer = new byte[1024 * 1024];
+        int bytesum = 0;
+        int byteread = 0;
+        while ((byteread = stream.read(buffer)) != -1) {
+            bytesum += byteread;
+            fs.write(buffer, 0, byteread);
+            fs.flush();
+        }
+        LOG.info("saveFileFromInputStream#File Size :" + bytesum);
+        fs.close();
+        stream.close();
     }
 }
