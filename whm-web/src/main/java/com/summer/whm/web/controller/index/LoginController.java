@@ -17,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.configs.GlobalSystemConfig;
 import com.summer.whm.common.utils.PinUtil;
 import com.summer.whm.entiry.user.User;
@@ -28,6 +27,7 @@ import com.summer.whm.web.common.session.CookieRemberManager;
 import com.summer.whm.web.common.utils.Base64ForJavascript;
 import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.common.utils.CookieUtils;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 import com.summer.whm.web.model.auth.QQUserinfo;
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.common.model.MapContainer;
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.ask.Answer;
@@ -34,6 +33,7 @@ import com.summer.whm.service.search.SimilarSearchService;
 import com.summer.whm.service.sys.TagService;
 import com.summer.whm.web.common.utils.Configs;
 import com.summer.whm.web.common.utils.Constants;
+import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
 
 @Controller
