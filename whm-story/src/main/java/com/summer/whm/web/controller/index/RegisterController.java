@@ -33,6 +33,11 @@ public class RegisterController extends BaseController {
     @Autowired
     private GlobalSystemConfig globalSystemConfig;
     
+    @RequestMapping("/registerDialog")
+    public String indexDialog(HttpServletRequest request, HttpServletResponse response) {
+        return "dialog_register.ftl";
+    }
+    
     @RequestMapping("/register")
     public void reg(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws IOException {
         String username = request.getParameter("username");
