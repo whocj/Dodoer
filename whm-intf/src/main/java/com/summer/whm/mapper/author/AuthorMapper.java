@@ -18,6 +18,8 @@ import com.summer.whm.mapper.BaseMapper;
 public interface AuthorMapper extends BaseMapper {
     List<Author> queryByName(@Param("name") String name);
     
+    List<Author> queryByAllName(@Param("name") String name);
+    
     List<Author> queryTopHot(@Param("categoryId") Integer categoryId, @Param("topN") Integer topN);
     
     List<Author> queryAll(@Param("categoryId") Integer categoryId);

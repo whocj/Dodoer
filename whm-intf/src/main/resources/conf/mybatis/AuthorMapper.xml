@@ -66,36 +66,6 @@
 		order by sa.id desc
 	</select>
 
-	<select id="queryByName" resultType="Author">
-		select
-		sa.id,
-		sa.name,
-		sa.namezh,
-		sa.nameen,
-		sa.categoryId,
-		bc.title as categoryName,
-		sa.profession,
-		sa.country,
-		sa.homeplace,
-		sa.birthday,
-		sa.keywords,
-		sa.outline,
-		sa.status,
-		sa.sortIndex,
-		sa.likeCount,
-		sa.readCount,
-		sa.replyCount,
-		sa.hot,
-		sa.description,
-		sa.creator,
-		sa.createTime,
-		sa.lastUpdate
-		from story_author sa
-		left join bbs_category bc on sa.categoryId = bc.id
-		where sa.name=#{name} or sa.namezh=#{name} or sa.nameen=#{name}
-		order by sa.sortIndex desc
-	</select>
-
 	<select id="count" resultType="long">
 		select count(*) from story_author
 		<if test="query.name!=null and query.name!=''">
@@ -277,6 +247,66 @@
 			and sa.categoryId = #{categoryId}
 		</if>
 		order by sa.sortIndex desc, sa.nameen asc
+	</select>
+	
+	<select id="queryByAllName" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where sa.name=#{name} or sa.namezh=#{name} or sa.nameen=#{name}
+		order by sa.sortIndex desc
+	</select>
+
+	<select id="queryByName" resultType="Author">
+		select
+		sa.id,
+		sa.name,
+		sa.namezh,
+		sa.nameen,
+		sa.categoryId,
+		bc.title as categoryName,
+		sa.profession,
+		sa.country,
+		sa.homeplace,
+		sa.birthday,
+		sa.keywords,
+		sa.outline,
+		sa.status,
+		sa.sortIndex,
+		sa.likeCount,
+		sa.readCount,
+		sa.replyCount,
+		sa.hot,
+		sa.description,
+		sa.creator,
+		sa.createTime,
+		sa.lastUpdate
+		from story_author sa
+		left join bbs_category bc on sa.categoryId = bc.id
+		where sa.name=#{name}
+		order by sa.sortIndex desc
 	</select>
 
 </mapper>

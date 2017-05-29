@@ -42,6 +42,28 @@ public class SpiderStoryTemplate extends BaseEntity{
     //小说状态
     private String statusXPath;
     
+    //是否检则URL
+    private String checkCrawl;
+    
+    //编码
+    private String reqeustEncode;
+    
+    public String getCheckCrawl() {
+        return checkCrawl;
+    }
+
+    public void setCheckCrawl(String checkCrawl) {
+        this.checkCrawl = checkCrawl;
+    }
+
+    public String getReqeustEncode() {
+        return reqeustEncode;
+    }
+
+    public void setReqeustEncode(String reqeustEncode) {
+        this.reqeustEncode = reqeustEncode;
+    }
+
     public String getStatusXPath() {
         return statusXPath;
     }

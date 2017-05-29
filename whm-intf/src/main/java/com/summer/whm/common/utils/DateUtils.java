@@ -1,12 +1,15 @@
 package com.summer.whm.common.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class DateUtils {
 
     public static final Locale LOCALE_CHINA = Locale.CHINA;
+    
+    public static final SimpleDateFormat YYYYMMDDHHMMSS_SSS_SDF = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
     
     private DateUtils() {
     }
@@ -78,6 +81,10 @@ public class DateUtils {
         return result;
     }
 
+    public static String getNowTimeForYYYYMMDDHHMMSS_SSS(){
+        return YYYYMMDDHHMMSS_SSS_SDF.format(Calendar.getInstance().getTime());
+    }
+    
     public static void main(String[] args){
         Date date = new Date();
         Date date2 = DateUtils.parse("yyyy-MM-dd", "2016-7-5");

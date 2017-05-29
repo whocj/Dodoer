@@ -511,4 +511,42 @@
 		from story_info si
 		where si.title = #{title} and si.author = #{author}
 	</select>
+	
+	<select id="queryAllAuthorByGTId" resultType="String">
+		select
+		distinct si.author
+		from story_info si
+		where 1=1 and author is not null
+		<if test="id!=null and id!=''">
+			and si.id > #{id}
+		</if>
+	</select>
+	
+	<select id="queryByAuthorName"  resultType="StoryInfo">
+		select
+		si.id,
+		si.categoryId,
+		si.categoryName,
+		si.title,
+		si.outline,
+		si.author,
+		si.status,
+		si.picPath,
+		si.lastDetailId,
+		si.lastDetailTitle,
+		si.tagName,
+		si.likeCount,
+		si.readCount,
+		si.replyCount,
+		si.sortIndex,
+		si.remark,
+		si.crawlUrl,
+		si.lastUpdateDetail,
+		si.creator,
+		si.createTime,
+		si.lastUpdate
+		from story_info si
+		where si.author = #{author}
+	</select>
+	
 </mapper>
