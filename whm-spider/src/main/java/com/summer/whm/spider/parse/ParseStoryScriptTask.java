@@ -2,7 +2,9 @@ package com.summer.whm.spider.parse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,9 +13,11 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gargoylesoftware.htmlunit.WebRequestSettings;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.utils.DateUtils;
@@ -27,6 +31,7 @@ import com.summer.whm.service.stroy.StoryInfoService;
 import com.summer.whm.service.stroy.StoryPartService;
 import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
+import com.summer.whm.spider.client.WebClientPool;
 import com.summer.whm.spider.crawl.CrawlElement;
 import com.summer.whm.spider.crawl.CrawlType;
 import com.summer.whm.spider.exception.ParseException;
@@ -35,6 +40,9 @@ import com.summer.whm.spider.script.ScriptManager;
 import com.summer.whm.spider.service.SpiderSiteCategoryService;
 import com.summer.whm.spider.service.SpiderStoryJobService;
 import com.summer.whm.spider.store.CrawlStore;
+import com.summer.whm.spider.utils.CustomerHttpClient;
+import com.summer.whm.spider.utils.CustomerHttpClient.ClientName;
+import com.summer.whm.spider.utils.Hex;
 import com.summer.whm.spider.utils.URLUtil;
 import com.summer.whm.spider.utils.img.Image;
 import com.summer.whm.spider.utils.img.ImageService;
@@ -42,7 +50,7 @@ import com.summer.whm.spider.utils.img.ImageService;
 public class ParseStoryScriptTask implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ParseStoryScriptTask.class);
-    
+
     public static final int SIZE = 5;
 
     private SpiderContext spiderContext;
@@ -56,17 +64,22 @@ public class ParseStoryScriptTask implements Runnable {
     private SpiderStoryJobService spiderStoryJobService;
 
     private static final String HTML_PAGE_KEY = "htmlPage";
-    
+
     private static final String SITE_CATEGORY_KEY = "siteCategory";
-    
+
+    private Map<Integer, String> categoryMap = new HashMap<Integer, String>();
+
+    private WebClientPool webClientPool = new WebClientPool();
+
     public ParseStoryScriptTask(SpiderContext spiderContext, StoryInfoService storyInfoService,
             StoryPartService storyPartService, StoryDetailService storyDetailService,
-            SpiderStoryJobService spiderStoryJobService) {
+            SpiderStoryJobService spiderStoryJobService, Map<Integer, String> categoryMap) {
         this.spiderContext = spiderContext;
         this.storyInfoService = storyInfoService;
         this.storyPartService = storyPartService;
         this.storyDetailService = storyDetailService;
         this.spiderStoryJobService = spiderStoryJobService;
+        this.categoryMap = categoryMap;
     }
 
     @Override
@@ -112,33 +125,33 @@ public class ParseStoryScriptTask implements Runnable {
 
     public void parse(ParseStoryElement parseStoryElement, int current, List<String> list) throws InterruptedException,
             ParseException {
-        if (parseStoryElement.isDetail()) {//小说明细
+        if (parseStoryElement.isDetail()) {// 小说明细
             parseDetail(parseStoryElement);
-        } else if(parseStoryElement.isSeed()){//小说种子
+        } else if (parseStoryElement.isSeed()) {// 小说种子
             parseStoryJob(parseStoryElement);
-        } else {//小说基本信息
+        } else {// 小说基本信息
             parseInfo(parseStoryElement, current, list);
         }
     }
 
-    public void parseStoryJob(ParseStoryElement parseStoryElement)
-            throws InterruptedException {
+    public void parseStoryJob(ParseStoryElement parseStoryElement) throws InterruptedException {
         HtmlPage htmlPage = parseStoryElement.getHtmlPage();
-        
+
         SpiderStoryJob tempSpiderStoryJob = parseStoryElement.getSpiderStoryJob();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(HTML_PAGE_KEY, htmlPage);
-        map.put(SITE_CATEGORY_KEY, SpiderSiteCategoryService.getCategoryMapByTemplateId(tempSpiderStoryJob.getTemplateId()));
+        map.put(SITE_CATEGORY_KEY,
+                SpiderSiteCategoryService.getCategoryMapByTemplateId(tempSpiderStoryJob.getTemplateId()));
         SpiderStoryTemplate template = spiderContext.getSpiderStoryTemplate();
-        Integer categoryId = (Integer)ScriptManager.getInstance().run(template.getCategoryXPath(), map);//处理分类
-        if(categoryId != null){
+        Integer categoryId = (Integer) ScriptManager.getInstance().run(template.getCategoryXPath(), map);// 处理分类
+        if (categoryId != null) {
             tempSpiderStoryJob.setCategoryId(categoryId);
             saveDB(tempSpiderStoryJob);
-        }else{
+        } else {
             LOG.info("目录分析失败，" + tempSpiderStoryJob.getTitle() + "=" + tempSpiderStoryJob.getUrl());
         }
     }
-    
+
     public void parseInfo(ParseStoryElement parseStoryElement, int current, List<String> list)
             throws InterruptedException {
         BlockingQueue<CrawlElement> urlQueue = spiderContext.getUrlQueue();
@@ -148,71 +161,71 @@ public class ParseStoryScriptTask implements Runnable {
         StoryInfo storyInfo = null;
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(HTML_PAGE_KEY, htmlPage);
-        
+
         if (current == 1) {// 第一页
             if (spiderStoryJob.getStoryId() == null) {// 第一次抓取数据，需要抓取文章基本信息
-                
+
                 storyInfo = new StoryInfo();
                 storyInfo.setId(spiderStoryJob.getStoryId());
-                storyInfo
-                        .setCrawlUrl(parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl().toString());
+                storyInfo.setCrawlUrl(parseStoryElement.getHtmlPage().getWebResponse().getRequestSettings().getUrl()
+                        .toString());
                 storyInfo.setCategoryId(spiderStoryJob.getCategoryId());
                 storyInfo.setCategoryName(spiderStoryJob.getCategoryName());
-                
-                String title = (String)ScriptManager.getInstance().run(template.getTitleXPath(), map);//处理标题
-                if(title == null){
+
+                String title = (String) ScriptManager.getInstance().run(template.getTitleXPath(), map);// 处理标题
+                if (title == null) {
                     System.out.println("基本信息处理失败，" + storyInfo.getCrawlUrl());
                     return;
-                }else{
+                } else {
                     storyInfo.setTitle(title);
                 }
-                
-                String author = (String)ScriptManager.getInstance().run(template.getAuthorXPath(), map);//处理作者
-                if(author == null){
+                Integer categoryId = (Integer) ScriptManager.getInstance().run(template.getCategoryXPath(), map);// 处理标题
+                if (storyInfo.getCategoryId() == null && categoryId != null) {
+                    storyInfo.setCategoryId(categoryId);
+                }
+
+                String author = (String) ScriptManager.getInstance().run(template.getAuthorXPath(), map);// 处理作者
+                if (author == null) {
                     author = "佚名";
                 }
                 storyInfo.setAuthor(author);
-                
+
                 boolean exists = storyInfoService.exists(title, author);
-                if(exists){
-                    //更新小说任务状态
+                if (exists) {
+                    // 更新小说任务状态
                     SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
                     tempSpiderStoryJob.setId(spiderStoryJob.getId());
                     tempSpiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_REPEAT);
                     tempSpiderStoryJob.setSpiderStatus(SpiderConfigs.STATUS_STOP);
                     spiderStoryJobService.update(tempSpiderStoryJob);
-                    
+
                     System.out.println("小说已经存在，" + title + "|" + author);
                     return;
                 }
-                
-                String outline = (String)ScriptManager.getInstance().run(template.getOutlineXPath(), map);//处理概要
-                if(outline != null){
+
+                String outline = (String) ScriptManager.getInstance().run(template.getOutlineXPath(), map);// 处理概要
+                if (outline != null) {
                     storyInfo.setOutline(outline);
                 }
 
-                String status = (String)ScriptManager.getInstance().run(template.getStatusXPath(), map);//处理小说状态
-                if(outline != null){
+                String status = (String) ScriptManager.getInstance().run(template.getStatusXPath(), map);// 处理小说状态
+                if (status != null) {
                     storyInfo.setStatus(status);
-                }
-                
-                String picPath = (String)ScriptManager.getInstance().run(template.getPicPathXPath(), map);//处理图片
-                if(picPath != null){
-                    Image image = ImageService.downloadImgByUrl(picPath);
-                    if (image != null) {
-                        storyInfo.setPicPath(image.getUrl());
-                    }else{
-                        System.out.println("图片下载失败。");
-                    }
                 }
 
                 // 保存数据库
                 storyInfo.setCreateTime(new Date());
                 storyInfo.setCreator(SpiderConfigs.SPIDER);
-                storyInfo.setStatus(SpiderConfigs.STORY_STATUS_ONLINE);//上架
+                storyInfo.setStatus(SpiderConfigs.STORY_STATUS_ONLINE);// 上架
                 storyInfo.setLastUpdateDetail(new Date());
                 // 保存小说基本信息
                 storyInfoService.save(storyInfo);
+                String picPath = (String) ScriptManager.getInstance().run(template.getPicPathXPath(), map);// 处理图片
+                if (picPath != null) {
+                    //上传图片到图片服务器
+                    uploadPic(storyInfo.getId(), picPath);
+                }
+                
                 spiderStoryJob.setStoryId(storyInfo.getId());
 
                 // 更新小说抓取任务数据
@@ -220,65 +233,56 @@ public class ParseStoryScriptTask implements Runnable {
                 tempStoryJob.setId(spiderStoryJob.getId());
                 tempStoryJob.setStoryId(storyInfo.getId());
                 spiderStoryJobService.update(tempStoryJob);
-                
+
                 // 处理明细
-                Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);//处理明细URL
-                if(anchorObj != null){
-                    List<Anchor> anchorList = (List<Anchor>)anchorObj;
+                Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);// 处理明细URL
+                if (anchorObj != null) {
+                    List<Anchor> anchorList = (List<Anchor>) anchorObj;
                     parseDetailAnchor(anchorList, parseStoryElement, storyInfo, 0);
                 }
 
             } else {
-                //多次处理，判断图片是否有值，如果为空则继续下载，否则退出
+                // 多次处理，判断图片是否有值，如果为空则继续下载，否则退出
                 storyInfo = storyInfoService.loadById(spiderStoryJob.getStoryId() + "");
                 if (storyInfo.getPicPath() == null || "/RES/images/default_120_150.jpg".equals(storyInfo.getPicPath())) {
-                    String picPath = (String)ScriptManager.getInstance().run(template.getPicPathXPath(), map);//处理图片
-                    if(picPath != null){
-                        Image image = ImageService.downloadImgByUrl(picPath);
-                        if (image != null) {
-                            StoryInfo tempStoryInfo = new StoryInfo();
-                            tempStoryInfo.setId(storyInfo.getId());
-                            tempStoryInfo.setPicPath(image.getUrl());
-                            storyInfoService.save(tempStoryInfo);
-                        }else{
-                            System.out.println("图片下载失败。");
-                        }
+                    String picPath = (String) ScriptManager.getInstance().run(template.getPicPathXPath(), map);// 处理图片
+                    if (picPath != null) {
+                        this.uploadPic(storyInfo.getId(), picPath);
                     }
                 }
 
-                //第一次抓取失败的任务，这再再次启动任务
-                List<StoryDetail> storyDetailList = storyDetailService.queryByStoryIdAndContentIsNull(spiderStoryJob.getStoryId());
-                if(storyDetailList != null && storyDetailList.size() > 0){
-                    for(StoryDetail storyDetail : storyDetailList){
-                        CrawlElement crawlElement =  new CrawlElement(storyDetail.getCrawlUrl(), CrawlType.StoryDetail);
+                // 第一次抓取失败的任务，这再再次启动任务
+                List<StoryDetail> storyDetailList = storyDetailService.queryByStoryIdAndContentIsNull(spiderStoryJob
+                        .getStoryId());
+                if (storyDetailList != null && storyDetailList.size() > 0) {
+                    for (StoryDetail storyDetail : storyDetailList) {
+                        CrawlElement crawlElement = new CrawlElement(storyDetail.getCrawlUrl(), CrawlType.StoryDetail);
                         crawlElement.setObj(storyDetail);
                         crawlElement.setAgain(true);
                         urlQueue.put(crawlElement);
                     }
                 }
-                
-                //二次抓取连更数据
+
+                // 二次抓取连更数据
                 int count = storyDetailService.queryCountByStoryId(spiderStoryJob.getStoryId());
                 // 处理明细
-                Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);//处理明细URL
-                if(anchorObj != null){
-                    List<Anchor> anchorList = (List<Anchor>)anchorObj;
+                Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);// 处理明细URL
+                if (anchorObj != null) {
+                    List<Anchor> anchorList = (List<Anchor>) anchorObj;
                     parseDetailAnchor(anchorList, parseStoryElement, storyInfo, count);
                 }
-
             }
-            
-            
-            //处理推荐小说，小说种子处理
-            if(StringUtils.isNotEmpty(template.getRecommendDetailXPath())){
+
+            // 处理推荐小说，小说种子处理
+            if (StringUtils.isNotEmpty(template.getRecommendDetailXPath())) {
                 // 小说种子明细
-                Object anchorObj = ScriptManager.getInstance().run(template.getRecommendDetailXPath(), map);//处理明细URL
-                if(anchorObj != null){
-                    List<Anchor> anchorList = (List<Anchor>)anchorObj;
+                Object anchorObj = ScriptManager.getInstance().run(template.getRecommendDetailXPath(), map);// 处理明细URL
+                if (anchorObj != null) {
+                    List<Anchor> anchorList = (List<Anchor>) anchorObj;
                     String url = null;
                     SpiderStoryJob tempSpiderStoryJob = null;
-                    if(StringUtils.isNotEmpty(template.getCategoryXPath())){
-                        for(Anchor anchor : anchorList){
+                    if (StringUtils.isNotEmpty(template.getCategoryXPath())) {
+                        for (Anchor anchor : anchorList) {
                             tempSpiderStoryJob = new SpiderStoryJob();
                             tempSpiderStoryJob.setCreateTime(new Date());
                             tempSpiderStoryJob.setUserId(SpiderConfigs.SPIDER_USERID);
@@ -286,17 +290,17 @@ public class ParseStoryScriptTask implements Runnable {
                             tempSpiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_INIT);
                             tempSpiderStoryJob.setTitle(anchor.getTxt());
                             url = buildURL(anchor.getUrl(), spiderStoryJob, htmlPage);
-                            
+
                             tempSpiderStoryJob.setUrl(url);
                             tempSpiderStoryJob.setTemplateId(spiderStoryJob.getTemplateId());
                             tempSpiderStoryJob.setCreator(SpiderConfigs.SPIDER);
-                            CrawlElement crawlElement =  new CrawlElement(url, CrawlType.StoryJob);
+                            CrawlElement crawlElement = new CrawlElement(url, CrawlType.StoryJob);
                             crawlElement.setObj(tempSpiderStoryJob);
                             crawlElement.setAgain(true);
                             urlQueue.put(crawlElement);
                         }
-                    }else{
-                        for(Anchor anchor : anchorList){
+                    } else {
+                        for (Anchor anchor : anchorList) {
                             url = buildURL(anchor.getUrl(), spiderStoryJob, htmlPage);
                             tempSpiderStoryJob = new SpiderStoryJob();
                             tempSpiderStoryJob.setCategoryId(spiderStoryJob.getCategoryId());
@@ -314,37 +318,46 @@ public class ParseStoryScriptTask implements Runnable {
                     }
                 }
             }
-        }else{
-            //二次抓取连更数据
+        } else {
+            // 二次抓取连更数据
             int count = storyDetailService.queryCountByStoryId(spiderStoryJob.getStoryId());
             storyInfo = parseStoryElement.getStoryInfo();
             // 处理明细
-            Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);//处理明细URL
-            if(anchorObj != null){
-                List<Anchor> anchorList = (List<Anchor>)anchorObj;
+            Object anchorObj = ScriptManager.getInstance().run(template.getDetailXPath(), map);// 处理明细URL
+            if (anchorObj != null) {
+                List<Anchor> anchorList = (List<Anchor>) anchorObj;
                 parseDetailAnchor(anchorList, parseStoryElement, storyInfo, count);
             }
         }
-        
+
         // 取下一页数据
         if (StringUtils.isNotEmpty(template.getNextXPath())) {
             List<HtmlAnchor> nextAnchorList = (List<HtmlAnchor>) htmlPage.getByXPath(template.getNextXPath());
             if (nextAnchorList != null && nextAnchorList.size() > 0) {
                 try {
                     HtmlPage nextHtmlPage = nextAnchorList.get(0).click();
-                    int index = current % SIZE;
-                    if (current % (SIZE * SIZE) == 0) {
-                        nextHtmlPage.getWebClient().closeAllWindows();
-                        urlQueue.put(new CrawlElement(nextHtmlPage.getWebResponse().getRequestSettings().getUrl()
-                                .toString(), CrawlType.List));
-                        return;
-                    }
-                    // 发现进入循环，则立即跳出去
-                    if (list.contains(nextHtmlPage.getWebResponse().getRequestSettings().getUrl().toString())) {
-                        return;
+
+                    if (StringUtils.isNotEmpty(template.getReqeustEncode())) {
+                        URL nextUrl = nextHtmlPage.getWebResponse().getRequestSettings().getUrl();
+                        WebRequestSettings webRequest = new WebRequestSettings(nextUrl);
+                        webRequest.setCharset(template.getReqeustEncode());
+                        nextHtmlPage = webClientPool.borrowWebClient().getPage(webRequest);
                     } else {
-                        list.set(index, nextHtmlPage.getWebResponse().getRequestSettings().getUrl().toString());
+                        int index = current % SIZE;
+                        if (current % (SIZE * SIZE) == 0) {
+                            nextHtmlPage.getWebClient().closeAllWindows();
+                            urlQueue.put(new CrawlElement(nextHtmlPage.getWebResponse().getRequestSettings().getUrl()
+                                    .toString(), CrawlType.List));
+                            return;
+                        }
+                        // 发现进入循环，则立即跳出去
+                        if (list.contains(nextHtmlPage.getWebResponse().getRequestSettings().getUrl().toString())) {
+                            return;
+                        } else {
+                            list.set(index, nextHtmlPage.getWebResponse().getRequestSettings().getUrl().toString());
+                        }
                     }
+
                     System.out.println("NextURL=" + nextHtmlPage.getWebResponse().getRequestSettings().getUrl());
                     ParseStoryElement nextParseStoryElement = new ParseStoryElement(false, nextHtmlPage);
                     nextParseStoryElement.setStoryInfo(storyInfo);
@@ -361,7 +374,7 @@ public class ParseStoryScriptTask implements Runnable {
         }
     }
 
-    public String buildURL(String href, SpiderStoryJob spiderStoryJob, HtmlPage htmlPage){
+    public String buildURL(String href, SpiderStoryJob spiderStoryJob, HtmlPage htmlPage) {
         String url = null;
         if (URLUtil.getHost(href) != null) {
             // 校验有站内连接
@@ -380,25 +393,26 @@ public class ParseStoryScriptTask implements Runnable {
 
         return url;
     }
-    
-    //分析小说明细入口,count已入库条数
-    private void parseDetailAnchor(List<Anchor> anchorList, ParseStoryElement parseStoryElement, StoryInfo storyInfo, int count) throws InterruptedException{
+
+    // 分析小说明细入口,count已入库条数
+    private void parseDetailAnchor(List<Anchor> anchorList, ParseStoryElement parseStoryElement, StoryInfo storyInfo,
+            int count) throws InterruptedException {
         SpiderStoryJob spiderStoryJob = spiderContext.getSpiderStoryJob();
         HtmlPage htmlPage = parseStoryElement.getHtmlPage();
         BlockingQueue<CrawlElement> urlQueue = spiderContext.getUrlQueue();
         String url = null;
-        
-        if(anchorList.size() > count){
+
+        if (anchorList.size() > count) {
             int begin = count - 1;
-            if(begin < 0){
+            if (begin < 0) {
                 begin = 0;
             }
-            
-            for(int i = begin; i < anchorList.size(); i++){
+
+            for (int i = begin; i < anchorList.size(); i++) {
                 Anchor anchor = anchorList.get(i);
-                
+
                 url = buildURL(anchor.getUrl(), spiderStoryJob, htmlPage);
-                
+
                 StoryDetail storyDetail = new StoryDetail();
                 storyDetail.setTitle(anchor.getTxt());
                 storyDetail.setStoryId(storyInfo.getId());
@@ -409,15 +423,15 @@ public class ParseStoryScriptTask implements Runnable {
                 storyDetail.setReadCount(0);
                 storyDetail.setReplyCount(0);
                 saveDB(storyDetail);
-                
-                CrawlElement crawlElement =  new CrawlElement(url, CrawlType.StoryDetail);
+
+                CrawlElement crawlElement = new CrawlElement(url, CrawlType.StoryDetail);
                 crawlElement.setObj(storyDetail);
                 urlQueue.put(crawlElement);
             }
         }
 
-        //计算章节最后一次更新时间，如果超过30天未更新章节，则可确认小说已完结，或已弃更
-        if(DateUtils.compare2Day(storyInfo.getLastUpdateDetail(), new Date()) > SpiderConfigs.MAX_DAY_FINISH){
+        // 计算章节最后一次更新时间，如果超过30天未更新章节，则可确认小说已完结，或已弃更
+        if (DateUtils.compare2Day(storyInfo.getLastUpdateDetail(), new Date()) > SpiderConfigs.MAX_DAY_FINISH) {
             SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
             tempSpiderStoryJob.setId(spiderStoryJob.getId());
             tempSpiderStoryJob.setStatus(SpiderConfigs.STORY_JOB_STATUS_FINISH);
@@ -435,46 +449,59 @@ public class ParseStoryScriptTask implements Runnable {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(HTML_PAGE_KEY, htmlPage);
 
-        String content = (String)ScriptManager.getInstance().run(template.getDetailContentXPath(), map);//处理图片
+        String content = (String) ScriptManager.getInstance().run(template.getDetailContentXPath(), map);// 处理图片
         storyDetail.setContent(content);
-        
-        //更新小说内容
+
+        // 更新小说内容
         storyDetail.setId(parseStoryElement.getStoryDetail().getId());
         storyDetail.setStoryId(parseStoryElement.getStoryDetail().getStoryId());
-        
-        if(storyDetail.getId() == null || storyDetail.getStoryId() == null){
+
+        if (storyDetail.getId() == null || storyDetail.getStoryId() == null) {
             throw new ParseException("解析小说章节明细出错，Id或StoryId为空。");
         }
-        
+
         saveDB(storyDetail);
-        
+
         StoryInfo storyInfo = new StoryInfo();
-        //更新最新章节
+        // 更新最新章节
         storyInfo.setId(spiderStoryJob.getStoryId());
         storyInfo.setLastDetailId(storyDetail.getId());
         storyInfo.setLastDetailTitle(parseStoryElement.getStoryDetail().getTitle());
         storyInfo.setLastUpdateDetail(new Date());
-        
-        if(isStoryFinish(parseStoryElement.getStoryDetail())){
+
+        if (isStoryFinish(parseStoryElement.getStoryDetail())) {
             storyInfo.setStatus(SpiderConfigs.STORY_STATUS_FINISH);
         }
 
         saveDB(storyInfo);
     }
 
-    //判断小说只否已经结束
-    public boolean isStoryFinish(StoryDetail storyDetail){
-        if(storyDetail != null && storyDetail.getTitle() != null){
+    // 判断小说只否已经结束
+    public boolean isStoryFinish(StoryDetail storyDetail) {
+        if (storyDetail != null && storyDetail.getTitle() != null) {
             String title = storyDetail.getTitle();
-            if(title.indexOf("大结局") != -1 
-                    || title.indexOf("完本感言") != -1){
+            if (title.indexOf("大结局") != -1 || title.indexOf("完本感言") != -1) {
                 return true;
             }
         }
 
         return false;
     }
-    
+
+    public static void uploadPic(int storyId, String picUrl) {
+        try {
+            String url = SpiderConfigs.IMG_DOAMIN + SpiderConfigs.IMG_UPLOAD_QUERY;
+            String hex = Hex.str2HexStr(picUrl);
+            hex = hex.replace(" ", "");
+            url = String.format(url, storyId, hex);
+            CustomerHttpClient.simpleGet(url, ClientName.DEFAULT_CLIENT);
+        } catch (ClientProtocolException e) {
+            LOG.error("Upload story pic is error.", e);
+        } catch (IOException e) {
+            LOG.error("Upload story pic is error.", e);
+        }
+    }
+
     public void saveDB(StoryDetail storyDetail) {
         storyDetailService.save(storyDetail);
     }
@@ -483,14 +510,14 @@ public class ParseStoryScriptTask implements Runnable {
         storyInfoService.save(storyInfo);
     }
 
-    public void saveDB(SpiderStoryJob spiderStoryJob){
-        if(spiderStoryJobService.queryByUrl(spiderStoryJob.getUrl()) == null){
+    public void saveDB(SpiderStoryJob spiderStoryJob) {
+        if (spiderStoryJobService.queryByUrl(spiderStoryJob.getUrl()) == null) {
             spiderStoryJobService.insert(spiderStoryJob);
-        }else{
-           LOG.info(spiderStoryJob.getTitle()+ "="+ spiderStoryJob.getUrl() + "已存在");
+        } else {
+            LOG.info(spiderStoryJob.getTitle() + "=" + spiderStoryJob.getUrl() + "已存在");
         }
     }
-    
+
     public void writeFile(CrawlStore crawlStore, DetailTemplate template) {
         String basePath = "D:/stackoverflow/";
         File file = new File(basePath + System.currentTimeMillis() + ".html");
@@ -507,5 +534,9 @@ public class ParseStoryScriptTask implements Runnable {
         }
         pw.flush();
         pw.close();
+    }
+    
+    public static void main(String[] args){
+        uploadPic(7, "687474703A2F2F696D6167652E73756E696E672E636E2F75696D672F6232632F6E6577636174656E74726965732F303037303037343435332D3030303030303030303135343231303335305F315F313630783136302E6A7067");
     }
 }

@@ -1,0 +1,18 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//div[@class='readout']/h1");
+String ret = null;
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.asText();
+}
+
+ret = ret.trim();
+
+if(ret.indexOf("《") != -1){
+	ret = ret.replace("《", "");
+}
+if(ret.indexOf("》") != -1){
+	ret = ret.replace("》", "");
+}
+
+return ret;

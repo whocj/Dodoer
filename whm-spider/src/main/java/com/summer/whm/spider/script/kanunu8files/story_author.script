@@ -1,0 +1,18 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//table[@width='1050'][9]/tbody/tr/td/table[2]/tbody/tr[2]/td");
+String ret = null;
+
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.asText();
+}
+
+ret = ret.trim();
+if(ret.indexOf("作者：") != -1 && ret.indexOf("发布时间") != -1){
+    ret = ret.substring(ret.indexOf("作者：") + 3, ret.indexOf("发布时间"));
+    ret = ret.trim();
+}
+
+return ret;
+
+

@@ -1,0 +1,21 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='xiangxi']");
+String ret = null;
+
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    
+    text = element.getTextContent();
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+    text = text.replace("免费小说网", "");
+    String[] strs = text.split("\n");
+    for(int i = 0; i < strs.length; i++){
+    	if(strs[i].trim().startsWith("书籍简介")){
+			ret = strs[i].trim();
+			continue;
+		}    	
+    }
+    
+    ret = ret.replace("书籍简介：","");
+}
+return ret;

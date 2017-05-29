@@ -1,0 +1,15 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//p[@class='introtxt']");
+String ret = null;
+
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    
+    text = element.asText();
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+    text = text.replace("凤凰小说网", "");
+    text = text.replace("本书简介： ", "");
+    
+    ret = text.trim();
+}
+return ret;

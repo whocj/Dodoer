@@ -1,0 +1,46 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='clearfix dirconone']/li/a");
+String url = htmlPage.getWebResponse().getRequestSettings().getUrl().toString();
+
+if (elementList != null && elementList.size() > 0) {
+    java.util.List list = new java.util.ArrayList();
+    java.util.Map anchorMap = new java.util.HashMap();
+    java.util.List urlIdlist = new java.util.ArrayList();
+    String href = "";
+    Integer urlId = null;
+    for (int i = 0; i < elementList.size(); i++) {
+        com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList
+                .get(i);
+        href = element.getAttribute("href");
+        urlId = Integer.parseInt(href.substring(0, href.length() - 5));
+        anchorMap.put(urlId, new com.summer.whm.spider.model.html.Anchor(url + href, element.getTextContent()));
+    }
+    
+    java.util.Iterator iterator = anchorMap.entrySet().iterator();
+    while(iterator.hasNext()){
+        java.util.Map.Entry entry = (java.util.Map.Entry) iterator.next();
+        urlIdlist.add(entry.getKey());
+    }
+
+    java.util.List list = new java.util.ArrayList();
+
+    java.util.Collections.sort(urlIdlist, new java.util.Comparator() {
+        public int compare(Object o1, Object o2) {
+             Integer a1 = (Integer)o1;
+             Integer a2 = (Integer)o2;
+            
+            if(a1 > a2){
+                return 1;
+            }else {
+                return -1;
+            }
+        }});
+	for(int i = 0; i < urlIdlist.size(); i++){
+		list.add(anchorMap.get(urlIdlist.get(i)));
+	}
+
+    return list;
+    
+}
+
+return null;

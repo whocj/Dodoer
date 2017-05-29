@@ -1,0 +1,34 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//dd[@id='contents']");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+	java.util.List tempElementList = null;
+	
+	element = (com.gargoylesoftware.htmlunit.html.HtmlElement)elementList.get(0);
+    tempElementList = element.getByXPath("//a");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    text = element.asText();
+    
+    text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+	text = text.replaceAll("顶点小说网", "");
+	text = text.replaceAll("顶点小说", "");
+    String[] strs = text.split("\n");
+	text = "";
+	for(int i = 0; i < strs.length; i++){
+		if(!"".equals(strs[i].trim())){
+
+		text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i];
+
+		}
+	}
+text = text + "<br/><br/>";
+}
+return text;

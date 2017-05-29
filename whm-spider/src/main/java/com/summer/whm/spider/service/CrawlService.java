@@ -15,6 +15,7 @@ import com.summer.whm.entiry.spider.CrawTemplate;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
 import com.summer.whm.entiry.spider.SpiderStoryTemplate;
 import com.summer.whm.entiry.user.User;
+import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.post.PostService;
 import com.summer.whm.service.post.PostTextService;
 import com.summer.whm.service.post.TopicService;
@@ -65,6 +66,9 @@ public class CrawlService {
 
     @Autowired
     private SpiderStoryTemplateService spiderStoryTemplateService;
+    
+    @Autowired
+    private CategoryService categoryService;
 
     private static final Map<String, Crawl> crawlMap = new HashMap<String, Crawl>();
 
@@ -107,7 +111,7 @@ public class CrawlService {
         spiderContext.setDetailTemplate(crawTemplate.getDetailTemplate());
 
         Crawl crawl = new Crawl(spiderContext, topicService, postService, postTextService, crawInfoService,
-                searchPostService);
+                searchPostService, categoryService);
         crawl.start();
         crawTemplate.setStatus(SpiderConfigs.STATUS_RUN);
         crawTemplateService.update(crawTemplate);
@@ -142,7 +146,7 @@ public class CrawlService {
         spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
 
         Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService, storyPartService,
-                storyDetailService, spiderStoryJobService);
+                storyDetailService, spiderStoryJobService, categoryService);
         crawl.startStory();
 
         SpiderStoryJob tempSpiderStoryJob = new SpiderStoryJob();
@@ -199,7 +203,7 @@ public class CrawlService {
             spiderContext.setSpiderStoryTemplate(spiderStoryTemplate);
 
             Crawl crawl = new Crawl(spiderContext, crawInfoService, searchPostService, storyInfoService,
-                    storyPartService, storyDetailService, spiderStoryJobService);
+                    storyPartService, storyDetailService, spiderStoryJobService, categoryService);
             crawl.startStory();
 
             try {

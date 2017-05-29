@@ -11,9 +11,9 @@ public class TestMainURL {
      * @since [产品/模块版本](可选)
      */
     public static void main(String[] args) {
-        String url = "http://www.09xs.com/modules/article/articlelist.php?fullflag=1&page=7&page=";
-        for (int i = 1; i < 55; i++) {
-            System.out.println("\"" + (url + i) + "\",");
+        String url = "http://www.luoqiu.com/top/allvisit_";
+        for (int i = 4; i < 900; i++) {
+            System.out.println("\"" + (url + i) + ".html\",");
         }
     }
 

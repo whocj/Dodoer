@@ -2,7 +2,7 @@ package com.summer.whm.spider;
 
 
 public class SpiderConfigs {
-    public final static int URL_QUEUE_SIZE = 5000;// 阻塞队列大小
+    public final static int URL_QUEUE_SIZE = 10000;// 阻塞队列大小
     public final static int CRAWL_THREAD_SIZE = 1;// 抓取线程个数
     public final static int PARSE_THREAD_SIZE = 1;// 解析线程个数
     public final static int WEBCLIENT_COUNT = 100;// 解析线程个数
@@ -87,4 +87,12 @@ public class SpiderConfigs {
     
     //最大30天未更新的小说，算完结
     public static final int MAX_DAY_FINISH = 30;
+    
+    public static final String TRUE = "1";
+    
+    public static final String FALSE = "0";
+    
+    public static String IMG_DOAMIN = "http://www.dodoer.com";
+    
+    public static String IMG_UPLOAD_QUERY = "/spider/story/pic/download.html?id=%s&picPath=%s";
 }

@@ -43,6 +43,32 @@ public class TestSubstring {
         a = "http://www.wenxuemm.com/book/38/38629/index.html";
         id = a.substring(0, a.lastIndexOf("/") + 1);
         System.out.println(id.trim());
+        
+        a = "海边的卡夫卡在线阅读，村上春树《海边的卡夫卡》";
+        if(a.indexOf("《") != -1 && a.indexOf("》") != -1){
+            System.out.println(a.substring(a.indexOf("《") + 1, a.indexOf("》")));
+        }
+        
+        a = "来源：　作者：匪我思存 发布时间：2011-04-16";
+        if(a.indexOf("作者：") != -1 && a.indexOf("发布时间") != -1){
+            System.out.println(a.substring(a.indexOf("作者：") + 3, a.indexOf("发布时间")));
+        }
+        
+        a = "《亿万总裁小小妻》";
+        if(a.indexOf("《") != -1 && a.indexOf("》") != -1){
+            System.out.println(a.substring(a.indexOf("《") + 1, a.indexOf("》")));
+        }
+        a = "《斜阳若影》与《净水红莲》时隔一千年，人物性格时代背景都差别很大，所以不用将两文相互联系。至于为什么邹敬阳和黄翎羽死亡时间仅差一年，但穿越到的时空却间隔了一千年的时间，答案是这样的，所谓时空是独立的，那边世界的时间当然不用按着这边世界的时间来算为您提供百折而后弯的小黄（净水红莲）无弹窗广告免费全文阅读，也可以txt全集下载到本地阅读。";
+        System.out.println(a.substring(a.indexOf("为您提供")).indexOf("无弹窗广告免费全文阅读") != -1);
+     
+        a = "http://www.klxsw.com/files/article/html/36/36848/";
+        
+        int index = a.indexOf("/html/");
+        if(index != -1){
+            index = index + 6;
+        }
+        System.out.println(a.substring(index));
+        
     }
 
 }

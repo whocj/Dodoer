@@ -27,7 +27,7 @@ public class RunScript {
     public static void main(String[] args) throws FailingHttpStatusCodeException, Exception {
 
         WebClientPool webClientPool = new WebClientPool();
-        InputStream is = RunScript.class.getResourceAsStream("story_detail_anchor.script");
+        InputStream is = RunScript.class.getResourceAsStream("story_author.script");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String temp = null;
         StringBuffer sb = new StringBuffer();
@@ -36,7 +36,7 @@ public class RunScript {
         }
         System.out.println(sb.toString());
         HtmlPage htmlPage = null;
-        htmlPage = webClientPool.borrowWebClient().getPage("http://www.kanunu8.com/wuxia/201102/1606.html");
+        htmlPage = webClientPool.borrowWebClient().getPage("http://www.kanunu8.com/book3/8257/");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("htmlPage", htmlPage);
         Object ret = ScriptManager.getInstance().run(sb.toString(), map);

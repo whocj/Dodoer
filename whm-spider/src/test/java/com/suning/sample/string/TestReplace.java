@@ -20,6 +20,11 @@ public class TestReplace {
         System.out.println("作  者：".replace(" ", ""));
         System.out.println("作   者:".replace(" ", ""));
         
+        a = "袖|袖|言|情|小|说想到这里，他对小小有点点歉疚，如果不是遇上他，她也许还过着自由自在的相亲生活，虽然有点无聊，但更多的还是自由和幸福！";
+        System.out.println(a.replace("袖|袖|言|情|小|说", ""));
+        
+        a = "    ！PrintChapterError(1111";
+        System.out.println(a.replace("！PrintChapterError(", ""));
         
     }
 

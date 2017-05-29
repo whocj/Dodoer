@@ -1,0 +1,28 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//td[@width='820']/p");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    text = element.asText();
+    
+    text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+	text = text.replaceAll("百度一下", "");
+	text = text.replaceAll("努努书坊", "");
+	text = text.replace("[]", "");
+    String[] strs = text.split("\n");
+	text = "";
+	boolean f = true;
+	for(int i = 0; i < strs.length; i++){
+		if(!"".equals(strs[i].trim())){
+			if(f){
+				text = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+				f = false;
+			}else{
+				text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+			}
+		}
+	}
+	
+	text = text + "<br/><br/>";
+}
+return text;

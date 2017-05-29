@@ -1,0 +1,10 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='b_img']/a/img");
+String ret = null;
+String url = "http://www.chuanyuemi.com";
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    ret = element.getAttribute("src");
+}
+ret = url + ret;
+return ret;

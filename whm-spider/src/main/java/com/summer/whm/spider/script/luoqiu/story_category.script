@@ -1,0 +1,36 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map
+        .get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='head']/h1");
+java.lang.Integer ret = null; 
+
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList.get(0);
+    String categoryName = element.asText();
+    categoryName = categoryName.split(">")[1].replace("-", "").trim();
+    if("玄幻魔法".equals(categoryName)){
+    	ret = 30;
+    }else if("武侠修真".equals(categoryName)){
+    	ret = 29;
+    }else if("历史军事".equals(categoryName)){
+    	ret = 27;
+    }else if("都市言情".equals(categoryName)){
+    	ret = 28;
+    }else if("游戏竞技".equals(categoryName)){
+    	ret = 26;
+    }else if("科幻小说 ".equals(categoryName)){
+    	ret = 25;
+    }else if("恐怖灵异 ".equals(categoryName)){
+    	ret = 25;
+    }else if("商战职场".equals(categoryName)){
+    	ret = 28;
+    }else if("女生小说".equals(categoryName)){
+    	ret = 28;
+     }else if("文学美文".equals(categoryName)){
+    	ret = 40;
+    }else if("同人小说 ".equals(categoryName)){
+    	ret = 41;
+    }
+    return ret;
+}
+
+return ret;

@@ -1,0 +1,60 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='content']");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+
+	java.util.List tempElementList = null;
+    tempElementList = element.getByXPath("//a");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+
+	tempElementList = element.getByXPath("//div");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+
+    text = element.asText();
+    text = text.replace(" ", "");
+    text = text.replace("别忘记了收藏本小说章节，方便下次访问", "");
+    text = text.replace("如果喜欢本小说，请推荐给您的朋友，记住我们的网址", "");
+    text = text.replace("不仅为您提供在线免费阅读", "");
+    text = text.replace("还可以txt免费下载到本地阅读", "");
+    text = text.replace("好看的小说", "");
+    text = text.replace("百度搜索", "");
+    text = text.replace("[]", "");
+    text = text.replace("()", "");
+    text = text.replace("【】", "");
+    text = text.replace("ｗｗｗ．ｊｌｇｃｙｙ．ｃｏｍ", "");
+    text = text.replace("www。jlgcyy。com", "");
+    
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+
+    String[] strs = text.split("\n");
+	text = "";
+	String tempStr = "";
+	for(int i = 0; i < strs.length; i++){
+		tempStr = strs[i].trim();
+		if(!"".equals(tempStr) && tempStr.length() > 1){
+			if(tempStr.indexOf("为您提供") != -1){
+				if(tempStr.substring(tempStr.indexOf("为您提供")).indexOf("无弹窗广告免费全文阅读") != -1){
+					tempStr = tempStr.substring(1, tempStr.indexOf("为您提供")) + "。";
+				}
+			}
+			
+		
+			text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + tempStr;
+		}
+	}
+	text = text + "<br/><br/>";
+}
+return text;
