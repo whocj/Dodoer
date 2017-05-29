@@ -55,12 +55,14 @@ public class IndexController extends BaseController {
         List<StoryInfo> hotList = storyInfoService.queryTopNByHot(null, 4);
         model.put("hotList", hotList);
         
+        
         PageModel<Notice> noticePage = noticeService.list(1, 4);
         noticePage.insertQuery("siteId", Constants.SITE_ID_STORY);
         model.put("noticeList", noticePage.getContent());
         
         //最新更新的
         List<StoryInfo> lastUpdateStoryList = storyInfoService.queryStoryInfoOrderlastUpdateTop(null, TOP_20);
+        
         //最新上架的
         List<StoryInfo> newStoryList = storyInfoService.queryStoryInfoOrderCreateTimeTop(null, TOP_20);
         

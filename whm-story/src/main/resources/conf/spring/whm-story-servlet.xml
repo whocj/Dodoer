@@ -130,12 +130,12 @@
 				<entry key="env" value="prod" />
 				<entry key="domain" value="http://www.dodoer.com" />
 				<entry key="mobileDomain" value="http://m.dodoer.com" />
-				<entry key="siteTitle" value="多多儿小说网(Dodoer.com)-无广告,无弹窗小说,全场免费小说!" />
-				<entry key="siteTitleMobile" value="多多儿小说网手机版(Dodoer.com)-无广告,无弹窗小说,全场免费小说!" />
-				<entry key="siteKeywords" value="多多儿小说网,无广告小说,无弹窗小说,免费小说,全本小说,完结小说,在线阅读,Txt小说下载,好看的小说,武侠小说,女生小说,玄幻小说,言情小说" />
-				<entry key="siteDescription" value="多多儿小说网提供全本小说在线阅读,Txt小说下载,本站收录多本经典好看的书,一切尽在多多儿小说网。" />
-				<entry key="siteKeys" value="多多儿小说网,无广告小说,无弹窗小说,免费小说,全本小说,完结小说,在线阅读,Txt小说下载,好看的小说,武侠小说,女生小说,玄幻小说,言情小说" />
-				<entry key="siteDesc" value="多多儿小说网提供全本小说在线阅读,Txt小说下载,本站收录多本经典好看的书,一切尽在多多儿小说网。" />
+				<entry key="siteTitle" value="多多儿小说网(Dodoer.com)-无广告,无弹窗小说,免费小说!" />
+				<entry key="siteTitleMobile" value="多多儿小说网手机版(Dodoer.com)-无广告,无弹窗小说,免费小说!" />
+				<entry key="siteKeywords" value="多多儿小说网,无广告小说,无弹窗小说,免费小说,全本小说,完结小说,在线阅读,小说TXT下载,好看的小说,武侠小说,女生小说,玄幻小说,言情小说,最新章节" />
+				<entry key="siteDescription" value="多多儿小说网提供全本小说在线阅读,小说TXT下载,本站收录多本经典中外图书,一切尽在多多儿小说网。" />
+				<entry key="siteKeys" value="多多儿小说网,无广告小说,无弹窗小说,免费小说,全本小说,完结小说,在线阅读,小说TXT下载,好看的小说,武侠小说,女生小说,玄幻小说,言情小说,最新章节" />
+				<entry key="siteDesc" value="多多儿小说网提供全本小说在线阅读,小说TXT下载,本站收录多本经典中外图书,一切尽在多多儿小说网。" />
 			</map>
 		</property>
 		<property name="defaultEncoding" value="utf-8" />
