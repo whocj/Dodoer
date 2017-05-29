@@ -19,10 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.summer.whm.WebConstants;
 import com.summer.whm.entiry.user.User;
 import com.summer.whm.plugin.ApplicationContextUtil;
 import com.summer.whm.web.common.session.CookieRemberManager;
+import com.summer.whm.web.common.utils.WebConstants;
 
 public class SecurityFilter implements Filter {
 
