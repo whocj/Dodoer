@@ -1,5 +1,6 @@
 package com.summer.whm.web.controller.story;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.summer.whm.common.model.PageModel;
 import com.summer.whm.entiry.category.Category;
@@ -21,6 +23,8 @@ import com.summer.whm.entiry.story.StoryInfo;
 import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.stroy.StoryDetailService;
 import com.summer.whm.service.stroy.StoryInfoService;
+import com.summer.whm.spider.utils.img.Image;
+import com.summer.whm.spider.utils.img.ImageService;
 import com.summer.whm.web.common.utils.Constants;
 import com.summer.whm.web.common.utils.WebConstants;
 import com.summer.whm.web.controller.BaseController;
@@ -32,21 +36,21 @@ public class StoryInfoController extends BaseController {
 
     @Autowired
     private StoryInfoService storyInfoService;
-    
+
     @Autowired
     private StoryDetailService storyDetailService;
 
     @Autowired
     private CategoryService categoryService;
-    
+
     @RequestMapping("/list")
-    public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage, 
+    public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage,
             @RequestParam(defaultValue = "") String title, ModelMap model) {
         PageModel<StoryInfo> page = new PageModel<StoryInfo>(currentPage, WebConstants.PAGE_SIZE);
-        if(StringUtils.isNotEmpty(title)){
+        if (StringUtils.isNotEmpty(title)) {
             page.insertQuery("title", "%" + title + "%");
         }
-        
+
         storyInfoService.list(page);
         model.put("page", page);
         model.put("title", title);
@@ -60,15 +64,14 @@ public class StoryInfoController extends BaseController {
         } else {
             storyInfoService.update(storyInfo);
         }
-        
+
         return "redirect:list.htm";
     }
-    
+
     @RequestMapping("/detail")
-    public String detail(HttpServletRequest request, 
-            @RequestParam(defaultValue = "0") int storyId,
+    public String detail(HttpServletRequest request, @RequestParam(defaultValue = "0") int storyId,
             @RequestParam(defaultValue = "") String title, ModelMap model) {
-        List<StoryDetail>  detailList  = storyDetailService.queryByStoryId(storyId);
+        List<StoryDetail> detailList = storyDetailService.queryByStoryId(storyId);
         model.put("detailList", detailList);
         return "story/info/detailList.ftl";
     }
@@ -78,7 +81,7 @@ public class StoryInfoController extends BaseController {
         StoryInfo storyInfo = storyInfoService.loadById(id + "");
         List<Category> categoryList = categoryService.queryBySite(Constants.SITE_ID_STORY);
         model.put("categoryList", categoryList);
-        
+
         model.put("storyInfo", storyInfo);
         LOG.info("edit StoryInfo id={}", id);
         return "story/info/edit.ftl";
@@ -106,6 +109,36 @@ public class StoryInfoController extends BaseController {
             storyInfoService.insert(storyInfo);
         } else {
             storyInfoService.update(storyInfo);
+        }
+
+        return "redirect:list.htm";
+    }
+
+    @RequestMapping("/toPic")
+    public String toPic(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam(defaultValue = "0") int storyId, ModelMap model) {
+        model.put("storyId", storyId);
+        return "story/info/upload_pic.ftl";
+    }
+
+    @RequestMapping("/submitUploadPic")
+    public String submitUploadPic(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam MultipartFile multipartFile, ModelMap model) throws IOException {
+        String filename = multipartFile.getOriginalFilename();
+        String storyId = request.getParameter("storyId");
+        String picPath = request.getParameter("picPath");
+        Image image = null;
+        if (StringUtils.isNotEmpty(filename)) {
+            image = ImageService.downloadImgByInputStream(multipartFile.getInputStream(), filename);
+        } else if (StringUtils.isNotEmpty(picPath)) {
+            image = ImageService.downloadImgByUrl(picPath);
+        }
+
+        if (image != null) {
+            StoryInfo storyInfo = new StoryInfo();
+            storyInfo.setId(Integer.parseInt(storyId));
+            storyInfo.setPicPath(image.getUrl());
+            storyInfoService.save(storyInfo);
         }
 
         return "redirect:list.htm";

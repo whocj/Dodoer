@@ -51,11 +51,18 @@ public class SpiderStoryJobController extends BaseController {
 
     @RequestMapping("/list")
     public String list(HttpServletRequest request, @RequestParam(defaultValue = "1") int currentPage,
-            @RequestParam(defaultValue = "") String title, ModelMap model) {
+            @RequestParam(defaultValue = "") String title, @RequestParam(defaultValue = "0") int templateId, ModelMap model) {
         LOG.info("list SpiderStoryJob currentPage={}", currentPage);
-        
         PageModel<SpiderStoryJob> page = new PageModel<SpiderStoryJob>(currentPage, WebConstants.PAGE_SIZE);
+        PageModel<SpiderStoryTemplate> templatePage = spiderStoryTemplateService.list(1, WebConstants.PAGE_SIZE
+                * WebConstants.PAGE_SIZE);
+        model.put("templateList", templatePage.getContent());
+        
+        if(templateId > 0){
+            page.insertQuery("templateId", templateId);
+        }
         page.insertQuery("title", "%" + title + "%");
+        
         spiderStoryJobService.list(page);
         
         model.put("page", page);
