@@ -54,10 +54,10 @@
 						<li>
 						<div style="position: relative;top:9px;">
 						<script type="text/javascript">(function(){document.write(unescape('%3Cdiv id="bdcs"%3E%3C/div%3E'));var bdcs = document.createElement('script');bdcs.type = 'text/javascript';bdcs.async = true;bdcs.src = 'http://znsv.baidu.com/customer_search/api/js?sid=489190037201838139' + '&plate_url=' + encodeURIComponent(window.location.href) + '&t=' + Math.ceil(new Date()/3600000);var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(bdcs, s);})();</script>
-							<form action="${base }/search.html" name="jvForm" method="get" submit="search()">
-								<input type="text" name="keyword" id="searchText"  placeholder="输入关键词"
-								style="width:300px;height:26px;" value="${keyword }">
-							</form>
+<!-- 							<form action="${base }/search.html" name="jvForm" method="get" submit="search()"> --!>
+<!-- 								<input type="text" name="keyword" id="searchText"  placeholder="输入关键词" -->
+<!-- 								style="width:300px;height:26px;" value="${keyword }"> --!>
+<!-- 							</form> -->
 						</div>
 						</li>
 						</#if>
