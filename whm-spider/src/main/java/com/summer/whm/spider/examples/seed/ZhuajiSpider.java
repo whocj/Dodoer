@@ -26,7 +26,12 @@ public class ZhuajiSpider {
      */
     public static void main(String[] args) throws Exception {
 
-        String[] urls = new String[] { "http://www.zhuaji.org/wanben.html" };
+        String[] urls = new String[] { "http://www.zhuaji.org/list5-1.html",
+                "http://www.zhuaji.org/list5-2.html",
+                "http://www.zhuaji.org/list5-3.html",
+                "http://www.zhuaji.org/list5-4.html",
+                "http://www.zhuaji.org/list5-5.html",
+                "http://www.zhuaji.org/list5-6.html"};
         List<StorySeed> list = new ArrayList<StorySeed>();
         for (String url : urls) {
             List<StorySeed> storySeedList = buildStorySeed(url);
@@ -43,7 +48,7 @@ public class ZhuajiSpider {
 
             WebClientPool webClientPool = new WebClientPool();
             final HtmlPage htmlpage = webClientPool.borrowWebClient().getPage(url);
-            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//div[@id='comments']/div/ul/li/a");
+            List<HtmlAnchor> anchorList = (List<HtmlAnchor>) htmlpage.getByXPath("//div[@id='sitebox']/dl/dd[1]/h3/a");
             List<StorySeed> seedList = new ArrayList<StorySeed>();
             if (anchorList != null && anchorList.size() > 0) {
                 String href = "";
@@ -54,15 +59,16 @@ public class ZhuajiSpider {
                     href = htmlAnchor.getAttribute("href");
                     if (href != null) {
                         Integer categoryId = null;
-                        try{
-                            Thread.sleep(2000);
-                            HtmlPage page =  webClientPool.borrowWebClient().getPage(href);
-                             categoryId = getCategoryId(page);
-                        }catch(Exception e){
+                        try {
+                            //Thread.sleep(2000);
+                            //HtmlPage page = webClientPool.borrowWebClient().getPage(href);
+                            categoryId = 26;
+                        } catch (Exception e) {
                         }
-                        
-                        if(categoryId != null){
-                            seedList.add(new StorySeed(htmlAnchor.getTextContent(), categoryId + "",  "5", href, "* 1 2 * * * *"));
+
+                        if (categoryId != null) {
+                            seedList.add(new StorySeed(htmlAnchor.getTextContent(), categoryId + "", "5", href,
+                                    "* 1 2 * * * *"));
                         }
                     }
                 }
@@ -81,30 +87,31 @@ public class ZhuajiSpider {
         }
         return null;
     }
-    
-    public static Integer getCategoryId(HtmlPage page){
+
+    public static Integer getCategoryId(HtmlPage page) {
         java.util.List elementList = (java.util.List) page.getByXPath("//div[@class='path']/a");
-        java.lang.Integer ret = null; 
+        java.lang.Integer ret = null;
         if (elementList != null && elementList.size() > 1) {
-            com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList.get(1);
+            com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList
+                    .get(1);
             String categoryName = element.asText();
             categoryName = categoryName.trim();
-            
-            if("玄幻小说".equals(categoryName)){
+
+            if ("玄幻小说".equals(categoryName)) {
                 ret = 30;
-            }else if("修真小说".equals(categoryName)){
+            } else if ("修真小说".equals(categoryName)) {
                 ret = 29;
-            }else if("都市小说".equals(categoryName)){
+            } else if ("都市小说".equals(categoryName)) {
                 ret = 28;
-            }else if("穿越小说".equals(categoryName)){
+            } else if ("穿越小说".equals(categoryName)) {
                 ret = 32;
-            }else if("网游小说".equals(categoryName)){
+            } else if ("网游小说".equals(categoryName)) {
                 ret = 26;
-            }else if("科幻小说".equals(categoryName)){
+            } else if ("科幻小说".equals(categoryName)) {
                 ret = 25;
-            }else if("悬疑小说".equals(categoryName)){
+            } else if ("悬疑小说".equals(categoryName)) {
                 ret = 32;
-            }else if("言情小说".equals(categoryName)){
+            } else if ("言情小说".equals(categoryName)) {
                 ret = 28;
             }
             return ret;

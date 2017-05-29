@@ -2,16 +2,21 @@ package com.summer.whm.spider.crawl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.ProxyConfig;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebRequestSettings;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.summer.whm.common.configs.GlobalConfigHolder;
 import com.summer.whm.entiry.spider.CrawInfo;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
+import com.summer.whm.entiry.spider.SpiderStoryTemplate;
 import com.summer.whm.entiry.story.StoryDetail;
 import com.summer.whm.spider.SpiderConfigs;
 import com.summer.whm.spider.SpiderContext;
@@ -78,25 +83,44 @@ public class CrawlTask implements Runnable {
                         parseStoryQueue.put(new ParseStoryElement(true));
                         return;
                     }
-
+                    
+                    SpiderStoryTemplate spiderStoryTemplate = spiderContext.getSpiderStoryTemplate();
+                    
                     if (status == SpiderContext.THREAD_STATUS_PAUSE) {
                         obj.wait();
                     }
-
-                    if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
-                        if (crawlElement.isAgain() || isCraw(crawlElement.getUrl())) {
-                            insertDB(crawlElement.getUrl());
-                        } else {
-                            continue;
+                    
+                    if(spiderStoryTemplate != null){
+                        if(SpiderConfigs.TRUE.equals(spiderStoryTemplate.getCheckCrawl())){
+                            if (CrawlType.Detail.equals(crawlElement.getType()) || CrawlType.StoryDetail.equals(crawlElement.getType())) {
+                                if (crawlElement.isAgain() || isCraw(crawlElement.getUrl())) {
+                                    insertDB(crawlElement.getUrl());
+                                } else {
+                                    continue;
+                                }
+                            }
                         }
                     }
+                    
                     Thread.sleep(GlobalConfigHolder.SPIDER_SLEEP_TIME);// 休息1秒钟
                     if(count == 100){
                         count = 0;
                         Thread.sleep(GlobalConfigHolder.SPIDER_CRAWL_SLEEP_TIME);// 休息5分钟
                     }
                     count++;
-                    htmlPage = crawl(crawlElement.getUrl());
+                    
+                    if(spiderStoryTemplate != null){
+                        if(StringUtils.isNotEmpty(spiderStoryTemplate.getReqeustEncode())){
+                            WebRequestSettings webRequest = new WebRequestSettings(new URL(crawlElement.getUrl()));
+                            webRequest.setCharset(spiderStoryTemplate.getReqeustEncode());
+                            htmlPage = crawl(webRequest);
+                        }else{
+                            htmlPage = crawl(crawlElement.getUrl());
+                        }
+                    }else{
+                        htmlPage = crawl(crawlElement.getUrl());
+                    }
+                    
                     if (htmlPage != null) {
                         if (CrawlType.Detail.equals(crawlElement.getType())) {
                             parseDetailQueue.put(new ParseDetailElement(htmlPage));
@@ -153,6 +177,24 @@ public class CrawlTask implements Runnable {
         obj.notify();
     }
 
+    public HtmlPage crawl(WebRequestSettings urlRequest) {
+        try {
+            HtmlPage htmlPage = webClientPool.borrowWebClient().getPage(urlRequest);
+            System.out.println("URL=" + urlRequest.getUrl());
+            return htmlPage;
+        } catch (FailingHttpStatusCodeException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
     public HtmlPage crawl(String url) {
         try {
             HtmlPage htmlPage = webClientPool.borrowWebClient().getPage(url);

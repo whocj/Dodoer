@@ -27,9 +27,9 @@ public class WebClientPool {
                 
 //                if (FileUtils.isWindow()) {
 //                    if(systemConfig != null && GlobalSystemConfig.EVN_NAME_DEV.equals(systemConfig.getEnvName())){
-//                        ProxyConfig proxyConfig = new ProxyConfig();
-//                        proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
-//                        webClient.setProxyConfig(proxyConfig);
+                        ProxyConfig proxyConfig = new ProxyConfig();
+                        proxyConfig.setProxyAutoConfigUrl("http://it.cnsuning.com/zongbu.pac");
+                        webClient.setProxyConfig(proxyConfig);
 //                    }
 //                }
 
@@ -39,8 +39,8 @@ public class WebClientPool {
                 webClient.setJavaScriptEnabled(false);
                 webClient.setActiveXNative(false);
                 webClient.setCssEnabled(false);
-                webClient.setTimeout(GlobalConfigHolder.SPIDER_CLIENT_TIMEOUT);
-
+                webClient.setTimeout(GlobalConfigHolder.SPIDER_CLIENT_TIMEOUT * 2);
+                
                 webClient.setIncorrectnessListener(new IncorrectnessListener() {
                     public void notify(String message, Object origin) {
                         // do nothing.

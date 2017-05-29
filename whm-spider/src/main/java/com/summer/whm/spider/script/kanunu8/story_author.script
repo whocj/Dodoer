@@ -1,2 +1,18 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//table[@width='880'][9]/tbody/tr[2]/td");
+String ret = null;
 
-return "金庸";
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.asText();
+}
+ret = ret.trim();
+String[] strs = ret.split(" ");
+
+if(strs.length == 2){
+ret = strs[0].replace("作者：", "");
+}
+
+return ret;
+
+

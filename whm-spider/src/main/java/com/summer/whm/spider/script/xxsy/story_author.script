@@ -1,0 +1,14 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//div[@id='detail_title']/h1/span");
+String ret = null;
+
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.asText();
+}
+String[] strs = ret.split("文 /");
+if(strs.length == 2){
+	ret = strs[1];
+}
+ret = ret.trim();
+return ret;

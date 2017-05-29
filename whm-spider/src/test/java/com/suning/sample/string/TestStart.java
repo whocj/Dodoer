@@ -13,6 +13,8 @@ public class TestStart {
     public static void main(String[] args) {
         System.out.println("/read/24/".startsWith("/read/"));
         System.out.println("/read/24/".equals(""));
+        String a = "**作者：书海沧生所";
+        System.out.println(a.startsWith("**作者："));
     }
 
 }

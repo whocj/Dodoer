@@ -4,14 +4,33 @@ java.util.Map categoryMap = (java.util.Map) map.get("siteCategory");
 java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='crumbs']");
 if (elementList != null && elementList.size() > 0) {
     com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList.get(0);
-    DomNode categoryNode = element.getChildNodes().get(2);
-    String categoryName = categoryNode.asText();
-    categoryName = categoryName.replace("»", "");
-    categoryName = categoryName.trim();
-    
-    if(categoryMap.get(categoryName) != null){
-        return categoryMap.get(categoryName);
+	String a = element.asText();
+	a = a.replace(" ", "");
+    String[] strs =  a.split("»");
+    String categoryName = strs[1];
+    if("玄幻小说".equals(categoryName)){
+    	ret = 30;
+    }else if("修真小说".equals(categoryName)){
+    	ret = 29;
+    }else if("武侠小说".equals(categoryName)){
+    	ret = 29;
+    }else if("历史小说".equals(categoryName)){
+    	ret = 27;
+    }else if("都市小说".equals(categoryName)){
+    	ret = 28;
+    }else if("网游注说".equals(categoryName)){
+    	ret = 26;
+    }else if("科幻小说".equals(categoryName)){
+    	ret = 25;
+    }else if("言情小说".equals(categoryName)){
+    	ret = 28;
+    }else if("穿越小说".equals(categoryName)){
+    	ret = 28;
+    }else if("校园小说".equals(categoryName)){
+    	ret = 31;
     }
+    return ret;
+       
 }
 
 return null;

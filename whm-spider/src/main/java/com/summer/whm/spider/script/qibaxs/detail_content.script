@@ -1,0 +1,50 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='content']");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+
+	java.util.List tempElementList = null;
+    tempElementList = element.getByXPath("//a");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+
+    text = element.asText();
+    text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "wWw.BxWx8.Org", "");
+    text = com.summer.whm.spider.utils.StringUtils.replaceAllIgnoreCase(text, "bxwx8.Org", "");
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+    text = text.replace("笔下文学", "");
+    text = text.replace("好看的小说", "");
+    text = text.replace("百度搜索", "");
+    text = text.replace("手机用户请浏览阅读，更优质的阅读体验。", "");
+    text = text.replace("天才壹秒記住", "");
+    text = text.replace("為您提供精彩小說閱讀。", "");
+    text = text.replace(" ", "");
+    text = text.replace("[]", "");
+    text = text.replace("()", "");
+    text = text.replace("【】", "");
+    text = text.replace("『qu】", "");
+    text = text.replace("『』，", "");
+    text = text.replace("『』", "");
+
+    String[] strs = text.split("\n");
+	text = "";
+	boolean f = true;
+	for(int i = 0; i < strs.length; i++){
+		if(!"".equals(strs[i].trim()) && strs[i].trim().length() > 1){
+			if(f){
+				text = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+				f = false;
+			}else{
+				text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+			}
+		}
+	}
+	text = text + "<br/><br/>";
+}
+return text;

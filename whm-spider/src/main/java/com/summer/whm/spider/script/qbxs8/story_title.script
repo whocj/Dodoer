@@ -1,0 +1,15 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//div[@class='jianjie']/h1");
+String ret = null;
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.asText();
+}
+
+ret = ret.replace("全集在线阅读","");
+ret = ret.replace("最新章节合集","");
+ret = ret.replace("（大结局）","");
+ret = ret.replace("（完结）","");
+ret = ret.trim();
+return ret;
+http://www.qbxs8.net/xiaoyuan.asp?page=1

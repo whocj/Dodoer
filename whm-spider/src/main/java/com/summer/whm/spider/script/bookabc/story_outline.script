@@ -1,0 +1,14 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//p[@class='intro']");
+String ret = null;
+
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    
+    text = element.asText();
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+    text = text.replace("【作品简介】：", "");
+    
+    ret = text.trim();
+}
+return ret;

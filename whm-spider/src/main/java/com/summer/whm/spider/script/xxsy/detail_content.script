@@ -1,0 +1,50 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@id='zjcontentdiv']");
+String text = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+
+	java.util.List tempElementList = null;
+    tempElementList = element.getByXPath("//a");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+    tempElementList = element.getByXPath("//p[@style='color:#00974B;']");
+    int len = 0;
+    if(tempElementList != null && tempElementList.size() > 0){
+        len = tempElementList.size();
+        for(int i = 0; i < len; i++){
+            ((com.gargoylesoftware.htmlunit.html.HtmlElement)tempElementList.get(i)).remove();
+        }
+    }
+    
+
+    text = element.asText();
+	text = com.summer.whm.spider.utils.URLMatcher.replaceURL(text, "");
+    text = text.replace("本书由潇湘书院首发，请勿转载！", "");
+    text = text.replace("潇湘书院", "");
+    text = text.replace(" ", "");
+    text = text.replace("[]", "");
+    text = text.replace("()", "");
+    text = text.replace("【】", "");
+
+    String[] strs = text.split("\n");
+	text = "";
+	boolean f = true;
+	for(int i = 0; i < strs.length; i++){
+		if(!"".equals(strs[i].trim()) && strs[i].trim().length() > 1){
+			if(f){
+				text = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+				f = false;
+			}else{
+				text = text + "<br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;" + strs[i].trim();
+			}
+		}
+	}
+	text = text + "<br/><br/>";
+}
+return text;

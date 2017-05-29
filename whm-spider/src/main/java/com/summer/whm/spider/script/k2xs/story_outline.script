@@ -1,0 +1,11 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//p[@class='Text']");
+String ret = null;
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = elementList.get(0);
+    ret = element.asText();
+}
+
+ret = com.summer.whm.spider.utils.URLMatcher.replaceURL(ret, "");
+
+return ret;

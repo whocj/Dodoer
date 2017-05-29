@@ -1,9 +1,15 @@
 package com.summer.whm.spider.crawl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.summer.whm.entiry.category.Category;
 import com.summer.whm.entiry.spider.DetailTemplate;
 import com.summer.whm.entiry.spider.ListTemplate;
 import com.summer.whm.entiry.spider.SpiderStoryJob;
 import com.summer.whm.entiry.spider.SpiderStoryTemplate;
+import com.summer.whm.service.category.CategoryService;
 import com.summer.whm.service.post.PostService;
 import com.summer.whm.service.post.PostTextService;
 import com.summer.whm.service.post.TopicService;
@@ -41,6 +47,8 @@ public class Crawl {
     private StoryDetailService storyDetailService;
     
     private SpiderStoryJobService spiderStoryJobService;
+    
+    private CategoryService categoryService;
 
     public Crawl() {
 
@@ -54,7 +62,7 @@ public class Crawl {
     }
 
     public Crawl(SpiderContext spiderContext, CrawInfoService crawInfoService, SearchPostService searchPostService,
-            StoryInfoService storyInfoService, StoryPartService storyPartService, StoryDetailService storyDetailService, SpiderStoryJobService spiderStoryJobService) {
+            StoryInfoService storyInfoService, StoryPartService storyPartService, StoryDetailService storyDetailService, SpiderStoryJobService spiderStoryJobService,CategoryService categoryService) {
         super();
         this.spiderContext = spiderContext;
         this.crawInfoService = crawInfoService;
@@ -63,10 +71,11 @@ public class Crawl {
         this.storyPartService = storyPartService;
         this.storyDetailService = storyDetailService;
         this.spiderStoryJobService = spiderStoryJobService;
+        this.categoryService = categoryService;
     }
 
     public Crawl(SpiderContext spiderContext, TopicService topicService, PostService postService,
-            PostTextService postTextService, CrawInfoService crawInfoService, SearchPostService searchPostService) {
+            PostTextService postTextService, CrawInfoService crawInfoService, SearchPostService searchPostService, CategoryService categoryService) {
         super();
         this.spiderContext = spiderContext;
         this.topicService = topicService;
@@ -74,6 +83,7 @@ public class Crawl {
         this.postTextService = postTextService;
         this.crawInfoService = crawInfoService;
         this.searchPostService = searchPostService;
+        this.categoryService = categoryService;
     }
 
     public SpiderContext initStackoverflowSpiderContext() {
@@ -245,8 +255,17 @@ public class Crawl {
                     storyDetailService, spiderStoryJobService);
             new Thread(parseStoryTask).start();
         }else{
+            Map<Integer, String> categoryMap = new HashMap<Integer, String>();
+            
+            List<Category> categoryList = categoryService.queryBySite(4);
+            if(categoryList != null && categoryList.size() > 0){
+                for(Category category : categoryList){
+                    categoryMap.put(category.getId(), category.getTitle());
+                }
+            }
+            
             ParseStoryScriptTask parseStoryScriptTask = new ParseStoryScriptTask(spiderContext, storyInfoService, storyPartService,
-                    storyDetailService, spiderStoryJobService);
+                    storyDetailService, spiderStoryJobService, categoryMap);
             new Thread(parseStoryScriptTask).start();
         }
 

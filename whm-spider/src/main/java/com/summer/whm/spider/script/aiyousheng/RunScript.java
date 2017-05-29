@@ -28,7 +28,7 @@ public class RunScript {
     public static void main(String[] args) throws FailingHttpStatusCodeException, Exception {
 
         WebClientPool webClientPool = new WebClientPool();
-        InputStream is = RunScript.class.getResourceAsStream("story_outline.script");
+        InputStream is = RunScript.class.getResourceAsStream("story_category.script");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String temp = null;
         StringBuffer sb = new StringBuffer();
@@ -37,7 +37,7 @@ public class RunScript {
         }
         System.out.println(sb.toString());
         HtmlPage htmlPage = null;
-        htmlPage = webClientPool.borrowWebClient().getPage("http://www.aiyousheng.com/20024/");
+        htmlPage = webClientPool.borrowWebClient().getPage("http://www.aiyousheng.com/24042/");
         
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("htmlPage", htmlPage);

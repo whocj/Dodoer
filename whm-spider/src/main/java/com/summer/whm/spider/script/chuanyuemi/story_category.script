@@ -1,0 +1,44 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage) map
+        .get("htmlPage");
+java.util.List elementList = (java.util.List) htmlPage.getByXPath("//div[@class='pathbook']/a[2]");
+java.lang.Integer ret = null; 
+
+if (elementList != null && elementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement element = (com.gargoylesoftware.htmlunit.html.HtmlElement) elementList.get(0);
+    
+    String categoryName = element.getTextContent();
+    categoryName = categoryName.trim();
+
+    if("玄幻魔法".equals(categoryName)){
+    	ret = 30;
+    }else if("武侠修真".equals(categoryName)){
+    	ret = 29;
+    }else if("历史军事".equals(categoryName)){
+    	ret = 27;
+    }else if("重生都市言情".equals(categoryName)){
+    	ret = 28;
+    }else if("女尊女强".equals(categoryName)){
+    	ret = 28;
+    }else if("港台言情小说".equals(categoryName)){
+    	ret = 28;
+    }else if("游戏竞技".equals(categoryName)){
+    	ret = 26;
+    }else if("科幻灵异".equals(categoryName)){
+    	ret = 25;
+    }else if("青春校园".equals(categoryName)){
+    	ret = 31;
+     }else if("经典穿越小说".equals(categoryName)){
+    	ret = 32;
+     }else if("搞笑穿越".equals(categoryName)){
+    	ret = 32;
+    }else if("古代言情".equals(categoryName)){
+    	ret = 28;
+    }else if("耽美小说".equals(categoryName)){
+    	ret = 41;
+    }else if("同人小说".equals(categoryName)){
+    	ret = 41;
+    }
+    return ret;
+}
+
+return ret;

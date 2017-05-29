@@ -1,0 +1,11 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+java.util.List titleElementList = (java.util.List) htmlPage.getByXPath("//div[@id='title']/h2/a");
+String ret = null;
+if (titleElementList != null && titleElementList.size() > 0) {
+    com.gargoylesoftware.htmlunit.html.HtmlElement titleHtmlElement = (com.gargoylesoftware.htmlunit.html.HtmlElement)titleElementList.get(0);
+    ret = titleHtmlElement.getTextContent();
+} else {
+    ret = htmlPage.getTitleText();
+}
+
+return ret;

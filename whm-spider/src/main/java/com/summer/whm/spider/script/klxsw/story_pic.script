@@ -1,0 +1,9 @@
+com.gargoylesoftware.htmlunit.html.HtmlPage htmlPage = (com.gargoylesoftware.htmlunit.html.HtmlPage)map.get("htmlPage");
+String url = htmlPage.getWebResponse().getRequestSettings().getUrl().toString();
+String[] strs = url.split("/");
+
+String ret = null;
+if (strs != null && strs.length == 8) {
+	ret = "http://www.klxsw.com/files/article/image/" + strs[6] + "/" + strs[7]+ "/" + strs[7]+"s.jpg";
+}
+return ret;

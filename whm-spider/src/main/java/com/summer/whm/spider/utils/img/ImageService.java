@@ -62,11 +62,49 @@ public class ImageService {
             } catch (IOException e) {
                 log.error("下载图片失败", e);
             }
+        }else{
+            log.error("下载图片失败", resp);
         }
 
         return image;
     }
 
+    public static Image downloadImgByInputStream(InputStream is, String filename) {
+        String mm = sdf.format(new Date());
+        Image image = null;
+        String endName = getEndName(filename);
+        String name = System.currentTimeMillis() + endName;
+        String path = DODOER_STATIC_PATH + DODOER_STATIC_STORY_PATH + mm + "/";
+        String urlImage = imgDomain + DODOER_STATIC_STORY_PATH + mm + "/" + name;
+
+        FileOutputStream fos = null;
+        byte[] buf = new byte[1024 * 8];
+        int len = -1;
+        try {
+            File file = new File(path);
+            if (file != null && !file.exists()) {
+                file.mkdirs();
+            }
+
+            fos = new FileOutputStream(path  + name);
+            while ((len = is.read(buf, 0, 1024 * 8)) != -1) {
+                fos.write(buf, 0, len);
+            }
+            fos.close();
+            is.close();
+            image = new Image();
+            image.setAllName(path + name);
+            image.setName(name);
+            image.setEndName(endName);
+            image.setUrl(urlImage);
+        } catch (IOException e) {
+            log.error("下载图片失败", e);
+        }
+
+        return image;
+    }
+
+    
     public static String getEndName(String url) {
         if (url != null) {
             if (url.lastIndexOf(".") != -1) {
