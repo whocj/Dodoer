@@ -25,6 +25,8 @@
 		execModel,
 		filterWord,
 		filterItem,
+		checkCrawl,
+		reqeustEncode,
 		creator,
 		createTime,
 		lastUpdate
@@ -54,6 +56,8 @@
 		execModel,
 		filterWord,
 		filterItem,
+		checkCrawl,
+		reqeustEncode,
 		creator,
 		createTime,
 		lastUpdate
@@ -89,6 +93,8 @@
 		execModel,
 		filterWord,
 		filterItem,
+		checkCrawl,
+		reqeustEncode,
 		creator,
 		createTime,
 		lastUpdate
@@ -96,7 +102,10 @@
 		values(#{name},#{userId},#{username},#{titleXPath},#{authorXPath},#{outlineXPath},#{picPathXPath},
 		#{detailXPath},#{detailTitleXPath},#{detailContentXPath},#{nextXPath},#{detailNextXPath},
 		#{recommendDetailXPath},#{categoryXPath},#{statusXPath},#{execModel},#{filterWord},
-		#{filterItem},#{creator},#{createTime},#{lastUpdate})
+		#{filterItem},
+		#{checkCrawl},
+		#{reqeustEncode},
+		#{creator},#{createTime},#{lastUpdate})
 	</insert>
 
 	<update id="update" parameterType="SpiderStoryTemplate">
@@ -149,6 +158,12 @@
 		</if>
 		<if test="filterItem!=null and filterItem!=''">
 			,filterItem=#{filterItem}
+		</if>
+		<if test="checkCrawl!=null and checkCrawl!=''">
+			,checkCrawl=#{checkCrawl}
+		</if>
+		<if test="reqeustEncode!=null and reqeustEncode!=''">
+			,reqeustEncode=#{reqeustEncode}
 		</if>
 		<if test="lastUpdate!=null and lastUpdate!=''">
 			,lastUpdate=#{lastUpdate}

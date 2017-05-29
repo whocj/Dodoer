@@ -52,6 +52,9 @@
 		<if test="query.title!=null and query.title!=''">
 			and ssj.title like #{query.title}
 		</if>
+		<if test="query.templateId!=null and query.templateId!=''">
+			and ssj.templateId = #{query.templateId}
+		</if>
 		
 		order by ssj.id desc
 	</select>

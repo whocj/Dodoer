@@ -9,11 +9,11 @@ public final class Constants {
     public static final String IS_STR_TRUE = "1";
 
     public static final String IS_STR_FALSE = "0";
-    
+
     public static final Integer IS_INT_TRUE = 1;
 
     public static final Integer IS_INT_FALSE = 0;
-    
+
     /**
      * 程序默认字符集
      */
@@ -48,4 +48,7 @@ public final class Constants {
     public static final String[] ABC_ARRAY = new String[] { "Hot", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
             "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "其他" };
 
+    public static final String BASE_TEMP = "/opt/dodoer/temp";
+
+    public static final String BASE_STORY_TEMP = BASE_TEMP + "/story";
 }

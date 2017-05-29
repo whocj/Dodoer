@@ -36,6 +36,10 @@ public interface StoryInfoMapper extends BaseMapper {
     
     List<Integer> queryIdByCount(@Param("count") Integer count);
     
+    List<String> queryAllAuthorByGTId(@Param("id") Integer id);
+    
+    List<StoryInfo> queryByAuthorName(@Param("author") String author);
+    
     void addLike( @Param("id") Integer id);
     
     void addRead( @Param("id") Integer id);
